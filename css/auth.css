@@ -1,0 +1,1040 @@
+/* ==============================================================================
+   MEDCARE CRM — MODERN HEALTHCARE AUTHENTICATION STYLES (v2.0)
+   Login · Register · Patient Portal Bridge
+   Modern Glassmorphism · Digital Health Card · Two-Role Architecture
+   ============================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap');
+
+:root {
+  --auth-font: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --auth-primary: #0F766E;
+  --auth-primary-dark: #064E3B;
+  --auth-primary-light: #14B8A6;
+  --auth-accent: #0284C7;
+  --auth-gold: #D97706;
+  --auth-bg-gradient: linear-gradient(145deg, #064E3B 0%, #0F766E 50%, #047857 100%);
+  --auth-radius-card: 20px;
+  --auth-shadow-card: 0 24px 48px -12px rgba(6, 78, 59, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--auth-font);
+  margin: 0;
+  padding: 0;
+  background-color: #F8FAFC;
+  color: #1E293B;
+  -webkit-font-smoothing: antialiased;
+}
+
+.auth-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  background: #F8FAFC;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   1. LEFT PANEL — VISUAL BRAND & DIGITAL HEALTH CARD SHOWCASE
+   ══════════════════════════════════════════════════════════════════════════════ */
+.auth-left {
+  position: relative;
+  background: var(--auth-bg-gradient);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px 56px;
+  overflow: hidden;
+  color: #FFFFFF;
+}
+
+/* Ambient glow blobs */
+.auth-left::before {
+  content: "";
+  position: absolute;
+  top: -150px;
+  right: -100px;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.28) 0%, rgba(20, 184, 166, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.auth-left::after {
+  content: "";
+  position: absolute;
+  bottom: -120px;
+  left: -80px;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.22) 0%, rgba(16, 185, 129, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Brand header */
+.auth-brand-wrapper {
+  position: relative;
+  z-index: 2;
+}
+
+.auth-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #A7F3D0;
+  margin-bottom: 16px;
+}
+
+.auth-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34D399;
+  box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7);
+  animation: authPulse 2s infinite;
+}
+
+@keyframes authPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(52, 211, 153, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+}
+
+.auth-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.auth-brand-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.auth-brand-title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+
+.auth-brand-subtitle {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+/* ── Digital Health Card Showcase (Glassmorphism) ── */
+.auth-showcase {
+  position: relative;
+  z-index: 2;
+  margin: 32px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.ehealth-card {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.07) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--auth-radius-card);
+  padding: 24px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: var(--auth-shadow-card);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ehealth-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 56px -10px rgba(6, 78, 59, 0.45);
+}
+
+/* Diagonal reflection strip */
+.ehealth-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 58%
+  );
+  pointer-events: none;
+}
+
+.ehealth-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding-bottom: 12px;
+}
+
+.ehealth-national {
+  display: flex;
+  flex-direction: column;
+}
+
+.ehealth-national-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #FEF08A;
+}
+
+.ehealth-national-sub {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+}
+
+.ehealth-chip-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ehealth-chip {
+  width: 32px;
+  height: 24px;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  position: relative;
+}
+
+.ehealth-chip::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 4px;
+  right: 4px;
+  height: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.ehealth-nfc {
+  font-size: 15px;
+  opacity: 0.85;
+}
+
+.ehealth-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.ehealth-user-info {
+  flex: 1;
+}
+
+.ehealth-user-name {
+  font-size: 17px;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.ehealth-user-meta {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.5;
+}
+
+.ehealth-user-code {
+  font-weight: 700;
+  color: #A7F3D0;
+  font-family: monospace;
+}
+
+.ehealth-qr-box {
+  width: 72px;
+  height: 72px;
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.ehealth-qr-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Scanner beam line */
+.ehealth-qr-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #10B981;
+  box-shadow: 0 0 6px #10B981;
+  animation: scanQR 2.2s infinite ease-in-out;
+}
+
+@keyframes scanQR {
+  0% { top: 0%; }
+  50% { top: 100%; }
+  100% { top: 0%; }
+}
+
+/* Live appointment pill inside the card */
+.ehealth-live-status {
+  background: rgba(6, 78, 59, 0.65);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ehealth-live-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ehealth-live-icon {
+  font-size: 16px;
+}
+
+.ehealth-live-text {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #ECFDF5;
+  line-height: 1.35;
+}
+
+.ehealth-live-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  background: #10B981;
+  color: #064E3B;
+  padding: 3px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* ── Modern Trust Badges (Compact & Aesthetic) ── */
+.auth-trust-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 430px;
+}
+
+.auth-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 10px 14px;
+  backdrop-filter: blur(6px);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.auth-trust-item:hover {
+  background: rgba(255, 255, 255, 0.13);
+  transform: translateX(3px);
+}
+
+.auth-trust-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.auth-trust-content {
+  flex: 1;
+}
+
+.auth-trust-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.auth-trust-desc {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.35;
+}
+
+/* ── Footer Stats ── */
+.auth-footer-stats {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  max-width: 430px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.auth-stat-box {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.auth-stat-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+
+.auth-stat-label {
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   2. RIGHT PANEL — MODERN INTERACTIVE AUTH FORM
+   ══════════════════════════════════════════════════════════════════════════════ */
+.auth-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 48px;
+  background: #FFFFFF;
+  overflow-y: auto;
+}
+
+.auth-form-container {
+  width: 100%;
+  max-width: 440px;
+}
+
+/* Navigation bar */
+.auth-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.auth-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #64748B;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.auth-back-link:hover {
+  color: var(--auth-primary);
+  transform: translateX(-3px);
+}
+
+.auth-switch-link {
+  font-size: 13px;
+  color: #64748B;
+}
+
+.auth-switch-link a {
+  color: var(--auth-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.auth-switch-link a:hover {
+  text-decoration: underline;
+}
+
+/* Form header */
+.auth-header {
+  margin-bottom: 24px;
+}
+
+.auth-heading-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: -0.025em;
+  margin: 0 0 6px 0;
+}
+
+.auth-heading-desc {
+  font-size: 14px;
+  color: #64748B;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ── Role Switcher Tabs (Bệnh nhân vs Quản trị y tế) ── */
+.auth-role-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #F1F5F9;
+  padding: 4px;
+  border-radius: 14px;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.auth-role-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #64748B;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auth-role-tab:hover {
+  color: #1E293B;
+}
+
+.auth-role-tab.active {
+  background: #FFFFFF;
+  color: var(--auth-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.auth-role-tab .tab-icon {
+  font-size: 15px;
+}
+
+/* ── Quick Demo Accounts Card ── */
+.auth-demo-card {
+  background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%);
+  border: 1.5px solid #A7F3D0;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08);
+  transition: all 0.2s ease;
+}
+
+.auth-demo-card:hover {
+  border-color: #34D399;
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.14);
+}
+
+.auth-demo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.auth-demo-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #065F46;
+}
+
+.auth-demo-subtag {
+  font-size: 11px;
+  color: #047857;
+  font-weight: 500;
+}
+
+.auth-demo-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.auth-demo-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+  border: 1px solid #D1FAE5;
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.auth-demo-chip:hover {
+  background: #F0FDF4;
+  border-color: #10B981;
+  transform: translateY(-1px);
+}
+
+.auth-demo-chip-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.auth-demo-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.auth-demo-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #064E3B;
+  line-height: 1.2;
+}
+
+.auth-demo-role {
+  font-size: 11px;
+  color: #64748B;
+}
+
+.auth-demo-btn {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--auth-primary);
+  background: #E6FFFA;
+  border: 1px solid #99F6E4;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.auth-demo-btn:hover {
+  background: var(--auth-primary);
+  color: #FFFFFF;
+}
+
+/* ── Divider ── */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 18px 0;
+  color: #94A3B8;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #E2E8F0;
+}
+
+.auth-divider span {
+  padding: 0 12px;
+}
+
+/* ── Form Inputs ── */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.auth-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.auth-label .required {
+  color: #EF4444;
+}
+
+.auth-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.auth-input-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 16px;
+  color: #94A3B8;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px 0 42px;
+  font-family: var(--auth-font);
+  font-size: 14px;
+  color: #0F172A;
+  background: #F8FAFC;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.auth-input::placeholder {
+  color: #94A3B8;
+}
+
+.auth-input:focus {
+  background: #FFFFFF;
+  border-color: var(--auth-primary);
+  box-shadow: 0 0 0 3.5px rgba(15, 118, 110, 0.12);
+}
+
+.auth-input.is-invalid {
+  border-color: #EF4444 !important;
+  background: #FEF2F2 !important;
+}
+
+.auth-input.is-valid {
+  border-color: #10B981 !important;
+  background: #F0FDF4 !important;
+}
+
+.auth-input-toggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #64748B;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+}
+
+.auth-input-toggle:hover {
+  color: var(--auth-primary);
+}
+
+.auth-form-error {
+  font-size: 12px;
+  color: #EF4444;
+  font-weight: 500;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Row options (Remember & Forgot) */
+.auth-row-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-top: -2px;
+}
+
+.auth-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #475569;
+  cursor: pointer;
+  user-select: none;
+}
+
+.auth-checkbox-label input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--auth-primary);
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.auth-forgot-link {
+  color: var(--auth-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* Submit Button */
+.auth-submit-btn {
+  height: 48px;
+  background: linear-gradient(135deg, #0F766E 0%, #0D9488 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  font-family: var(--auth-font);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(15, 118, 110, 0.32);
+  transition: all 0.2s ease;
+  margin-top: 6px;
+}
+
+.auth-submit-btn:hover {
+  background: linear-gradient(135deg, #0D9488 0%, #059669 100%);
+  box-shadow: 0 6px 20px rgba(15, 118, 110, 0.45);
+  transform: translateY(-1px);
+}
+
+.auth-submit-btn:active {
+  transform: translateY(0);
+}
+
+.auth-submit-btn.loading {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+/* ── National VNeID & Social Login ── */
+.auth-social-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-vneid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 44px;
+  background: #FFF1F2;
+  border: 1.5px solid #FECDD3;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #BE123C;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-vneid:hover {
+  background: #FFE4E6;
+  border-color: #FDA4AF;
+  transform: translateY(-1px);
+}
+
+.btn-social-outline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 44px;
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-social-outline:hover {
+  background: #F8FAFC;
+  border-color: #CBD5E1;
+}
+
+/* Footer disclaimer */
+.auth-disclaimer {
+  text-align: center;
+  font-size: 11.5px;
+  color: #94A3B8;
+  line-height: 1.6;
+  margin-top: 24px;
+}
+
+.auth-disclaimer a {
+  color: var(--auth-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* ── Form 2 columns for register ── */
+.auth-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Password strength */
+.pwd-strength-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.pwd-strength-bars {
+  display: flex;
+  gap: 4px;
+}
+
+.pwd-bar {
+  flex: 1;
+  height: 4px;
+  background: #E2E8F0;
+  border-radius: 2px;
+  transition: background 0.3s ease;
+}
+
+.pwd-strength-label {
+  font-size: 11px;
+  color: #64748B;
+  font-weight: 500;
+}
+
+/* Toast notifications */
+.toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  animation: slideInRight 0.3s ease-out;
+}
+
+.toast.success { background: #059669; }
+.toast.error   { background: #DC2626; }
+.toast.warning { background: #D97706; }
+.toast.info    { background: #0284C7; }
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   3. RESPONSIVE MEDIA QUERIES
+   ══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 992px) {
+  .auth-page {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-left {
+    display: none;
+  }
+
+  .auth-right {
+    padding: 36px 24px;
+  }
+
+  .auth-form-container {
+    max-width: 100%;
+  }
+}

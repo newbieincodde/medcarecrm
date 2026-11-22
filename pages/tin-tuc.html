@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cẩm Nang Sức Khỏe & Tin Tức Y Khoa Chính Thống — MedCare</title>
+  
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/medpro-style.css">
+  <link rel="stylesheet" href="../css/chatbox.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+  <style>
+    .news-hero-banner {
+      background: linear-gradient(135deg, #042f2e 0%, #0f766e 50%, #0284c7 100%);
+      color: #ffffff;
+      padding: 60px 20px 48px;
+      text-align: center;
+      position: relative;
+    }
+    .news-search-box {
+      max-width: 640px;
+      margin: 24px auto 0;
+      position: relative;
+    }
+    .news-search-input {
+      width: 100%;
+      padding: 16px 20px 16px 48px;
+      border-radius: 30px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.95);
+      font-size: 15px;
+      color: #0f172a;
+      outline: none;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      transition: all 0.2s ease;
+    }
+    .news-search-input:focus {
+      background: #ffffff;
+      border-color: #38bdf8;
+      box-shadow: 0 8px 30px rgba(56, 189, 248, 0.35);
+    }
+    .news-search-glass {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: #64748b;
+    }
+    .news-tabs-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin: 32px 0 28px;
+    }
+    .news-tab-btn {
+      padding: 9px 18px;
+      border-radius: 24px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .news-tab-btn:hover {
+      background: #e2e8f0;
+      color: #0f766e;
+    }
+    .news-tab-btn.active {
+      background: #0f766e;
+      color: #ffffff;
+      border-color: #0f766e;
+      box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
+    }
+    .articles-grid-50 {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 26px;
+      margin-bottom: 40px;
+    }
+    .article-card-50 {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+    .article-card-50:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(15, 118, 110, 0.12);
+      border-color: #99f6e4;
+    }
+    .article-card-thumb {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+    .article-card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .article-card-50:hover .article-card-thumb img {
+      transform: scale(1.05);
+    }
+    .article-card-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(15, 118, 110, 0.9);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 12px;
+      backdrop-filter: blur(4px);
+    }
+    .article-card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+    .article-card-title {
+      font-size: 16.5px;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.45;
+      margin-bottom: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .article-card-summary {
+      font-size: 13.5px;
+      color: #475569;
+      line-height: 1.55;
+      margin-bottom: 16px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .article-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 12px;
+      font-size: 12px;
+      color: #64748b;
+    }
+    .article-card-btn {
+      color: #0284c7;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-marquee-bar">
+    <div class="marquee-content-track">
+      <div class="marquee-item">
+        📖 Cẩm Nang Sức Khỏe MedCare: Cập nhật hơn 50+ bài viết y khoa chuyên sâu được biên soạn bởi Bác sĩ Chợ Rẫy, Bạch Mai, ĐH Y Dược!
+      </div>
+      <div class="marquee-item">
+        🩺 Tổng đài tư vấn sức khỏe & hướng dẫn BHYT toàn quốc: <strong>xxxx-xxxx</strong> (Hoạt động 24/7)!
+      </div>
+      <div class="marquee-item">
+        📖 Cẩm Nang Sức Khỏe MedCare: Cập nhật hơn 50+ bài viết y khoa chuyên sâu được biên soạn bởi Bác sĩ Chợ Rẫy, Bạch Mai, ĐH Y Dược!
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="medpro-navbar">
+    <div class="medpro-nav-container">
+      <div style="display:flex; align-items:center; gap:20px;">
+        <a href="../index.html" class="medpro-brand">
+          <span style="font-size:30px;">🩺</span>
+          <span class="medpro-logo-text">MedCare</span>
+        </a>
+
+        <!-- Hotline xxxx-xxxx -->
+        <a href="javascript:void(0)" onclick="openHotlineModal()" class="medpro-hotline-badge" title="Bấm để yêu cầu tư vấn hotline hoặc gọi trực tiếp">
+          <span class="hotline-icon">📞</span>
+          <div class="hotline-info">
+            <span class="hotline-label">Tổng Đài Đặt Khám</span>
+            <span class="hotline-num">xxxx-xxxx</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Navigation Links with Dropdown Menus -->
+      <ul class="medpro-nav-links">
+        <li class="nav-dropdown-wrapper">
+          <a href="co-so-y-te.html" class="nav-main-link">Cơ sở y tế <span class="nav-arrow">▾</span></a>
+          <div class="nav-dropdown-menu">
+            <a href="co-so-y-te.html?type=cong" class="dropdown-link-item"><span class="dropdown-icon">🏥</span> Bệnh viện Công lập</a>
+            <a href="co-so-y-te.html?type=tu" class="dropdown-link-item"><span class="dropdown-icon">🏢</span> Bệnh viện Tư nhân</a>
+            <a href="co-so-y-te.html?type=phongkham" class="dropdown-link-item"><span class="dropdown-icon">🩺</span> Phòng khám Đa khoa</a>
+            <a href="co-so-y-te.html?type=xetnghiem" class="dropdown-link-item"><span class="dropdown-icon">🧪</span> Trung tâm Xét nghiệm</a>
+          </div>
+        </li>
+        <li class="nav-dropdown-wrapper">
+          <a href="dich-vu.html" class="nav-main-link">Dịch vụ y tế <span class="nav-arrow">▾</span></a>
+          <div class="nav-dropdown-menu">
+            <a href="dich-vu.html?tab=bacsi" class="dropdown-link-item"><span class="dropdown-icon">👨‍⚕️</span> Đặt khám Bác sĩ</a>
+            <a href="dich-vu.html?tab=xetnghiem" class="dropdown-link-item"><span class="dropdown-icon">🩸</span> Xét nghiệm tại nhà</a>
+            <a href="dich-vu.html?tab=telehealth" class="dropdown-link-item"><span class="dropdown-icon">📱</span> Gọi video với Bác sĩ</a>
+            <a href="dich-vu.html?tab=giupviec" class="dropdown-link-item"><span class="dropdown-icon">🤝</span> Trợ lý đi khám cùng</a>
+          </div>
+        </li>
+        <li class="nav-dropdown-wrapper">
+          <a href="goi-kham.html" class="nav-main-link">Gói khám sức khỏe <span class="nav-arrow">▾</span></a>
+          <div class="nav-dropdown-menu">
+            <a href="goi-kham.html?filter=coban" class="dropdown-link-item"><span class="dropdown-icon">📋</span> Khám tổng quát cơ bản</a>
+            <a href="goi-kham.html?filter=ungthu" class="dropdown-link-item"><span class="dropdown-icon">🎗️</span> Tầm soát Ung thư</a>
+            <a href="goi-kham.html?filter=timmach" class="dropdown-link-item"><span class="dropdown-icon">❤️</span> Tim mạch & Đột quỵ</a>
+            <a href="goi-kham.html#comparison" class="dropdown-link-item"><span class="dropdown-icon">📊</span> So sánh danh mục xét nghiệm</a>
+          </div>
+        </li>
+        <li class="nav-dropdown-wrapper">
+          <a href="chuyen-khoa.html" class="nav-main-link">Chuyên khoa <span class="nav-arrow">▾</span></a>
+          <div class="nav-dropdown-menu mega">
+            <a href="chuyen-khoa.html?group=noi" class="dropdown-link-item"><span class="dropdown-icon">🩺</span> Khối Nội Khoa</a>
+            <a href="chuyen-khoa.html?group=ngoai" class="dropdown-link-item"><span class="dropdown-icon">🔪</span> Khối Ngoại Khoa</a>
+            <a href="chuyen-khoa.html?group=le" class="dropdown-link-item"><span class="dropdown-icon">👁️</span> Chuyên Khoa Lẻ</a>
+            <a href="chuyen-khoa.html?group=sannhi" class="dropdown-link-item"><span class="dropdown-icon">🌸</span> Sản - Phụ - Nhi Khoa</a>
+          </div>
+        </li>
+        <li class="nav-dropdown-wrapper">
+          <a href="tin-tuc.html" class="nav-main-link active" style="color:#0f766e; background:#f0fdfa;">Cẩm nang y khoa <span class="nav-arrow">▾</span></a>
+          <div class="nav-dropdown-menu">
+            <a href="tin-tuc.html?cat=timmach" class="dropdown-link-item"><span class="dropdown-icon">❤️</span> Tim mạch & Đột quỵ</a>
+            <a href="tin-tuc.html?cat=tieuhoa" class="dropdown-link-item"><span class="dropdown-icon">🩺</span> Tiêu hóa & Dạ dày</a>
+            <a href="tin-tuc.html?cat=noitiet" class="dropdown-link-item"><span class="dropdown-icon">🥗</span> Tiểu đường & Nội tiết</a>
+            <a href="tin-tuc.html?cat=coxuongkhop" class="dropdown-link-item"><span class="dropdown-icon">🦴</span> Cơ xương khớp</a>
+          </div>
+        </li>
+      </ul>
+
+      <!-- CTA Buttons -->
+      <div class="medpro-nav-actions">
+        <a href="login.html" class="btn btn-outline btn-sm">🔑 Đăng Nhập</a>
+        <a href="../dashboard/index.html" class="btn btn-primary btn-sm">🚀 Vào CRM Portal</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Header -->
+  <section class="news-hero-banner">
+    <div style="max-width:1100px; margin:0 auto;">
+      <span style="background:rgba(255,255,255,0.2); padding:4px 16px; border-radius:20px; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">
+        Thư Viện Kiến Thức Y Khoa Chính Thống
+      </span>
+      <h1 style="font-size:36px; font-weight:800; margin:14px 0 10px; line-height:1.2;">
+        Cẩm Nang Sức Khỏe & Lời Khuyên Bác Sĩ
+      </h1>
+      <p style="font-size:16px; opacity:0.92; max-width:760px; margin:0 auto 20px;">
+        Tuyển tập hơn 50+ bài viết y khoa lâm sàng, phác đồ dinh dưỡng và các mốc cảnh báo bệnh lý nguy hiểm được kiểm duyệt chuyên môn bởi các Chuyên gia đầu ngành.
+      </p>
+
+      <!-- Live Search Box -->
+      <div class="news-search-box">
+        <span class="news-search-glass">🔍</span>
+        <input 
+          type="text" 
+          class="news-search-input" 
+          id="articleSearchInput" 
+          placeholder="Tìm kiếm: Đột quỵ, HP dạ dày, HbA1c, Huyết áp, Thoát vị đĩa đệm, Bác sĩ Chợ Rẫy..."
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Container -->
+  <main style="max-width:1240px; margin:0 auto; padding:0 20px 60px;">
+    
+    <!-- Category Filter Tabs (Issue 10) -->
+    <div class="news-tabs-wrap" id="categoryTabs">
+      <button class="news-tab-btn active" data-cat="all">Tất Cả (50+)</button>
+      <button class="news-tab-btn" data-cat="timmach">Tim Mạch & Đột Quỵ (8)</button>
+      <button class="news-tab-btn" data-cat="tieuhoa">Tiêu Hóa & Gan Mật (9)</button>
+      <button class="news-tab-btn" data-cat="noitiet">Nội Tiết & Tiểu Đường (7)</button>
+      <button class="news-tab-btn" data-cat="thankinh">Thần Kinh & Não Bộ (7)</button>
+      <button class="news-tab-btn" data-cat="coxuongkhop">Cơ Xương Khớp (7)</button>
+      <button class="news-tab-btn" data-cat="sannhi">Sản - Phụ - Nhi (6)</button>
+    </div>
+
+    <!-- Active Filter Status -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; font-size:14px; color:#64748b;">
+      <div id="articlesResultCount">Đang hiển thị <strong>50</strong> bài viết y khoa</div>
+      <div style="font-size:12.5px;">💡 Bấm vào bất kỳ bài báo nào để đọc toàn văn</div>
+    </div>
+
+    <!-- 50 Articles Grid -->
+    <div class="articles-grid-50" id="articlesGrid"></div>
+
+    <!-- Pagination / Load More -->
+    <div id="loadMoreWrap" style="text-align:center; margin-top:20px;">
+      <button class="btn btn-outline" id="btnLoadMore" style="padding:12px 32px; font-size:14.5px; font-weight:700; border-radius:24px;">
+        Xem Thêm Bài Viết »
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="background:#0f172a; color:#cbd5e1; padding:48px 20px 24px;">
+    <div style="max-width:1240px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:32px; margin-bottom:32px;">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
+          <span style="font-size:28px;">🩺</span>
+          <span style="font-size:22px; font-weight:800; color:#38bdf8;">MedCare Solution</span>
+        </div>
+        <p style="font-size:13.5px; line-height:1.6; color:#94a3b8;">
+          Nền tảng đặt khám thông minh và quản trị y tế chuẩn mực. Kết nối người dân đến 40+ cơ sở y tế hàng đầu toàn quốc.
+        </p>
+      </div>
+      <div>
+        <h4 style="color:#ffffff; font-size:15px; margin-bottom:14px;">Chuyên Mục Y Khoa</h4>
+        <ul style="list-style:none; padding:0; margin:0; font-size:13.5px; line-height:2;">
+          <li><a href="tin-tuc.html?cat=timmach" style="color:#94a3b8; text-decoration:none;">Tim Mạch & Đột Quỵ Não</a></li>
+          <li><a href="tin-tuc.html?cat=tieuhoa" style="color:#94a3b8; text-decoration:none;">Tiêu Hóa Dạ Dày & Vi Khuẩn HP</a></li>
+          <li><a href="tin-tuc.html?cat=noitiet" style="color:#94a3b8; text-decoration:none;">Tiểu Đường & Chuyển Hóa HbA1c</a></li>
+          <li><a href="tin-tuc.html?cat=coxuongkhop" style="color:#94a3b8; text-decoration:none;">Thoát Vị Đĩa Đệm & Khớp Gối</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#ffffff; font-size:15px; margin-bottom:14px;">Tổng Đài Hỗ Trợ Toàn Quốc</h4>
+        <div style="font-size:26px; font-weight:900; color:#f97316; margin-bottom:6px;">xxxx-xxxx</div>
+        <div style="font-size:13px; color:#94a3b8; line-height:1.6;">
+          Hoạt động 24/7/365. Bác sĩ và Điều dưỡng trực ban sẵn sàng tư vấn và hướng dẫn làm thủ tục miễn phí.
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center; padding-top:20px; border-top:1px solid #1e293b; color:#64748b; font-size:12px;">
+      © 2026 MedCare Healthcare Solution. Học phần Thiết kế Web — Trường Đại học Lạc Hồng (LHU). Hotline hỗ trợ toàn quốc: xxxx-xxxx.
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/articles-data.js"></script>
+  <script src="../js/medical-knowledge.js"></script>
+  <script src="../js/portal-modals.js"></script>
+  <script src="../js/chatbox.js"></script>
+
+  <script>
+    // 50 Articles Interactive Renderer
+    let currentCategory = 'all';
+    let currentSearchTerm = '';
+    let visibleCount = 12;
+
+    function renderArticles() {
+      const grid = document.getElementById('articlesGrid');
+      const counter = document.getElementById('articlesResultCount');
+      const loadMoreBtn = document.getElementById('loadMoreWrap');
+      if (!grid || !window.MEDCARE_ARTICLES_50) return;
+
+      const all = window.MEDCARE_ARTICLES_50;
+      const filtered = all.filter(art => {
+        const matchCat = (currentCategory === 'all' || art.category === currentCategory);
+        const matchSearch = (!currentSearchTerm || 
+          art.title.toLowerCase().includes(currentSearchTerm.toLowerCase()) ||
+          art.summary.toLowerCase().includes(currentSearchTerm.toLowerCase()) ||
+          art.author.toLowerCase().includes(currentSearchTerm.toLowerCase()) ||
+          art.tag.toLowerCase().includes(currentSearchTerm.toLowerCase())
+        );
+        return matchCat && matchSearch;
+      });
+
+      counter.innerHTML = `Đang hiển thị <strong>${Math.min(visibleCount, filtered.length)}</strong> / ${filtered.length} bài viết y khoa phù hợp`;
+
+      const slice = filtered.slice(0, visibleCount);
+
+      if (slice.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align:center; padding:60px 20px; background:#f8fafc; border-radius:16px; border:1px dashed #cbd5e1;">
+            <div style="font-size:48px; margin-bottom:12px;">🔍</div>
+            <h3 style="font-size:18px; font-weight:800; color:#334155;">Không tìm thấy bài viết nào phù hợp với từ khóa "${currentSearchTerm}"</h3>
+            <p style="font-size:14px; color:#64748b; margin-top:6px;">Vui lòng thử tìm kiếm theo từ khóa khác hoặc bấm nút "Tất Cả" bên trên.</p>
+          </div>
+        `;
+        if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+        return;
+      }
+
+      grid.innerHTML = slice.map(art => `
+        <div class="article-card-50" onclick="window.openArticleReader('${art.id}')">
+          <div class="article-card-thumb">
+            <img src="${art.img}" alt="${art.title}" loading="lazy">
+            <span class="article-card-badge">${art.tag || art.catLabel}</span>
+          </div>
+          <div class="article-card-body">
+            <div>
+              <h3 class="article-card-title">${art.title}</h3>
+              <p class="article-card-summary">${art.summary}</p>
+            </div>
+            <div class="article-card-footer">
+              <span>👨‍⚕️ ${art.author.split('(')[0].trim()}</span>
+              <span class="article-card-btn">Đọc tiếp ➔</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      if (loadMoreBtn) {
+        if (visibleCount >= filtered.length) {
+          loadMoreBtn.style.display = 'none';
+        } else {
+          loadMoreBtn.style.display = 'block';
+        }
+      }
+    }
+
+    // Tab Listeners
+    document.querySelectorAll('.news-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.news-tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.getAttribute('data-cat');
+        visibleCount = 12;
+        renderArticles();
+      });
+    });
+
+    // Search Listener
+    const searchInput = document.getElementById('articleSearchInput');
+    if (searchInput) {
+      let debounceTimer;
+      searchInput.addEventListener('input', (e) => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          currentSearchTerm = e.target.value.trim();
+          visibleCount = 12;
+          renderArticles();
+        }, 200);
+      });
+    }
+
+    // Load More Listener
+    const btnLoadMore = document.getElementById('btnLoadMore');
+    if (btnLoadMore) {
+      btnLoadMore.addEventListener('click', () => {
+        visibleCount += 12;
+        renderArticles();
+      });
+    }
+
+    // URL Param Init
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const catParam = urlParams.get('cat');
+      const qParam = urlParams.get('q');
+
+      if (catParam) {
+        currentCategory = catParam;
+        document.querySelectorAll('.news-tab-btn').forEach(b => {
+          if (b.getAttribute('data-cat') === catParam) {
+            b.classList.add('active');
+          } else {
+            b.classList.remove('active');
+          }
+        });
+      }
+
+      if (qParam && searchInput) {
+        searchInput.value = qParam;
+        currentSearchTerm = qParam;
+      }
+
+      renderArticles();
+    });
+  </script>
+</body>
+</html>

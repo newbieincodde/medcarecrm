@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Khách Hàng Tiềm Năng (Leads) — MedCare CRM</title>
+  
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+  <div id="appMount">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">Quản Lý Khách Hàng Tiềm Năng (Leads)</h1>
+        <p class="page-subtitle">Thu thập & chuyển đổi dữ liệu khách hàng từ Website, Facebook, Zalo & Hotline</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-primary" onclick="document.getElementById('leadFormCard').scrollIntoView({ behavior: 'smooth' })">
+          ➕ Tiếp Nhận Lead Mới
+        </button>
+      </div>
+    </div>
+
+    <!-- Course Requirement Highlight Alert -->
+    <div style="background:#eff6ff; border:1.5px solid #3b82f6; border-radius:12px; padding:16px 20px; margin-bottom:24px; display:flex; gap:14px; align-items:flex-start;">
+      <div style="font-size:24px; line-height:1;">🎓</div>
+      <div>
+        <div style="font-weight:700; color:#1e40af; font-size:14px; margin-bottom:4px;">
+          YÊU CẦU HỌC PHẦN 1: FORM HTML5 CHUẨN MỰC VỚI VALIDATION ĐẦY ĐỦ
+        </div>
+        <div style="font-size:13px; color:#1e3a8a; line-height:1.5;">
+          Form tiếp nhận Lead bên dưới áp dụng toàn bộ các thuộc tính HTML5 Form chuẩn:
+          <code>required</code>, <code>type="email"</code>, <code>type="tel" pattern="^0[0-9]{9}$"</code>, 
+          <code>minlength="2"</code>, <code>type="date"</code>, bộ <code>radio buttons</code> chọn mức độ ưu tiên, 
+          dropdown danh mục chuyên khoa và ô ghi chú nhu cầu y khoa.
+        </div>
+      </div>
+    </div>
+
+    <!-- Layout: 2 Columns (Left: Leads Table / Right: Form Tiếp Nhận HTML5) -->
+    <div style="display:grid; grid-template-columns: 1.25fr 1fr; gap:24px; align-items:start;" id="leadsMainGrid">
+      
+      <!-- LEFT: BẢNG QUẢN LÝ LEADS -->
+      <div class="data-card" style="margin-bottom:0;">
+        <div class="data-card-header">
+          <div>
+            <div class="data-card-title">Danh Sách Leads Đang Xử Lý</div>
+            <div style="font-size:12px; color:#64748b; margin-top:2px;">Quản lý quy trình phễu chuyển đổi</div>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <select class="filter-select" id="leadStatusFilter" style="height:34px; font-size:12px;">
+              <option value="all">Tất cả trạng thái</option>
+              <option value="new">Mới nhận</option>
+              <option value="contacted">Đã liên hệ</option>
+              <option value="qualified">Tiềm năng cao</option>
+              <option value="converted">Đã chuyển đổi</option>
+              <option value="lost">Không liên lạc được</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-wrap" style="max-height:640px; overflow-y:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Mã Lead</th>
+                <th>Thông Tin Khách</th>
+                <th>Dịch Vụ & Nguồn</th>
+                <th>Ưu Tiên</th>
+                <th>Trạng Thái</th>
+                <th>Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTableBody">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- RIGHT: FORM TIẾP NHẬN LEAD MỚI (COURSE REQUIREMENT #1) -->
+      <div class="data-card" id="leadFormCard" style="border:1.5px solid var(--clr-primary-500,#14b8a6); box-shadow:0 8px 30px rgba(20,184,166,0.1);">
+        <div class="data-card-header" style="background:var(--clr-bg-page,#f0fdfa);">
+          <div>
+            <div class="data-card-title" style="color:var(--clr-primary-800,#115e59);">
+              📝 Tiếp Nhận Khách Hàng Mới (HTML5 Form)
+            </div>
+            <div style="font-size:12px; color:var(--clr-primary-600,#0d9488);">
+              Kiểm tra tính hợp lệ dữ liệu ngay trên trình duyệt
+            </div>
+          </div>
+          <span style="font-size:12px; background:var(--clr-primary-500,#14b8a6); color:#fff; padding:3px 10px; border-radius:12px; font-weight:700;">
+            HTML5 Validated
+          </span>
+        </div>
+
+        <form id="leadCaptureForm" style="padding:20px 24px;">
+          <!-- Field 1: Họ tên (minlength, required) -->
+          <div class="form-group">
+            <label class="form-label" for="leadName">
+              Họ và tên khách hàng <span class="req">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="leadName" 
+              name="leadName" 
+              class="form-control" 
+              placeholder="Ví dụ: Hoàng Minh Đức" 
+              required 
+              minlength="2" 
+              maxlength="50"
+            >
+            <div class="form-hint">Yêu cầu tối thiểu 2 ký tự (HTML5 <code>minlength="2"</code>)</div>
+          </div>
+
+          <!-- Field 2 & 3: Điện thoại (pattern tel) & Email (type=email) -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="leadPhone">
+                Số điện thoại <span class="req">*</span>
+              </label>
+              <input 
+                type="tel" 
+                id="leadPhone" 
+                name="leadPhone" 
+                class="form-control" 
+                placeholder="09xxxxxxxx" 
+                required 
+                pattern="^0[0-9]{9}$"
+                title="Số điện thoại phải gồm đúng 10 chữ số và bắt đầu bằng số 0"
+              >
+              <div class="form-hint">Regex <code>^0[0-9]{9}$</code></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="leadEmail">
+                Địa chỉ Email <span class="req">*</span>
+              </label>
+              <input 
+                type="email" 
+                id="leadEmail" 
+                name="leadEmail" 
+                class="form-control" 
+                placeholder="khachhang@gmail.com" 
+                required
+              >
+              <div class="form-hint">Trình duyệt tự kiểm tra định dạng @ (HTML5 <code>type="email"</code>)</div>
+            </div>
+          </div>
+
+          <!-- Field 4 & 5: Giới tính & Ngày dự kiến tư vấn -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="leadGender">Giới tính</label>
+              <select id="leadGender" class="form-control">
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="leadContactDate">
+                Ngày dự kiến gọi điện <span class="req">*</span>
+              </label>
+              <input 
+                type="date" 
+                id="leadContactDate" 
+                class="form-control" 
+                required
+              >
+              <div class="form-hint">HTML5 <code>type="date"</code> picker</div>
+            </div>
+          </div>
+
+          <!-- Field 6 & 7: Dịch vụ quan tâm & Nguồn tiếp cận -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="leadService">
+                Dịch vụ quan tâm <span class="req">*</span>
+              </label>
+              <select id="leadService" class="form-control" required>
+                <!-- Injected by JS -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="leadSource">
+                Kênh tiếp cận <span class="req">*</span>
+              </label>
+              <select id="leadSource" class="form-control" required>
+                <option value="Website">🌐 Website / Landing Page</option>
+                <option value="Facebook">📘 Facebook Chat</option>
+                <option value="Zalo">💬 Zalo OA</option>
+                <option value="Google Ads">🔍 Google Tìm Kiếm Ads</option>
+                <option value="Giới thiệu">🤝 Bệnh nhân cũ giới thiệu</option>
+                <option value="Hotline">📞 Gọi trực tiếp Hotline</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Field 8: Mức độ ưu tiên (HTML5 Radio Buttons) -->
+          <div class="form-group">
+            <label class="form-label">
+              Mức độ ưu tiên xử lý (HTML5 Radio Group) <span class="req">*</span>
+            </label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="leadPriority" value="high" required>
+                <span style="color:#ef4444; font-weight:700;">🔴 Gấp / Trong ngày</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="leadPriority" value="medium" checked>
+                <span style="color:#d97706; font-weight:600;">🟡 Bình thường (24h)</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="leadPriority" value="low">
+                <span style="color:#16a34a; font-weight:500;">🟢 Chưa vội</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Field 9: Ghi chú nhu cầu (Textarea) -->
+          <div class="form-group">
+            <label class="form-label" for="leadNotes">Ghi chú nhu cầu tư vấn & Dự kiến ngân sách</label>
+            <textarea 
+              id="leadNotes" 
+              class="form-control" 
+              rows="3" 
+              placeholder="Ví dụ: Khách muốn tư vấn gói tầm soát tim mạch cho 2 vợ chồng, hẹn sau 17h..."
+            ></textarea>
+          </div>
+
+          <!-- Submit Buttons -->
+          <div style="display:flex; gap:12px; margin-top:24px;">
+            <button type="reset" class="btn btn-outline" style="flex:1;">
+              Làm lại form
+            </button>
+            <button type="submit" class="btn btn-primary" style="flex:2;">
+              💾 Tiếp Nhận & Lưu Lead
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app-shell.js"></script>
+  <script src="../js/leads.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initAppShell('Tiềm Năng (Leads)');
+      initLeadsPage();
+    });
+  </script>
+</body>
+</html>

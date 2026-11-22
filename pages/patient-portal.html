@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Bệnh Nhân Trực Tuyến — MedCare e-Portal</title>
+
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/patient-portal.css">
+</head>
+<body class="patient-portal-body">
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       1. TOP NAVBAR
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <header class="portal-navbar">
+    <a href="../index.html" class="portal-nav-brand">
+      <div class="portal-brand-logo">🩺</div>
+      <div>
+        <div class="portal-brand-title">MedCare Portal</div>
+      </div>
+      <span class="portal-brand-tag">Cổng Bệnh Nhân 4.0</span>
+    </a>
+
+    <div class="portal-nav-actions">
+      <!-- Admin switch back button if admin logged in -->
+      <a href="../dashboard/index.html" id="adminSwitchBtn" style="display:none;" class="portal-btn-secondary">
+        <span>⚙️</span> Vào CRM Quản Trị
+      </a>
+
+      <a href="tel:19001000" class="portal-hotline-btn">
+        <span>📞</span> Tổng đài: <strong>xxxx-xxxx</strong>
+      </a>
+
+      <div class="portal-user-profile">
+        <div class="portal-user-avatar" id="navAvatar">A</div>
+        <div class="portal-user-info">
+          <span class="portal-user-name" id="navUserName">Nguyễn Văn An</span>
+          <span class="portal-user-role" id="navUserRole">Bệnh nhân</span>
+        </div>
+        <button type="button" class="portal-btn-logout" onclick="logout()">
+          <span>🚪</span> Đăng xuất
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       2. MAIN CONTENT CONTAINER
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <main class="portal-container">
+
+    <!-- HERO SECTION: DIGITAL HEALTH CARD + STATS -->
+    <section class="portal-hero-grid">
+
+      <!-- Left: Interactive Digital Health Card -->
+      <div class="portal-card-wrapper">
+        <div class="portal-card-top">
+          <div>
+            <div class="portal-national-seal">BỘ Y TẾ VIỆT NAM · BẢO HIỂM XÃ HỘI</div>
+            <div class="portal-card-name-title">THẺ Y TẾ ĐIỆN TỬ (e-HEALTH CARD)</div>
+          </div>
+          <div class="portal-chip-box">
+            <div class="portal-chip-gold"></div>
+            <span style="font-size:16px;">🛈</span>
+          </div>
+        </div>
+
+        <div class="portal-card-mid">
+          <div>
+            <div class="portal-patient-name" id="cardPatientName">NGUYỄN VĂN AN</div>
+            <div class="portal-patient-meta">Mã hồ sơ: <span id="cardPatientCode">#MED-VN-2026-8892</span></div>
+            <div class="portal-patient-meta">Số BHYT: <span id="cardPatientBhyt">DN 4 79 1234567890</span></div>
+            <div class="portal-patient-meta">Điện thoại: <span id="cardPatientPhone">0912345678</span></div>
+            <div class="portal-patient-meta" style="color:#FEF08A; font-weight:600; margin-top:2px;">
+              ✓ Đã liên thông VNeID & Hệ thống Bệnh viện Toàn quốc
+            </div>
+          </div>
+
+          <div class="portal-card-qr" title="Mã QR định danh tiếp đón">
+            <svg width="64" height="64" viewBox="0 0 100 100" fill="#0F766E">
+              <rect x="5" y="5" width="28" height="28" fill="#0F766E" rx="4"/>
+              <rect x="9" y="9" width="20" height="20" fill="#FFFFFF" rx="2"/>
+              <rect x="13" y="13" width="12" height="12" fill="#0F766E"/>
+
+              <rect x="67" y="5" width="28" height="28" fill="#0F766E" rx="4"/>
+              <rect x="71" y="9" width="20" height="20" fill="#FFFFFF" rx="2"/>
+              <rect x="75" y="13" width="12" height="12" fill="#0F766E"/>
+
+              <rect x="5" y="67" width="28" height="28" fill="#0F766E" rx="4"/>
+              <rect x="9" y="71" width="20" height="20" fill="#FFFFFF" rx="2"/>
+              <rect x="13" y="75" width="12" height="12" fill="#0F766E"/>
+
+              <rect x="42" y="14" width="8" height="8"/>
+              <rect x="42" y="44" width="12" height="12"/>
+              <rect x="70" y="44" width="8" height="8"/>
+              <rect x="54" y="66" width="14" height="8"/>
+              <rect x="80" y="80" width="10" height="10"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="portal-card-bottom">
+          <span>● Quét mã tại Kiosk bệnh viện để lấy số thứ tự ưu tiên</span>
+          <span style="color:#A7F3D0; font-weight:700;">Hạn BHYT: 31/12/2028</span>
+        </div>
+      </div>
+
+      <!-- Right: Summary Bio & Quick Actions -->
+      <div class="portal-bio-panel">
+        <div>
+          <div class="portal-bio-header">
+            <div>
+              <h2 class="portal-bio-title">Xin chào, <span id="bioHelloName">Nguyễn Văn An</span>! 👋</h2>
+              <p class="portal-bio-desc">Quản lý lịch hẹn, theo dõi số thứ tự tiếp đón và kết quả khám chữa bệnh trực tuyến.</p>
+            </div>
+          </div>
+
+          <div class="portal-stat-grid">
+            <div class="portal-stat-item">
+              <div class="portal-stat-num" id="statActiveAppointments">0</div>
+              <div class="portal-stat-label">Lịch hẹn sắp tới</div>
+            </div>
+            <div class="portal-stat-item">
+              <div class="portal-stat-num" id="statCompletedAppointments">0</div>
+              <div class="portal-stat-label">Lượt đã khám</div>
+            </div>
+            <div class="portal-stat-item">
+              <div class="portal-stat-num" style="color:#059669;">100%</div>
+              <div class="portal-stat-label">BHYT Đúng Tuyến</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="portal-actions-row">
+          <button type="button" class="portal-btn-primary" onclick="openNewBookingModal()">
+            <span>➕</span> Đặt Lịch Khám Mới
+          </button>
+          <button type="button" class="portal-btn-secondary" onclick="printHealthCard()">
+            <span>🖨️</span> In Thẻ Y Tế & QR
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECTION: APPOINTMENTS LIST -->
+    <section class="portal-section">
+      <div class="portal-section-header">
+        <div class="portal-section-title-wrap">
+          <div class="portal-section-icon">📅</div>
+          <div>
+            <h3 class="portal-section-title">Danh Sách Lịch Hẹn Khám Bệnh</h3>
+            <span style="font-size:12.5px; color:#64748B;">Dữ liệu đồng bộ trực tiếp hai chiều cùng hệ thống CRM Bệnh viện</span>
+          </div>
+        </div>
+
+        <!-- Filter tabs -->
+        <div class="portal-filter-tabs">
+          <button type="button" class="portal-filter-tab active" onclick="filterAppointments('all', this)">Tất cả (<span id="countAll">0</span>)</button>
+          <button type="button" class="portal-filter-tab" onclick="filterAppointments('contacted', this)">Đã xếp số (<span id="countContacted">0</span>)</button>
+          <button type="button" class="portal-filter-tab" onclick="filterAppointments('new', this)">Chờ duyệt (<span id="countNew">0</span>)</button>
+          <button type="button" class="portal-filter-tab" onclick="filterAppointments('converted', this)">Đã khám (<span id="countConverted">0</span>)</button>
+          <button type="button" class="portal-filter-tab" onclick="filterAppointments('lost', this)">Đã hủy (<span id="countLost">0</span>)</button>
+        </div>
+      </div>
+
+      <!-- Live Cards Container -->
+      <div class="portal-appointment-list" id="appointmentListContainer">
+        <!-- Rendered via JavaScript -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       3. MODAL: ĐẶT LỊCH KHÁM MỚI (TỰ ĐỘNG ĐIỀN THÔNG TIN BỆNH NHÂN)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <div class="portal-modal-backdrop" id="newBookingModal">
+    <div class="portal-modal-box">
+      <div class="portal-modal-header">
+        <h3 class="portal-modal-title">🏥 Đặt Lịch Khám Bệnh Trực Tuyến</h3>
+        <button type="button" class="portal-modal-close" onclick="closeNewBookingModal()">✕</button>
+      </div>
+
+      <div class="portal-modal-body">
+        <form id="patientBookingForm" onsubmit="handlePatientBookingSubmit(event)">
+
+          <!-- Họ tên & Điện thoại (Tự động điền) -->
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div class="auth-input-group">
+              <label class="auth-label">Họ và tên bệnh nhân *</label>
+              <input type="text" id="modalBookName" class="auth-input" required readonly style="background:#F1F5F9;">
+            </div>
+            <div class="auth-input-group">
+              <label class="auth-label">Số điện thoại liên hệ *</label>
+              <input type="tel" id="modalBookPhone" class="auth-input" required readonly style="background:#F1F5F9;">
+            </div>
+          </div>
+
+          <!-- Bệnh viện tiếp đón -->
+          <div class="auth-input-group" style="margin-bottom: 14px;">
+            <label class="auth-label">Chọn Bệnh viện / Cơ sở tiếp đón *</label>
+            <select id="modalBookFacility" class="auth-input" required>
+              <optgroup label="Bệnh viện Tuyến Trung Ương & Công Lập">
+                <option value="Bệnh viện Chợ Rẫy (TP.HCM)" selected>Bệnh viện Chợ Rẫy (Tuyến cuối Miền Nam - Quận 5, TP.HCM)</option>
+                <option value="Bệnh viện Bạch Mai (Hà Nội)">Bệnh viện Bạch Mai (Tuyến cuối Miền Bắc - Đống Đa, Hà Nội)</option>
+                <option value="Bệnh viện Đại học Y Dược TP.HCM">Bệnh viện Đại học Y Dược TP.HCM (Quận 5, TP.HCM)</option>
+                <option value="Bệnh viện Hữu nghị Việt Đức">Bệnh viện Hữu nghị Việt Đức (Hoàn Kiếm, Hà Nội)</option>
+                <option value="Bệnh viện Trung ương Huế">Bệnh viện Trung ương Huế (TP. Huế)</option>
+                <option value="Bệnh viện Trung ương Quân đội 108">Bệnh viện Trung ương Quân đội 108 (Hai Bà Trưng, Hà Nội)</option>
+                <option value="Bệnh viện Thống Nhất">Bệnh viện Thống Nhất (Tân Bình, TP.HCM)</option>
+                <option value="Bệnh viện Nhi Đồng 1">Bệnh viện Nhi Đồng 1 (Quận 10, TP.HCM)</option>
+              </optgroup>
+              <optgroup label="Bệnh viện Quốc Tế & Tư Nhân Uy Tín">
+                <option value="Bệnh viện Đa khoa Quốc tế Vinmec Central Park">Bệnh viện Đa khoa Quốc tế Vinmec Central Park (Bình Thạnh, TP.HCM)</option>
+                <option value="Bệnh viện FV (Pháp Việt)">Bệnh viện FV (Quận 7, TP.HCM)</option>
+                <option value="Bệnh viện Đa khoa Hoàn Mỹ Sài Gòn">Bệnh viện Đa khoa Hoàn Mỹ Sài Gòn (Phú Nhuận, TP.HCM)</option>
+                <option value="Bệnh viện Đa khoa Tâm Anh TP.HCM">Bệnh viện Đa khoa Tâm Anh (Tân Bình, TP.HCM)</option>
+                <option value="Bệnh viện Đa khoa Hồng Ngọc">Bệnh viện Đa khoa Hồng Ngọc (Ba Đình, Hà Nội)</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <!-- Chuyên khoa / Dịch vụ -->
+          <div class="auth-input-group" style="margin-bottom: 14px;">
+            <label class="auth-label">Chọn Chuyên khoa / Dịch vụ khám *</label>
+            <select id="modalBookService" class="auth-input" required>
+              <optgroup label="16 Chuyên Khoa Trọng Điểm">
+                <option value="Khám Chuyên Khoa Tim Mạch" selected>Khoa Tim Mạch & Huyết Áp</option>
+                <option value="Khám Chuyên Khoa Tiêu Hóa & Gan Mật">Khoa Tiêu Hóa - Gan Mật & Nội Soi</option>
+                <option value="Khám Chuyên Khoa Thần Kinh">Khoa Thần Kinh & Đột Quỵ</option>
+                <option value="Khám Chuyên Khoa Cơ Xương Khớp">Khoa Cơ Xương Khớp & Chấn Thương Chỉnh Hình</option>
+                <option value="Khám Chuyên Khoa Hô Hấp - Phổi">Khoa Hô Hấp & Bệnh Phổi</option>
+                <option value="Khám Chuyên Khoa Da Liễu">Khoa Da Liễu & Thẩm Mỹ Da</option>
+                <option value="Khám Chuyên Khoa Sản Phụ Khoa">Khoa Sản Phụ Khoa & Thai Kỳ</option>
+                <option value="Khám Chuyên Khoa Nhi">Khoa Nhi & Tiêm Chủng</option>
+                <option value="Khám Chuyên Khoa Mắt">Khoa Mắt & Nhãn Khoa Kỹ Thuật Cao</option>
+                <option value="Khám Chuyên Khoa Tai Mũi Họng">Khoa Tai Mũi Họng</option>
+                <option value="Khám Răng Hàm Mặt & Nha Khoa">Khoa Răng Hàm Mặt & Nha Khoa Kỹ Thuật Cao</option>
+                <option value="Khám Nội Tiết & Đái Tháo Đường">Khoa Nội Tiết & Chuyển Hóa</option>
+              </optgroup>
+              <optgroup label="Gói Khám Sức Khỏe Định Kỳ">
+                <option value="Gói Khám Sức Khỏe Tổng Quát Toàn Diện">Gói Khám Sức Khỏe Tổng Quát Toàn Diện (Tiêu Chuẩn)</option>
+                <option value="Gói Tầm Soát Ung Thư Toàn Diện VIP">Gói Tầm Soát Ung Thư Sớm Chuyên Sâu VIP</option>
+                <option value="Gói Tầm Soát Đột Quỵ & Xơ Vữa Động Mạch">Gói Tầm Soát Đột Quỵ Não & Tim Mạch</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <!-- Ngày khám & Khung giờ -->
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div class="auth-input-group">
+              <label class="auth-label">Ngày khám dự kiến *</label>
+              <input type="date" id="modalBookDate" class="auth-input" required>
+            </div>
+            <div class="auth-input-group">
+              <label class="auth-label">Khung giờ tiếp đón *</label>
+              <select id="modalBookTime" class="auth-input" required>
+                <option value="Buổi sáng (07:30 - 09:30)" selected>Buổi sáng (07:30 - 09:30)</option>
+                <option value="Buổi sáng (09:30 - 11:30)">Buổi sáng (09:30 - 11:30)</option>
+                <option value="Buổi chiều (13:30 - 15:30)">Buổi chiều (13:30 - 15:30)</option>
+                <option value="Buổi chiều (15:30 - 17:00)">Buổi chiều (15:30 - 17:00)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Ghi chú triệu chứng -->
+          <div class="auth-input-group" style="margin-bottom: 20px;">
+            <label class="auth-label">Triệu chứng hoặc yêu cầu gửi bác sĩ</label>
+            <textarea id="modalBookNotes" class="auth-input" style="height:76px; padding:8px 12px; resize:none;" placeholder="Ví dụ: Đau tức ngực trái khi gắng sức, huyết áp cao, đã có kết quả xét nghiệm cũ..."></textarea>
+          </div>
+
+          <button type="submit" class="portal-btn-primary" style="width:100%; height:48px;" id="btnSubmitModalBooking">
+            <span>✓</span> Xác Nhận Đặt Lịch & Tạo Mã Tiếp Đón
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       4. MODAL: XEM PHIẾU HẸN TIẾP ĐÓN (PRINTABLE SLIP WITH QR & BARCODE)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <div class="portal-modal-backdrop" id="slipModal">
+    <div class="portal-modal-box" style="max-width: 520px;">
+      <div class="portal-modal-header">
+        <h3 class="portal-modal-title">📄 Phiếu Hẹn Tiếp Đón Kiosk</h3>
+        <button type="button" class="portal-modal-close" onclick="closeSlipModal()">✕</button>
+      </div>
+
+      <div class="portal-modal-body">
+        <div class="printable-slip" id="printableSlipArea">
+          <div class="slip-header">
+            <div class="slip-hospital" id="slipHospitalName">BỆNH VIỆN CHỢ RẪY (TP.HCM)</div>
+            <div class="slip-title">PHIẾU TIẾP ĐÓN KHÁM BỆNH</div>
+            <div style="font-size: 11.5px; color:#64748B;">Xác nhận tiếp đón trực tuyến qua MedCare e-Portal</div>
+            <div class="slip-queue-number" id="slipQueueNum">SỐ: #14</div>
+            <div style="font-size:12px; font-weight:700; color:#0F766E;" id="slipCodeDisplay">#MED2026-8821</div>
+          </div>
+
+          <div class="slip-details-grid">
+            <div class="slip-label">Bệnh nhân:</div>
+            <div class="slip-val" id="slipPatientName">Nguyễn Văn An</div>
+
+            <div class="slip-label">Số điện thoại:</div>
+            <div class="slip-val" id="slipPatientPhone">0912345678</div>
+
+            <div class="slip-label">Chuyên khoa:</div>
+            <div class="slip-val" id="slipServiceName">Khoa Tim Mạch</div>
+
+            <div class="slip-label">Ngày khám:</div>
+            <div class="slip-val" id="slipDate">23/11/2026</div>
+
+            <div class="slip-label">Khung giờ:</div>
+            <div class="slip-val" id="slipTime">08:00 - 09:30</div>
+
+            <div class="slip-label">Bác sĩ tiếp nhận:</div>
+            <div class="slip-val" id="slipDoctor">PGS.TS Nguyễn Huy Thắng</div>
+          </div>
+
+          <div class="slip-barcode-area">
+            <!-- Mockup Barcode Lines -->
+            <div style="letter-spacing: 4px; font-family: monospace; font-size: 26px; font-weight: 900; line-height: 1;">
+              ||||| | |||| ||| || |||||| | ||||
+            </div>
+            <div style="font-size:11px; color:#64748B; margin-top:6px;">
+              Quét mã này tại máy quét tự động ở sảnh tiếp đón bệnh viện
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; margin-top:20px;">
+          <button type="button" class="portal-btn-primary" onclick="window.print()" style="flex:1;">
+            <span>🖨️</span> In Phiếu Hẹn
+          </button>
+          <button type="button" class="portal-btn-secondary" onclick="closeSlipModal()">
+            Đóng
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       SCRIPTS: AUTH & APPOINTMENT LOGIC
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <script src="../js/auth.js"></script>
+  <script>
+    let currentSession = null;
+    let allPatientAppointments = [];
+    let currentFilter = 'all';
+
+    // 1. Kiểm tra session đăng nhập
+    function initPortal() {
+      currentSession = getSession();
+      if (!currentSession) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Nếu là Admin / Cán bộ y tế thì hiển thị nút chuyển về CRM Quản trị
+      if (currentSession.role !== 'patient') {
+        const adminBtn = document.getElementById('adminSwitchBtn');
+        if (adminBtn) adminBtn.style.display = 'inline-flex';
+      }
+
+      // Render thông tin người dùng
+      renderUserHeader(currentSession);
+
+      // Thiết lập ngày tối thiểu cho form đặt lịch là ngày mai
+      const today = new Date();
+      today.setDate(today.getDate() + 1);
+      const tomorrowStr = today.toISOString().split('T')[0];
+      const dateInput = document.getElementById('modalBookDate');
+      if (dateInput) {
+        dateInput.min = tomorrowStr;
+        dateInput.value = tomorrowStr;
+      }
+
+      // Tải và hiển thị danh sách lịch hẹn
+      loadAppointments();
+    }
+
+    function renderUserHeader(user) {
+      const name = user.name || 'Bệnh nhân';
+      const phone = user.phone || '0912345678';
+      const bhyt = user.bhyt || 'DN 4 79 1234567890';
+      const code = user.id ? `#MED-VN-${user.id}` : '#MED-VN-2026-8892';
+
+      document.getElementById('navUserName').textContent = name;
+      document.getElementById('navAvatar').textContent = name.charAt(0).toUpperCase();
+      document.getElementById('navUserRole').textContent = user.roleLabel || 'Bệnh nhân';
+
+      document.getElementById('bioHelloName').textContent = name;
+      document.getElementById('cardPatientName').textContent = name.toUpperCase();
+      document.getElementById('cardPatientCode').textContent = code;
+      document.getElementById('cardPatientBhyt').textContent = bhyt;
+      document.getElementById('cardPatientPhone').textContent = phone;
+    }
+
+    // 2. Tải và lọc danh sách lịch hẹn từ LocalStorage (medcare_leads)
+    function loadAppointments() {
+      try {
+        const rawLeads = JSON.parse(localStorage.getItem('medcare_leads') || '[]');
+        const userPhone = currentSession.phone || '0912345678';
+        const userEmail = (currentSession.email || '').toLowerCase();
+        const userName  = (currentSession.name || '').toLowerCase();
+
+        // Lọc các cuộc hẹn của bệnh nhân hiện tại
+        allPatientAppointments = rawLeads.filter(lead => {
+          const lPhone = lead.phone ? String(lead.phone).trim() : '';
+          const lEmail = lead.email ? String(lead.email).toLowerCase().trim() : '';
+          const lName  = lead.name ? String(lead.name).toLowerCase().trim() : '';
+
+          return (userPhone && lPhone === userPhone) || 
+                 (userEmail && lEmail === userEmail) || 
+                 (userName && lName === userName);
+        });
+
+        // Cập nhật thống kê
+        updateStats();
+
+        // Render danh sách
+        renderAppointments(currentFilter);
+      } catch (err) {
+        console.error('Load appointments error:', err);
+      }
+    }
+
+    function updateStats() {
+      const active = allPatientAppointments.filter(a => a.status === 'new' || a.status === 'contacted').length;
+      const completed = allPatientAppointments.filter(a => a.status === 'converted').length;
+
+      document.getElementById('statActiveAppointments').textContent = active;
+      document.getElementById('statCompletedAppointments').textContent = completed;
+
+      document.getElementById('countAll').textContent = allPatientAppointments.length;
+      document.getElementById('countContacted').textContent = allPatientAppointments.filter(a => a.status === 'contacted').length;
+      document.getElementById('countNew').textContent = allPatientAppointments.filter(a => a.status === 'new').length;
+      document.getElementById('countConverted').textContent = allPatientAppointments.filter(a => a.status === 'converted').length;
+      document.getElementById('countLost').textContent = allPatientAppointments.filter(a => a.status === 'lost').length;
+    }
+
+    function filterAppointments(status, btn) {
+      currentFilter = status;
+      document.querySelectorAll('.portal-filter-tab').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderAppointments(status);
+    }
+
+    function renderAppointments(statusFilter) {
+      const container = document.getElementById('appointmentListContainer');
+      if (!container) return;
+
+      let list = allPatientAppointments;
+      if (statusFilter !== 'all') {
+        list = list.filter(a => a.status === statusFilter);
+      }
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="portal-empty-state">
+            <div class="portal-empty-icon">📋</div>
+            <div class="portal-empty-title">Không tìm thấy lịch hẹn nào</div>
+            <div class="portal-empty-desc">Bạn chưa có lịch hẹn ở trạng thái này hoặc chưa đặt lịch khám online.</div>
+            <button type="button" class="portal-btn-primary" onclick="openNewBookingModal()">
+              <span>➕</span> Đặt Lịch Khám Ngay
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = list.map(item => {
+        // Trích xuất mã hẹn từ ghi chú (ví dụ [#MED2026-8821])
+        const codeMatch = (item.note || '').match(/#MED2026-\d{4}/);
+        const bookingCode = codeMatch ? codeMatch[0] : (item.id ? `#MED-${item.id}` : '#MED2026-AUTO');
+
+        // Parse ngày và khung giờ từ note
+        let apptDate = item.createdAt || 'Đang cập nhật';
+        let apptTime = 'Theo lịch hẹn bệnh viện';
+        const dateMatch = (item.note || '').match(/Hẹn:\s*([^.]+)/i);
+        if (dateMatch && dateMatch[1]) {
+          apptDate = dateMatch[1].trim();
+        }
+
+        // Tách dịch vụ và cơ sở
+        let facility = item.facility || 'Bệnh viện Tuyến Trung Ương';
+        let service = item.service || 'Khám Tổng Quát';
+        if (item.service && item.service.includes('—')) {
+          const parts = item.service.split('—');
+          service = parts[0].trim();
+          facility = parts[1].trim();
+        }
+
+        // Status badge
+        let badgeHtml = '';
+        if (item.status === 'contacted') {
+          badgeHtml = `<span class="appointment-status-pill status-contacted">🔵 Đã chốt giờ & xếp số</span>`;
+        } else if (item.status === 'converted') {
+          badgeHtml = `<span class="appointment-status-pill status-converted">🟢 Đã hoàn thành khám</span>`;
+        } else if (item.status === 'lost') {
+          badgeHtml = `<span class="appointment-status-pill status-lost">⚪ Đã hủy lịch hẹn</span>`;
+        } else {
+          badgeHtml = `<span class="appointment-status-pill status-new">🟡 Chờ bệnh viện xếp số</span>`;
+        }
+
+        // Nút hủy chỉ hiện khi cuộc hẹn còn active
+        const canCancel = item.status === 'new' || item.status === 'contacted';
+        const cancelBtnHtml = canCancel ? `
+          <button type="button" class="btn-cancel-appt" onclick="cancelAppointment('${item.id}')">
+            ✕ Hủy hẹn
+          </button>
+        ` : '';
+
+        return `
+          <div class="appointment-card">
+            <div class="appointment-top-row">
+              <span class="appointment-code-badge">${bookingCode}</span>
+              ${badgeHtml}
+            </div>
+
+            <div class="appointment-main-content">
+              <div class="appointment-info-col">
+                <div class="appointment-facility-name">🏥 ${facility}</div>
+                <div class="appointment-service-name">🩺 ${service}</div>
+              </div>
+
+              <div class="appointment-info-col">
+                <div class="appointment-meta-item">📅 Thời gian: <strong>${apptDate}</strong></div>
+                <div class="appointment-meta-item">👨‍⚕️ Bác sĩ / Phân công: <strong>${item.assignedTo || 'Bác sĩ chuyên khoa'}</strong></div>
+              </div>
+            </div>
+
+            <div class="appointment-bottom-row">
+              <div class="appointment-note-text">
+                📝 Ghi chú: ${item.note || 'Không có ghi chú thêm'}
+              </div>
+
+              <div class="appointment-btn-actions">
+                <button type="button" class="btn-slip-view" onclick="viewAppointmentSlip('${item.id}')">
+                  📄 Phiếu Khám & QR
+                </button>
+                ${cancelBtnHtml}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 3. Mở & Đóng Modal Đặt Lịch
+    function openNewBookingModal() {
+      const modal = document.getElementById('newBookingModal');
+      if (!modal) return;
+
+      document.getElementById('modalBookName').value = currentSession.name || 'Nguyễn Văn An';
+      document.getElementById('modalBookPhone').value = currentSession.phone || '0912345678';
+
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeNewBookingModal() {
+      const modal = document.getElementById('newBookingModal');
+      if (modal) modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // 4. Xử lý Gửi Đặt Lịch Mới từ Cổng Bệnh Nhân
+    function handlePatientBookingSubmit(e) {
+      e.preventDefault();
+
+      const btn = document.getElementById('btnSubmitModalBooking');
+      const name = document.getElementById('modalBookName').value.trim();
+      const phone = document.getElementById('modalBookPhone').value.trim();
+      const facility = document.getElementById('modalBookFacility').value;
+      const service = document.getElementById('modalBookService').value;
+      const date = document.getElementById('modalBookDate').value;
+      const time = document.getElementById('modalBookTime').value;
+      const notes = document.getElementById('modalBookNotes').value.trim();
+
+      const codeNum = Math.floor(1000 + Math.random() * 9000);
+      const bookingCode = `#MED2026-${codeNum}`;
+
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳</span> Đang lưu vào hệ thống tiếp đón...';
+
+      setTimeout(() => {
+        try {
+          let leads = JSON.parse(localStorage.getItem('medcare_leads') || '[]');
+
+          const newLead = {
+            id: 'LD' + Date.now(),
+            name: name,
+            gender: currentSession.gender || 'Nam',
+            email: currentSession.email || `${phone}@khachhang.medcare.vn`,
+            phone: phone,
+            facility: facility,
+            service: `${service} — ${facility}`,
+            source: 'Cổng Bệnh Nhân Trực Tuyến',
+            priority: 'high',
+            status: 'new', // Chờ bệnh viện tiếp nhận
+            note: `[${bookingCode}] Hẹn: ${date} (${time}). Cơ sở: ${facility}. Ghi chú bệnh nhân: ${notes || 'Không có'}`,
+            createdAt: new Date().toLocaleDateString('vi-VN'),
+            assignedTo: 'Tổng đài viên tiếp đón Kiosk'
+          };
+
+          leads.unshift(newLead);
+          localStorage.setItem('medcare_leads', JSON.stringify(leads));
+
+          btn.disabled = false;
+          btn.innerHTML = '<span>✓</span> Xác Nhận Đặt Lịch & Tạo Mã Tiếp Đón';
+
+          closeNewBookingModal();
+          showToast(`Đặt lịch thành công! Mã tiếp đón của bạn là: ${bookingCode}`, 'success');
+
+          // Tải lại danh sách lịch hẹn ngay lập tức
+          loadAppointments();
+        } catch (err) {
+          console.error('Error saving patient lead:', err);
+          btn.disabled = false;
+          btn.textContent = 'Thử lại';
+        }
+      }, 700);
+    }
+
+    // 5. Xem Phiếu Khám & QR Check-in
+    function viewAppointmentSlip(id) {
+      const item = allPatientAppointments.find(a => a.id === id);
+      if (!item) return;
+
+      const codeMatch = (item.note || '').match(/#MED2026-\d{4}/);
+      const bookingCode = codeMatch ? codeMatch[0] : `#MED2026-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      // Lấy tên bệnh viện & dịch vụ
+      let facility = item.facility || 'Bệnh viện Chợ Rẫy (TP.HCM)';
+      let service = item.service || 'Khám Chuyên Khoa Tim Mạch';
+      if (item.service && item.service.includes('—')) {
+        const parts = item.service.split('—');
+        service = parts[0].trim();
+        facility = parts[1].trim();
+      }
+
+      // Trích xuất ngày hẹn
+      let apptDate = 'Ngày mai';
+      const dateMatch = (item.note || '').match(/Hẹn:\s*([^.]+)/i);
+      if (dateMatch && dateMatch[1]) {
+        apptDate = dateMatch[1].trim();
+      }
+
+      document.getElementById('slipHospitalName').textContent = facility.toUpperCase();
+      document.getElementById('slipCodeDisplay').textContent = bookingCode;
+      document.getElementById('slipPatientName').textContent = item.name;
+      document.getElementById('slipPatientPhone').textContent = item.phone;
+      document.getElementById('slipServiceName').textContent = service;
+      document.getElementById('slipDate').textContent = apptDate;
+      document.getElementById('slipDoctor').textContent = item.assignedTo || 'BS. Tiếp nhận Kiosk';
+
+      const modal = document.getElementById('slipModal');
+      if (modal) {
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeSlipModal() {
+      const modal = document.getElementById('slipModal');
+      if (modal) modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // 6. Hủy Lịch Hẹn
+    function cancelAppointment(id) {
+      if (!confirm('Bạn có chắc chắn muốn hủy lịch hẹn khám này không?')) return;
+
+      try {
+        let leads = JSON.parse(localStorage.getItem('medcare_leads') || '[]');
+        const target = leads.find(l => l.id === id);
+        if (target) {
+          target.status = 'lost';
+          target.note = (target.note || '') + ' [Bệnh nhân tự hủy qua Cổng Bệnh Nhân]';
+          localStorage.setItem('medcare_leads', JSON.stringify(leads));
+          showToast('Đã hủy lịch hẹn thành công.', 'info');
+          loadAppointments();
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // 7. In Thẻ Y Tế
+    function printHealthCard() {
+      window.print();
+    }
+
+    // Khởi chạy khi tài liệu sẵn sàng
+    document.addEventListener('DOMContentLoaded', initPortal);
+  </script>
+</body>
+</html>

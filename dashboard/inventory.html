@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kho Dược & Vật Tư Y Tế — MedCare CRM</title>
+  
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+  <div id="appMount">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">Quản Lý Kho Dược & Vật Tư Y Tế</h1>
+        <p class="page-subtitle">Kiểm soát tồn kho dược phẩm, theo dõi hạn dùng và cảnh báo hàng sắp hết</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-outline" id="btnExportInventory">📥 Xuất File Kiểm Kho</button>
+        <button class="btn btn-primary" id="btnOpenAddMedicineModal">➕ Nhập Dược Phẩm / Vật Tư Mới</button>
+      </div>
+    </div>
+
+    <!-- 4 KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card" style="--kpi-color: #0f766e; --kpi-bg: rgba(15,118,110,0.1);">
+        <div class="kpi-icon-wrap">💊</div>
+        <div class="kpi-info">
+          <div class="kpi-label">Tổng Danh Mục Thuốc & Vật Tư</div>
+          <div class="kpi-value" id="kpiTotalItems">10</div>
+          <div class="kpi-delta up">Đang lưu hành tại trung tâm</div>
+        </div>
+      </div>
+
+      <div class="kpi-card" style="--kpi-color: #ef4444; --kpi-bg: rgba(239,68,68,0.1);">
+        <div class="kpi-icon-wrap">⚠️</div>
+        <div class="kpi-info">
+          <div class="kpi-label">Cảnh Báo Sắp Hết Hàng</div>
+          <div class="kpi-value" id="kpiLowStock">3</div>
+          <div class="kpi-delta down">Dưới mức tồn an toàn</div>
+        </div>
+      </div>
+
+      <div class="kpi-card" style="--kpi-color: #14b8a6; --kpi-bg: rgba(20,184,166,0.1);">
+        <div class="kpi-icon-wrap">📦</div>
+        <div class="kpi-info">
+          <div class="kpi-label">Tổng Số Lượng Tồn Kho</div>
+          <div class="kpi-value" id="kpiTotalQty">722</div>
+          <div class="kpi-delta up">Đơn vị sản phẩm</div>
+        </div>
+      </div>
+
+      <div class="kpi-card" style="--kpi-color: #f59e0b; --kpi-bg: rgba(245,158,11,0.1);">
+        <div class="kpi-icon-wrap">💰</div>
+        <div class="kpi-info">
+          <div class="kpi-label">Tổng Giá Trị Tồn Kho</div>
+          <div class="kpi-value" id="kpiTotalVal">0 ₫</div>
+          <div class="kpi-delta up">Tính theo đơn giá niêm yết</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inventory Table Card -->
+    <div class="data-card">
+      <div class="data-card-header">
+        <div class="data-card-toolbar" style="width:100%; justify-content:space-between;">
+          <!-- Search box -->
+          <div class="search-input-wrap">
+            <span class="search-input-icon">🔍</span>
+            <input type="text" id="inventorySearch" placeholder="Tìm theo tên thuốc, mã, danh mục...">
+          </div>
+
+          <!-- Filters -->
+          <div style="display:flex; gap:8px; align-items:center;">
+            <select class="filter-select" id="invCategoryFilter">
+              <option value="all">Tất cả nhóm dược phẩm</option>
+            </select>
+
+            <select class="filter-select" id="invStatusFilter">
+              <option value="all">Tất cả tình trạng</option>
+              <option value="low">⚠️ Sắp hết (Cần nhập)</option>
+              <option value="normal">🟢 Tồn kho an toàn</option>
+            </select>
+
+            <button class="btn btn-outline btn-sm" id="btnResetInvFilters">🔄 Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã Thuốc</th>
+              <th>Tên Dược Phẩm / Vật Tư</th>
+              <th>Nhóm Danh Mục</th>
+              <th>Đơn Vị</th>
+              <th>Số Lượng Tồn</th>
+              <th>Mức Tối Thiểu</th>
+              <th>Đơn Giá Niêm Yết</th>
+              <th>Hạn Sử Dụng</th>
+              <th>Tình Trạng</th>
+              <th>Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody id="inventoryTableBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal Nhập Kho / Cập Nhật -->
+  <div class="modal-backdrop" id="medicineModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="medicineModalTitle">Nhập Dược Phẩm Mới</h3>
+        <button class="modal-close" id="btnCloseMedModal">✕</button>
+      </div>
+      <form id="medicineForm">
+        <div class="modal-body">
+          <input type="hidden" id="editMedId">
+
+          <div class="form-group">
+            <label class="form-label">Tên Thuốc / Vật Tư Y Tế <span class="req">*</span></label>
+            <input type="text" class="form-control" id="medName" placeholder="Ví dụ: Paracetamol 500mg" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Nhóm Danh Mục <span class="req">*</span></label>
+              <select class="form-control" id="medCategory" required>
+                <option value="Thuốc hạ sốt, giảm đau">Thuốc hạ sốt, giảm đau</option>
+                <option value="Kháng sinh">Kháng sinh</option>
+                <option value="Vật tư chẩn đoán">Vật tư chẩn đoán</option>
+                <option value="Vật tư tiêu hao">Vật tư tiêu hao</option>
+                <option value="Sát khuẩn">Sát khuẩn</option>
+                <option value="Bảo hộ y tế">Bảo hộ y tế</option>
+                <option value="Thực phẩm bổ sung">Thực phẩm bổ sung</option>
+                <option value="Chuyên khoa mắt">Chuyên khoa mắt</option>
+                <option value="Vật tư nha khoa">Vật tư nha khoa</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Đơn Vị Tính <span class="req">*</span></label>
+              <select class="form-control" id="medUnit">
+                <option value="Hộp">Hộp</option>
+                <option value="Lọ">Lọ</option>
+                <option value="Chai">Chai</option>
+                <option value="Gói">Gói</option>
+                <option value="Bộ">Bộ</option>
+                <option value="Cái">Cái</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Số Lượng Nhập <span class="req">*</span></label>
+              <input type="number" class="form-control" id="medStock" min="1" value="50" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Mức Tồn Tối Thiểu <span class="req">*</span></label>
+              <input type="number" class="form-control" id="medMinStock" min="1" value="20" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Đơn Giá Niêm Yết (₫) <span class="req">*</span></label>
+              <input type="number" class="form-control" id="medPrice" min="1000" step="1000" value="50000" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hạn Sử Dụng (MM/YYYY) <span class="req">*</span></label>
+              <input type="text" class="form-control" id="medExpiry" placeholder="12/2027" required pattern="^(0[1-9]|1[0-2])\/\d{4}$">
+              <div class="form-hint">Định dạng: MM/YYYY (Ví dụ: 12/2027)</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="btnCancelMed">Hủy</button>
+          <button type="submit" class="btn btn-primary">Lưu Vào Kho</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app-shell.js"></script>
+  <script src="../js/inventory.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initAppShell('Kho Dược & Vật Tư');
+      initInventoryPage();
+    });
+  </script>
+</body>
+</html>

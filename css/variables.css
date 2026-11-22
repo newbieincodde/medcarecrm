@@ -1,0 +1,144 @@
+/* ==============================================================================
+   MEDCARE CRM — DESIGN SYSTEM TOKENS
+   Modern HealthTech · Trung tâm khám sức khỏe đa chuyên khoa
+   ============================================================================== */
+
+:root {
+  /* ── PRIMARY: Teal (Y tế & Tin cậy) ── */
+  --clr-primary-900: #134E4A;
+  --clr-primary-800: #115E59;
+  --clr-primary-700: #0F766E;
+  --clr-primary-600: #0D9488;
+  --clr-primary-500: #14B8A6;
+  --clr-primary-400: #2DD4BF;
+  --clr-primary-300: #5EEAD4;
+  --clr-primary-100: #CCFBF1;
+  --clr-primary-50:  #F0FDFA;
+
+  /* ── ACCENT: Emerald (Success, Active, CTA) ── */
+  --clr-accent-700:  #047857;
+  --clr-accent-600:  #059669;
+  --clr-accent-500:  #10B981;
+  --clr-accent-400:  #34D399;
+  --clr-accent-100:  #D1FAE5;
+
+  /* ── BLUE: (Info, Links) ── */
+  --clr-blue-700:    #1D4ED8;
+  --clr-blue-600:    #2563EB;
+  --clr-blue-500:    #3B82F6;
+  --clr-blue-100:    #DBEAFE;
+
+  /* ── NEUTRAL ── */
+  --clr-gray-900:    #111827;
+  --clr-gray-800:    #1F2937;
+  --clr-gray-700:    #374151;
+  --clr-gray-600:    #4B5563;
+  --clr-gray-500:    #6B7280;
+  --clr-gray-400:    #9CA3AF;
+  --clr-gray-300:    #D1D5DB;
+  --clr-gray-200:    #E5E7EB;
+  --clr-gray-100:    #F3F4F6;
+  --clr-gray-50:     #F9FAFB;
+  --clr-white:       #FFFFFF;
+
+  /* ── STATUS ── */
+  --clr-success:     #10B981;
+  --clr-warning:     #F59E0B;
+  --clr-danger:      #EF4444;
+  --clr-info:        #3B82F6;
+
+  /* ── RANK COLORS (Hạng khách hàng) ── */
+  --clr-bronze:      #B77945;
+  --clr-bronze-bg:   #FDF3E7;
+  --clr-silver:      #64748B;
+  --clr-silver-bg:   #F1F5F9;
+  --clr-gold:        #D97706;
+  --clr-gold-bg:     #FFFBEB;
+
+  /* ── SEMANTIC ALIASES ── */
+  --color-primary:        var(--clr-primary-700);
+  --color-primary-hover:  var(--clr-primary-600);
+  --color-primary-light:  var(--clr-primary-500);
+  --color-accent:         var(--clr-accent-500);
+  --color-bg:             var(--clr-primary-50);
+  --color-surface:        var(--clr-white);
+  --color-text:           var(--clr-gray-800);
+  --color-text-light:     var(--clr-gray-500);
+  --color-border:         var(--clr-gray-200);
+  --color-border-hover:   var(--clr-primary-300);
+
+  /* ── TYPOGRAPHY ── */
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --text-xs:   0.75rem;    /* 12px */
+  --text-sm:   0.875rem;   /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg:   1.125rem;   /* 18px */
+  --text-xl:   1.25rem;    /* 20px */
+  --text-2xl:  1.5rem;     /* 24px */
+  --text-3xl:  1.875rem;   /* 30px */
+  --text-4xl:  2.25rem;    /* 36px */
+  --text-5xl:  3rem;       /* 48px */
+  --text-6xl:  3.75rem;    /* 60px */
+
+  --font-normal:   400;
+  --font-medium:   500;
+  --font-semibold: 600;
+  --font-bold:     700;
+  --font-extrabold:800;
+
+  /* ── SPACING (4px base) ── */
+  --space-1:  0.25rem;   /* 4px  */
+  --space-2:  0.5rem;    /* 8px  */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-5:  1.25rem;   /* 20px */
+  --space-6:  1.5rem;    /* 24px */
+  --space-8:  2rem;      /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+  --space-20: 5rem;      /* 80px */
+  --space-24: 6rem;      /* 96px */
+
+  /* ── BORDER RADIUS ── */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-2xl:  24px;
+  --radius-full: 9999px;
+
+  /* ── SHADOWS ── */
+  --shadow-xs:  0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:  0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg:  0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.04);
+  --shadow-xl:  0 20px 25px rgba(0,0,0,0.1), 0 10px 10px rgba(0,0,0,0.04);
+  --shadow-teal: 0 4px 14px rgba(15,118,110,0.25);
+  --shadow-teal-lg: 0 8px 25px rgba(15,118,110,0.35);
+
+  /* ── TRANSITIONS ── */
+  --transition-fast:   all 0.15s ease;
+  --transition-base:   all 0.25s ease;
+  --transition-slow:   all 0.4s ease;
+  --transition-spring: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ── LAYOUT ── */
+  --sidebar-width:         260px;
+  --sidebar-collapsed:     72px;
+  --header-height:         64px;
+  --container-max:         1280px;
+  --content-padding:       var(--space-6);
+}
+
+/* ── DARK MODE PREP (Future) ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg:      #0D1F1E;
+    --color-surface: #132926;
+    --color-text:    #E2F4F3;
+    --color-border:  #1E3D3A;
+  }
+}

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng nhập — MedCare CRM & Cổng Y Tế Bệnh Nhân</title>
+
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+
+<div class="auth-page">
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       LEFT PANEL — BRAND & DIGITAL HEALTH CARD SHOWCASE (MODERN HEALTHCARE)
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <div class="auth-left">
+
+    <!-- Top Brand Header -->
+    <div class="auth-brand-wrapper">
+      <div class="auth-brand-badge">
+        <span class="auth-pulse-dot"></span>
+        Hệ thống Y tế Số Đa Nền tảng
+      </div>
+
+      <div class="auth-brand-row">
+        <div class="auth-brand-icon">🩺</div>
+        <div>
+          <div class="auth-brand-title">MedCare CRM</div>
+          <div class="auth-brand-subtitle">Cổng kết nối tiếp đón & quản trị y tế toàn quốc</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center Showcase: Glassmorphic Digital Health Card (Thẻ Y Tế Số Điện Tử 4.0) -->
+    <div class="auth-showcase">
+
+      <div class="ehealth-card">
+        <!-- Card Header -->
+        <div class="ehealth-header">
+          <div class="ehealth-national">
+            <span class="ehealth-national-title">BỘ Y TẾ VIỆT NAM · BẢO HIỂM XÃ HỘI</span>
+            <span class="ehealth-national-sub">HỒ SƠ SỨC KHỎE ĐIỆN TỬ MEDCARE</span>
+          </div>
+          <div class="ehealth-chip-wrap">
+            <div class="ehealth-chip"></div>
+            <span class="ehealth-nfc">🛈</span>
+          </div>
+        </div>
+
+        <!-- Card Body: Patient Details & QR -->
+        <div class="ehealth-body">
+          <div class="ehealth-user-info">
+            <div class="ehealth-user-name">NGUYỄN VĂN AN</div>
+            <div class="ehealth-user-meta">Mã hồ sơ: <span class="ehealth-user-code">#MED-VN-2026-8892</span></div>
+            <div class="ehealth-user-meta">BHYT: <span class="ehealth-user-code">DN 4 79 1234567890</span></div>
+            <div class="ehealth-user-meta" style="color: #A7F3D0; font-weight: 600; margin-top: 2px;">
+              ✓ Đã xác thực VNeID Mức 2
+            </div>
+          </div>
+
+          <div class="ehealth-qr-box" title="Quét mã QR tại kiosk để xếp số tự động">
+            <span class="ehealth-qr-scanline"></span>
+            <!-- Inline SVG QR Code Mockup -->
+            <svg width="60" height="60" viewBox="0 0 100 100" fill="#0F172A">
+              <!-- Position markers -->
+              <rect x="5" y="5" width="28" height="28" fill="#0F766E" rx="4"/>
+              <rect x="9" y="9" width="20" height="20" fill="#FFFFFF" rx="2"/>
+              <rect x="13" y="13" width="12" height="12" fill="#0F766E"/>
+
+              <rect x="67" y="5" width="28" height="28" fill="#0F766E" rx="4"/>
+              <rect x="71" y="9" width="20" height="20" fill="#FFFFFF" rx="2"/>
+              <rect x="75" y="13" width="12" height="12" fill="#0F766E"/>
+
+              <rect x="5" y="67" width="28" height="28" fill="#0F766E" rx="4"/>
+              <rect x="9" y="71" width="20" height="20" fill="#FFFFFF" rx="2"/>
+              <rect x="13" y="75" width="12" height="12" fill="#0F766E"/>
+
+              <!-- Data bits -->
+              <rect x="42" y="10" width="8" height="8"/>
+              <rect x="52" y="18" width="8" height="8"/>
+              <rect x="42" y="26" width="8" height="8"/>
+              <rect x="10" y="44" width="8" height="8"/>
+              <rect x="22" y="44" width="8" height="8"/>
+              <rect x="38" y="42" width="12" height="12" fill="#0F766E"/>
+              <rect x="58" y="44" width="8" height="8"/>
+              <rect x="70" y="44" width="8" height="8"/>
+              <rect x="82" y="44" width="8" height="8"/>
+              <rect x="42" y="62" width="8" height="8"/>
+              <rect x="54" y="66" width="8" height="8"/>
+              <rect x="68" y="70" width="12" height="8"/>
+              <rect x="84" y="62" width="8" height="8"/>
+              <rect x="42" y="80" width="16" height="8"/>
+              <rect x="68" y="84" width="8" height="8"/>
+              <rect x="82" y="80" width="10" height="10"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Live Appointment Indicator Strip -->
+        <div class="ehealth-live-status">
+          <div class="ehealth-live-left">
+            <span class="ehealth-live-icon">🏥</span>
+            <div class="ehealth-live-text">
+              BV Chợ Rẫy — Chuyên khoa Tim Mạch<br>
+              <span style="color:#A7F3D0; font-weight:400;">Ngày mai (08:00 - 09:30) · BS.CKII Nguyễn Huy Thắng</span>
+            </div>
+          </div>
+          <span class="ehealth-live-badge">Số hẹn #14</span>
+        </div>
+      </div>
+
+      <!-- Modern Trust Badges (Compact & High-Tech) -->
+      <div class="auth-trust-list">
+        <div class="auth-trust-item">
+          <div class="auth-trust-icon">🛡️</div>
+          <div class="auth-trust-content">
+            <div class="auth-trust-title">Bảo Mật Y Tế 256-bit</div>
+            <div class="auth-trust-desc">Tuân thủ nghiêm ngặt tiêu chuẩn dữ liệu y tế Bộ Y Tế & HIPAA</div>
+          </div>
+        </div>
+
+        <div class="auth-trust-item">
+          <div class="auth-trust-icon">⚡</div>
+          <div class="auth-trust-content">
+            <div class="auth-trust-title">Tiếp Đón 1-Chạm Tại Kiosk</div>
+            <div class="auth-trust-desc">Quét mã QR tại cổng viện, nhận số khám ưu tiên trong vòng 10 giây</div>
+          </div>
+        </div>
+
+        <div class="auth-trust-item">
+          <div class="auth-trust-icon">🏥</div>
+          <div class="auth-trust-content">
+            <div class="auth-trust-title">Mạng Lưới 40+ Tuyến Đầu Toàn Quốc</div>
+            <div class="auth-trust-desc">Kết nối Chợ Rẫy, Bạch Mai, ĐH Y Dược, Việt Đức, TW Huế, 108...</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Statistics -->
+    <div class="auth-footer-stats">
+      <div class="auth-stat-box">
+        <div class="auth-stat-value">100.000+</div>
+        <div class="auth-stat-label">Lượt khám số</div>
+      </div>
+      <div class="auth-stat-box">
+        <div class="auth-stat-value">63</div>
+        <div class="auth-stat-label">Tỉnh thành toàn quốc</div>
+      </div>
+      <div class="auth-stat-box">
+        <div class="auth-stat-value">99.8%</div>
+        <div class="auth-stat-label">Bệnh nhân hài lòng</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       RIGHT PANEL — MODERN INTERACTIVE AUTH FORM
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <div class="auth-right">
+    <div class="auth-form-container">
+
+      <!-- Navigation Bar -->
+      <div class="auth-nav-bar">
+        <a href="../index.html" class="auth-back-link">
+          <span>←</span> Quay lại Trang Chủ
+        </a>
+        <div class="auth-switch-link">
+          Chưa có tài khoản? <a href="register.html">Đăng ký mới</a>
+        </div>
+      </div>
+
+      <!-- Heading -->
+      <div class="auth-header">
+        <h1 class="auth-heading-title">Chào mừng trở lại! 👋</h1>
+        <p class="auth-heading-desc">
+          Hệ thống tiếp đón y tế số & quản trị quan hệ bệnh nhân MedCare
+        </p>
+      </div>
+
+      <!-- Role Switcher Tabs -->
+      <div class="auth-role-tabs">
+        <button
+          type="button"
+          class="auth-role-tab active"
+          id="roleTabPatient"
+          onclick="switchLoginRole('patient')"
+        >
+          <span class="tab-icon">👤</span> Dành cho Bệnh Nhân
+        </button>
+        <button
+          type="button"
+          class="auth-role-tab"
+          id="roleTabStaff"
+          onclick="switchLoginRole('staff')"
+        >
+          <span class="tab-icon">🩺</span> Cán Bộ Y Tế & Admin
+        </button>
+      </div>
+
+      <!-- 1-Click Demo Accounts Quick Card -->
+      <div class="auth-demo-card">
+        <div class="auth-demo-header">
+          <span class="auth-demo-tag">⚡ Dùng Thử 1-Chạm (Click để tự điền)</span>
+          <span class="auth-demo-subtag">Demo Mode</span>
+        </div>
+
+        <!-- Chips for Patient Mode -->
+        <div class="auth-demo-chips" id="demoChipsPatient">
+          <div class="auth-demo-chip" onclick="quickLogin('benhnhan@gmail.com')">
+            <div class="auth-demo-chip-info">
+              <div class="auth-demo-avatar" style="background: linear-gradient(135deg, #0F766E, #14B8A6);">A</div>
+              <div>
+                <div class="auth-demo-name">Nguyễn Văn An (Bệnh nhân)</div>
+                <div class="auth-demo-role">benhnhan@gmail.com · Mật khẩu: Patient@123</div>
+              </div>
+            </div>
+            <button type="button" class="auth-demo-btn">Chọn ⚡</button>
+          </div>
+        </div>
+
+        <!-- Chips for Staff Mode -->
+        <div class="auth-demo-chips" id="demoChipsStaff" style="display: none;">
+          <div class="auth-demo-chip" onclick="quickLogin('admin@medcare.vn')">
+            <div class="auth-demo-chip-info">
+              <div class="auth-demo-avatar" style="background: linear-gradient(135deg, #D97706, #F59E0B);">N</div>
+              <div>
+                <div class="auth-demo-name">Nguyễn Minh Nhân (Super Admin)</div>
+                <div class="auth-demo-role">admin@medcare.vn · Ban Giám đốc</div>
+              </div>
+            </div>
+            <button type="button" class="auth-demo-btn">Chọn ⚡</button>
+          </div>
+
+          <div class="auth-demo-chip" onclick="quickLogin('manager@medcare.vn')">
+            <div class="auth-demo-chip-info">
+              <div class="auth-demo-avatar" style="background: linear-gradient(135deg, #0284C7, #38BDF8);">M</div>
+              <div>
+                <div class="auth-demo-name">BS. CKII Trần Thị Mai (Quản lý)</div>
+                <div class="auth-demo-role">manager@medcare.vn · Trưởng Khoa Khám</div>
+              </div>
+            </div>
+            <button type="button" class="auth-demo-btn">Chọn ⚡</button>
+          </div>
+
+          <div class="auth-demo-chip" onclick="quickLogin('staff@medcare.vn')">
+            <div class="auth-demo-chip-info">
+              <div class="auth-demo-avatar" style="background: linear-gradient(135deg, #7C3AED, #A78BFA);">H</div>
+              <div>
+                <div class="auth-demo-name">Lê Văn Hùng (CSKH / Kiosk)</div>
+                <div class="auth-demo-role">staff@medcare.vn · Tiếp đón trực tiếp</div>
+              </div>
+            </div>
+            <button type="button" class="auth-demo-btn">Chọn ⚡</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-divider">
+        <span>hoặc đăng nhập bằng tài khoản</span>
+      </div>
+
+      <!-- Login Form -->
+      <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)" novalidate>
+
+        <div class="auth-input-group">
+          <label class="auth-label" for="loginEmail" id="labelLoginEmail">
+            Số điện thoại hoặc Email <span class="required">*</span>
+          </label>
+          <div class="auth-input-wrapper">
+            <span class="auth-input-icon">✉</span>
+            <input
+              type="text"
+              id="loginEmail"
+              class="auth-input"
+              placeholder="Nhập 0912345678 hoặc email..."
+              autocomplete="username"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="auth-input-group">
+          <label class="auth-label" for="loginPassword">
+            Mật khẩu <span class="required">*</span>
+          </label>
+          <div class="auth-input-wrapper">
+            <span class="auth-input-icon">🔒</span>
+            <input
+              type="password"
+              id="loginPassword"
+              class="auth-input"
+              placeholder="Nhập mật khẩu tài khoản"
+              autocomplete="current-password"
+              required
+            >
+            <button
+              type="button"
+              class="auth-input-toggle"
+              onclick="togglePassword('loginPassword', this)"
+              title="Hiện/Ẩn mật khẩu"
+            >👁</button>
+          </div>
+        </div>
+
+        <!-- Options row -->
+        <div class="auth-row-options">
+          <label class="auth-checkbox-label">
+            <input type="checkbox" id="rememberMe" checked>
+            <span>Ghi nhớ phiên đăng nhập</span>
+          </label>
+          <a href="#" class="auth-forgot-link" onclick="showToast('Vui lòng liên hệ tổng đài xxxx-xxxx hoặc dùng tài khoản Demo.', 'info'); return false;">
+            Quên mật khẩu?
+          </a>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="auth-submit-btn" id="btnLogin">
+          <span>🔐</span> Đăng nhập vào hệ thống
+        </button>
+
+      </form>
+
+      <!-- National VNeID & Social Identification -->
+      <div class="auth-divider" style="margin-top: 22px;">
+        <span>hoặc tiếp tục với định danh quốc gia</span>
+      </div>
+
+      <div class="auth-social-wrap">
+        <button
+          type="button"
+          class="btn-vneid"
+          onclick="quickLogin('benhnhan@gmail.com')"
+          title="Đăng nhập tự động với tài khoản Bệnh nhân đã xác thực VNeID"
+        >
+          <span style="font-size: 16px;">🇻🇳</span> Đăng nhập qua Định danh điện tử VNeID
+        </button>
+
+        <button
+          type="button"
+          class="btn-social-outline"
+          onclick="showToast('Đang kết nối cổng xác thực Google y tế an toàn...', 'info')"
+        >
+          <span style="font-size: 15px;">🌐</span> Đăng nhập với tài khoản Google
+        </button>
+      </div>
+
+      <!-- Legal / Academic Disclaimer -->
+      <div class="auth-disclaimer">
+        Bằng cách đăng nhập, bạn đồng ý với
+        <a href="#">Điều khoản sử dụng</a> và
+        <a href="#">Chính sách bảo mật y tế</a> MedCare.<br>
+        Học phần Thiết kế Web — Trường Đại học Lạc Hồng (LHU). Hotline: <strong>xxxx-xxxx</strong>.
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="../js/auth.js"></script>
+<script>
+  // Tự động chuyển hướng nếu phiên đăng nhập còn hiệu lực
+  redirectIfLoggedIn();
+</script>
+</body>
+</html>

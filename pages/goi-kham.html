@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gói Khám Sức Khỏe Toàn Diện & Bảng Giá So Sánh — MedCare</title>
+  
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/medpro-style.css">
+  <link rel="stylesheet" href="../css/chatbox.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+</head>
+<body style="background:#f8fafc;">
+
+  <!-- 1. Top Announcement Marquee Ticker -->
+  <div class="top-marquee-bar">
+    <div class="marquee-content-track">
+      <div class="marquee-item">
+        📢 Đặt Giúp Việc Cá Nhân hướng dẫn, hỗ trợ bạn đi khám từ lúc vào viện đến khi kết thúc. Hotline toàn quốc: <strong>xxxx-xxxx</strong>!
+      </div>
+      <div class="marquee-item">
+        🩺 Đặt gói khám sức khỏe tổng quát trực tuyến - Ưu đãi giảm đến 20% và lấy số thứ tự ưu tiên!
+      </div>
+      <div class="marquee-item">
+        🌟 Danh mục xét nghiệm lâm sàng minh bạch, không phát sinh chi phí tại hơn 40 bệnh viện liên kết!
+      </div>
+      <div class="marquee-item">
+        📢 Đặt Giúp Việc Cá Nhân hướng dẫn, hỗ trợ bạn đi khám từ lúc vào viện đến khi kết thúc. Hotline toàn quốc: <strong>xxxx-xxxx</strong>!
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Navbar -->
+  <nav class="medpro-navbar">
+    <div class="medpro-nav-container">
+      <div style="display:flex; align-items:center; gap:20px;">
+        <a href="../index.html" class="medpro-brand">
+          <span style="font-size:28px;">🩺</span>
+          <span class="medpro-logo-text">MedCare</span>
+        </a>
+
+        <a href="javascript:void(0)" onclick="openHotlineModal()" class="medpro-hotline-badge" title="Bấm để yêu cầu tư vấn hotline hoặc gọi trực tiếp">
+          <span class="hotline-icon">📞</span>
+          <div class="hotline-info">
+            <span class="hotline-label">Tư vấn/Đặt khám</span>
+            <span class="hotline-num">xxxx-xxxx</span>
+          </div>
+        </a>
+      </div>
+
+      <ul class="medpro-nav-links">
+        <li class="nav-dropdown-wrapper">
+          <a href="co-so-y-te.html" class="nav-main-link">
+            Cơ sở y tế <span class="nav-arrow">▾</span>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="co-so-y-te.html?type=cong" class="dropdown-link-item"><span class="dropdown-icon">🏥</span> Bệnh viện Công lập</a>
+            <a href="co-so-y-te.html?type=tu" class="dropdown-link-item"><span class="dropdown-icon">🏢</span> Bệnh viện Tư nhân</a>
+            <a href="co-so-y-te.html?type=phongkham" class="dropdown-link-item"><span class="dropdown-icon">🩺</span> Phòng khám Đa khoa</a>
+            <a href="co-so-y-te.html?type=xetnghiem" class="dropdown-link-item"><span class="dropdown-icon">🧪</span> Trung tâm Xét nghiệm</a>
+          </div>
+        </li>
+
+        <li class="nav-dropdown-wrapper">
+          <a href="dich-vu.html" class="nav-main-link">
+            Dịch vụ y tế <span class="nav-arrow">▾</span>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="dich-vu.html?tab=bacsi" class="dropdown-link-item"><span class="dropdown-icon">👨‍⚕️</span> Đặt khám theo Bác sĩ</a>
+            <a href="dich-vu.html?tab=xetnghiem" class="dropdown-link-item"><span class="dropdown-icon">🩸</span> Xét nghiệm tại nhà toàn quốc</a>
+            <a href="dich-vu.html?tab=telehealth" class="dropdown-link-item"><span class="dropdown-icon">📱</span> Gọi video với Bác sĩ</a>
+            <a href="dich-vu.html?tab=giupviec" class="dropdown-link-item"><span class="dropdown-icon">🤝</span> Trợ lý đi khám cùng</a>
+          </div>
+        </li>
+
+        <li class="nav-dropdown-wrapper">
+          <a href="goi-kham.html" class="nav-main-link" style="color:#0f766e;">
+            Gói khám sức khỏe <span class="nav-arrow">▾</span>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="goi-kham.html?filter=coban" class="dropdown-link-item"><span class="dropdown-icon">📋</span> Khám tổng quát cơ bản</a>
+            <a href="goi-kham.html?filter=ungthu" class="dropdown-link-item"><span class="dropdown-icon">🎗️</span> Tầm soát Ung thư chuyên sâu</a>
+            <a href="goi-kham.html?filter=timmach" class="dropdown-link-item"><span class="dropdown-icon">❤️</span> Tầm soát Tim mạch & Đột quỵ</a>
+            <a href="goi-kham.html#comparison" class="dropdown-link-item"><span class="dropdown-icon">📊</span> So sánh danh mục xét nghiệm</a>
+          </div>
+        </li>
+
+        <li class="nav-dropdown-wrapper">
+          <a href="chuyen-khoa.html" class="nav-main-link">
+            Chuyên khoa <span class="nav-arrow">▾</span>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="chuyen-khoa.html?group=noi" class="dropdown-link-item"><span class="dropdown-icon">🩺</span> Khối Nội Khoa</a>
+            <a href="chuyen-khoa.html?group=ngoai" class="dropdown-link-item"><span class="dropdown-icon">🔪</span> Khối Ngoại Khoa</a>
+            <a href="chuyen-khoa.html?group=le" class="dropdown-link-item"><span class="dropdown-icon">👁️</span> Chuyên Khoa Lẻ (Mắt, TMH, Da Liễu)</a>
+            <a href="chuyen-khoa.html?group=sannhi" class="dropdown-link-item"><span class="dropdown-icon">🌸</span> Sản - Phụ - Nhi Khoa</a>
+          </div>
+        </li>
+
+        <li class="nav-dropdown-wrapper">
+          <a href="tin-tuc.html" class="nav-main-link">
+            Cẩm nang y khoa <span class="nav-arrow">▾</span>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="tin-tuc.html?cat=benhly" class="dropdown-link-item"><span class="dropdown-icon">📖</span> Lời khuyên Bác sĩ</a>
+            <a href="tin-tuc.html?cat=dinhduong" class="dropdown-link-item"><span class="dropdown-icon">🥗</span> Dinh dưỡng & Lối sống</a>
+            <a href="tin-tuc.html?cat=huongdan" class="dropdown-link-item"><span class="dropdown-icon">🧭</span> Quy trình & Quyền lợi BHYT</a>
+          </div>
+        </li>
+      </ul>
+
+      <div class="medpro-nav-actions">
+        <a href="login.html" class="btn btn-outline btn-sm">🔑 Đăng Nhập</a>
+        <a href="../dashboard/index.html" class="btn btn-primary btn-sm">🚀 Vào CRM Portal</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Title Banner -->
+  <div style="background:#ffffff; border-bottom:1px solid #e2e8f0; padding:28px 20px;">
+    <div style="max-width:1240px; margin:0 auto;">
+      <h1 style="font-size:26px; font-weight:800; color:#0f172a; margin-bottom:6px;">Gói Khám Sức Khỏe Toàn Diện & Chuyên Sâu</h1>
+      <p style="color:#64748b; font-size:14px; font-weight:500;">
+        Danh mục gói khám được thiết kế bởi các chuyên gia y tế, liệt kê chi tiết từng xét nghiệm lâm sàng và chẩn đoán hình ảnh
+      </p>
+    </div>
+  </div>
+
+  <!-- Filter Tabs by Demographic & Type -->
+  <div style="max-width:1240px; margin:24px auto 0; padding:0 20px;">
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:24px;">
+      <button class="pkg-tab-btn active" data-filter="all">Tất Cả Gói Khám (8)</button>
+      <button class="pkg-tab-btn" data-filter="coban">📋 Khám Tổng Quát Tiêu Chuẩn</button>
+      <button class="pkg-tab-btn" data-filter="ungthu">🎗️ Tầm Soát Ung Thư Nữ & Nam</button>
+      <button class="pkg-tab-btn" data-filter="timmach">❤️ Tim Mạch & Nguy Cơ Đột Quỵ</button>
+      <button class="pkg-tab-btn" data-filter="tieuhoa">🫁 Nội Soi Tiêu Hóa Không Đau</button>
+      <button class="pkg-tab-btn" data-filter="doanhnghiep">🏢 Khám Sức Khỏe Doanh Nghiệp</button>
+    </div>
+  </div>
+
+  <!-- Packages Grid with Unique Images & Deep Itemization -->
+  <div style="max-width:1240px; margin:0 auto 60px; padding:0 20px;">
+    <div class="packages-grid" id="packagesContainer">
+
+      <!-- Gói 1: Tổng quát cơ bản -->
+      <div class="package-card" data-category="coban">
+        <div class="package-img-wrap">
+          <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=600&q=80" alt="Gói khám cơ bản">
+        </div>
+        <div class="package-body">
+          <span style="font-size:11px; font-weight:800; background:#e0f2fe; color:#0284c7; padding:2px 8px; border-radius:10px; width:fit-content; margin-bottom:6px;">Khám Tiêu Chuẩn Hàng Năm</span>
+          <div class="package-title">Gói Khám Sức Khỏe Tổng Quát Cơ Bản (18 Chỉ Số Máu)</div>
+          <div class="package-facility">🔬 Trung tâm Xét nghiệm Y khoa Laditec Bình Dương</div>
+          
+          <div style="font-size:12px; color:#475569; margin-bottom:12px; line-height:1.5;">
+            Đánh giá toàn diện chức năng các cơ quan lọc máu: công thức máu 18 thông số, đường huyết đói, men gan AST/ALT, chức năng thận Ure/Creatinin, Acid Uric phát hiện Gút và tổng phân tích nước tiểu 10 thông số.
+          </div>
+
+          <div style="background:#f8fafc; border-radius:8px; padding:8px 12px; font-size:11.5px; color:#0f766e; margin-bottom:14px; font-weight:600;">
+            ✓ Bác sĩ gọi điện tư vấn phác đồ dinh dưỡng sau khi có kết quả
+          </div>
+
+          <div class="package-price-wrap">
+            <span class="package-price-main">540.000 ₫</span>
+            <span class="package-price-old">600.000 ₫</span>
+          </div>
+          <button class="btn-book-now" onclick="openPackageBooking('Gói Khám Tổng Quát Cơ Bản (540K)')">Đăng ký gói khám</button>
+        </div>
+      </div>
+
+      <!-- Gói 2: Nâng cao có X-quang và siêu âm -->
+      <div class="package-card" data-category="coban">
+        <div class="package-img-wrap">
+          <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=600&q=80" alt="Gói khám nâng cao">
+        </div>
+        <div class="package-body">
+          <span style="font-size:11px; font-weight:800; background:#ccfbf1; color:#0f766e; padding:2px 8px; border-radius:10px; width:fit-content; margin-bottom:6px;">Phổ Biến Nhất</span>
+          <div class="package-title">Gói Khám Toàn Diện Nâng Cao (Siêu Âm Bụng & X-Quang)</div>
+          <div class="package-facility">🏥 Bệnh viện Đa khoa Tư nhân Triều An (TP.HCM)</div>
+          
+          <div style="font-size:12px; color:#475569; margin-bottom:12px; line-height:1.5;">
+            Bao gồm toàn bộ xét nghiệm máu cơ bản + Siêu âm ổ bụng tổng quát 5 tạng (gan, mật, tụy, lách, thận), Chụp X-quang tim phổi thẳng kỹ thuật số DR liều tia thấp, Đo điện tâm đồ ECG 12 đạo trình.
+          </div>
+
+          <div style="background:#f8fafc; border-radius:8px; padding:8px 12px; font-size:11.5px; color:#0f766e; margin-bottom:14px; font-weight:600;">
+            ✓ Tặng kèm siêu âm tuyến giáp phát hiện sớm nhân xơ
+          </div>
+
+          <div class="package-price-wrap">
+            <span class="package-price-main">1.250.000 ₫</span>
+            <span class="package-price-old">1.500.000 ₫</span>
+          </div>
+          <button class="btn-book-now" onclick="openPackageBooking('Gói Khám Toàn Diện Nâng Cao (1.25M)')">Đăng ký gói khám</button>
+        </div>
+      </div>
+
+      <!-- Gói 3: Tầm soát ung thư nữ -->
+      <div class="package-card" data-category="ungthu">
+        <div class="package-img-wrap">
+          <img src="https://images.unsplash.com/photo-1584467735815-f778f274e296?auto=format&fit=crop&w=600&q=80" alt="Tầm soát ung thư nữ">
+        </div>
+        <div class="package-body">
+          <span style="font-size:11px; font-weight:800; background:#fce7f3; color:#be185d; padding:2px 8px; border-radius:10px; width:fit-content; margin-bottom:6px;">Đặc Quyền Phụ Nữ</span>
+          <div class="package-title">Gói Tầm Soát Ung Thư Toàn Diện Cho Nữ Giới (Vú & Cổ Tử Cung)</div>
+          <div class="package-facility">🏥 Tokyo Family Clinic & BV Phụ Sản Hạnh Phúc</div>
+          
+          <div style="font-size:12px; color:#475569; margin-bottom:12px; line-height:1.5;">
+            Siêu âm tuyến vú Doppler màu độ nét cao, Tế bào học cổ tử cung ThinPrep Pap Smear công nghệ Mỹ, Định lượng dấu ấn ung thư vú (CA 15-3), buồng trứng (CA 125) và đường tiêu hóa (CEA).
+          </div>
+
+          <div style="background:#f8fafc; border-radius:8px; padding:8px 12px; font-size:11.5px; color:#0f766e; margin-bottom:14px; font-weight:600;">
+            ✓ Bác sĩ sản phụ khoa nữ trực tiếp thăm khám riêng tư
+          </div>
+
+          <div class="package-price-wrap">
+            <span class="package-price-main">2.140.000 ₫</span>
+            <span class="package-price-old">2.600.000 ₫</span>
+          </div>
+          <button class="btn-book-now" onclick="openPackageBooking('Gói Tầm Soát Ung Thư Nữ Giới (2.14M)')">Đăng ký gói khám</button>
+        </div>
+      </div>
+
+      <!-- Gói 4: Tim mạch và đột quỵ -->
+      <div class="package-card" data-category="timmach">
+        <div class="package-img-wrap">
+          <img src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=600&q=80" alt="Tim mạch đột quỵ">
+        </div>
+        <div class="package-body">
+          <span style="font-size:11px; font-weight:800; background:#fee2e2; color:#b91c1c; padding:2px 8px; border-radius:10px; width:fit-content; margin-bottom:6px;">Bảo Vệ Trái Tim</span>
+          <div class="package-title">Gói Tầm Soát Tim Mạch Chuyên Sâu & Dự Phòng Đột Quỵ</div>
+          <div class="package-facility">🏥 Bệnh viện Đa khoa Tâm Anh & BV Chợ Rẫy</div>
+          
+          <div style="font-size:12px; color:#475569; margin-bottom:12px; line-height:1.5;">
+            Đo điện tâm đồ ECG 12 đạo trình, Siêu âm tim Doppler màu 4D khảo sát chức năng co bóp cơ tim và van tim, Siêu âm mạch máu cảnh tầm soát mảng xơ vữa gây tắc mạch não, Bộ mỡ máu 4 chỉ số và men Troponin T.
+          </div>
+
+          <div style="background:#f8fafc; border-radius:8px; padding:8px 12px; font-size:11.5px; color:#0f766e; margin-bottom:14px; font-weight:600;">
+            ✓ Trưởng khoa Tim mạch tuyến Trung ương trực tiếp kết luận
+          </div>
+
+          <div class="package-price-wrap">
+            <span class="package-price-main">1.850.000 ₫</span>
+            <span class="package-price-old">2.300.000 ₫</span>
+          </div>
+          <button class="btn-book-now" onclick="openPackageBooking('Gói Tầm Soát Tim Mạch & Đột Quỵ (1.85M)')">Đăng ký gói khám</button>
+        </div>
+      </div>
+
+      <!-- Gói 5: Nội soi tiêu hóa không đau -->
+      <div class="package-card" data-category="tieuhoa">
+        <div class="package-img-wrap">
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=600&q=80" alt="Nội soi dạ dày">
+        </div>
+        <div class="package-body">
+          <span style="font-size:11px; font-weight:800; background:#fef3c7; color:#b45309; padding:2px 8px; border-radius:10px; width:fit-content; margin-bottom:6px;">Nội Soi Tiền Mê</span>
+          <div class="package-title">Gói Nội Soi Tiêu Hóa Không Đau (Dạ Dày & Đại Tràng NBI)</div>
+          <div class="package-facility">🏥 Phòng khám Tiêu Hóa Gan Mật Doctor Check (TP.HCM)</div>
+          
+          <div style="font-size:12px; color:#475569; margin-bottom:12px; line-height:1.5;">
+            Nội soi ống mềm phóng đại dải tần hẹp NBI của Nhật, tiền mê êm ái ngủ dậy nhẹ nhàng như giấc ngủ trưa, xét nghiệm vi khuẩn HP qua sinh thiết mô, cắt polyp đại trực tràng dự phòng ung thư sớm.
+          </div>
+
+          <div style="background:#f8fafc; border-radius:8px; padding:8px 12px; font-size:11.5px; color:#0f766e; margin-bottom:14px; font-weight:600;">
+            ✓ Không gây buồn nôn, không đau họng, ra về sau 30 phút
+          </div>
+
+          <div class="package-price-wrap">
+            <span class="package-price-main">1.650.000 ₫</span>
+          </div>
+          <button class="btn-book-now" onclick="openPackageBooking('Gói Nội Soi Tiêu Hóa Không Đau (1.65M)')">Đăng ký gói khám</button>
+        </div>
+      </div>
+
+      <!-- Gói 6: Tiền hôn nhân -->
+      <div class="package-card" data-category="ungthu">
+        <div class="package-img-wrap">
+          <img src="https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?auto=format&fit=crop&w=600&q=80" alt="Tiền hôn nhân">
+        </div>
+        <div class="package-body">
+          <span style="font-size:11px; font-weight:800; background:#f3e8ff; color:#7e22ce; padding:2px 8px; border-radius:10px; width:fit-content; margin-bottom:6px;">Chuẩn Bị Kết Hôn</span>
+          <div class="package-title">Gói Khám Sức Khỏe Tiền Hôn Nhân & Khả Năng Sinh Sản</div>
+          <div class="package-facility">🏥 Bệnh viện Từ Dũ & BV Phụ Sản Trung Ương</div>
+          
+          <div style="font-size:12px; color:#475569; margin-bottom:12px; line-height:1.5;">
+            Xét nghiệm bệnh truyền nhiễm (HIV, Viêm gan B, C, Giang mai), Xét nghiệm gen Thalassemia tan máu bẩm sinh, Khám phụ khoa/nam khoa, Tinh dịch đồ (cho nam) và Siêu âm tử cung buồng trứng (cho nữ).
+          </div>
+
+          <div style="background:#f8fafc; border-radius:8px; padding:8px 12px; font-size:11.5px; color:#0f766e; margin-bottom:14px; font-weight:600;">
+            ✓ Bảo đảm sinh con khỏe mạnh, phòng ngừa dị tật di truyền
+          </div>
+
+          <div class="package-price-wrap">
+            <span class="package-price-main">1.950.000 ₫</span>
+          </div>
+          <button class="btn-book-now" onclick="openPackageBooking('Gói Khám Tiền Hôn Nhân (1.95M)')">Đăng ký gói khám</button>
+        </div>
+      </div>
+
+      <!-- Gói 7: Tiểu đường và mỡ máu -->
+      <div class="package-card" data-category="coban">
+        <div class="package-img-wrap">
+          <img src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=600&q=80" alt="Tiểu đường mỡ máu">
+        </div>
+        <div class="package-body">
+          <span style="font-size:11px; font-weight:800; background:#f1f5f9; color:#475569; padding:2px 8px; border-radius:10px; width:fit-content; margin-bottom:6px;">Chuyên Sâu Nội Tiết</span>
+          <div class="package-title">Gói Tầm Soát Đái Tháo Đường & Rối Loạn Chuyển Hóa</div>
+          <div class="package-facility">🏥 Phòng khám Nội Tiết Thăng Long & Diag Lab</div>
+          
+          <div style="font-size:12px; color:#475569; margin-bottom:12px; line-height:1.5;">
+            Glucose máu lúc đói, Định lượng chỉ số HbA1c bằng máy HPLC kiểm soát đường huyết 3 tháng, Bộ lipid máu 4 chỉ số (Cholesterol, Triglyceride, HDL, LDL), Vi đạm niệu Microalbumin nước tiểu phát hiện sớm suy thận do tiểu đường.
+          </div>
+
+          <div style="background:#f8fafc; border-radius:8px; padding:8px 12px; font-size:11.5px; color:#0f766e; margin-bottom:14px; font-weight:600;">
+            ✓ Phát hiện giai đoạn tiền tiểu đường để can thiệp kịp thời
+          </div>
+
+          <div class="package-price-wrap">
+            <span class="package-price-main">680.000 ₫</span>
+          </div>
+          <button class="btn-book-now" onclick="openPackageBooking('Gói Tầm Soát Đái Tháo Đường (680K)')">Đăng ký gói khám</button>
+        </div>
+      </div>
+
+      <!-- Gói 8: Doanh nghiệp -->
+      <div class="package-card" data-category="doanhnghiep">
+        <div class="package-img-wrap">
+          <img src="https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?auto=format&fit=crop&w=600&q=80" alt="Khám doanh nghiệp">
+        </div>
+        <div class="package-body">
+          <span style="font-size:11px; font-weight:800; background:#dcfce7; color:#15803d; padding:2px 8px; border-radius:10px; width:fit-content; margin-bottom:6px;">Dành Cho Công Ty</span>
+          <div class="package-title">Gói Khám Sức Khỏe Định Kỳ Doanh Nghiệp (Thông Tư 32)</div>
+          <div class="package-facility">🏥 Bệnh viện Đa khoa Quốc tế Phương Đông (Hà Nội & Toàn Quốc)</div>
+          
+          <div style="font-size:12px; color:#475569; margin-bottom:12px; line-height:1.5;">
+            Đầy đủ nội dung bắt buộc: Khám thể lực, Mắt, Tai mũi họng, Răng hàm mặt, Da liễu, Phụ khoa, Chụp X-quang phổi xe lưu động tận công ty, Xét nghiệm máu & nước tiểu. Trả sổ khám phân loại sức khỏe.
+          </div>
+
+          <div style="background:#f8fafc; border-radius:8px; padding:8px 12px; font-size:11.5px; color:#0f766e; margin-bottom:14px; font-weight:600;">
+            ✓ Xe chụp X-quang lưu động đến tận công ty, chiết khấu đoàn lớn
+          </div>
+
+          <div class="package-price-wrap">
+            <span class="package-price-main">850.000 ₫ / người</span>
+          </div>
+          <button class="btn-book-now" onclick="openPackageBooking('Khám sức khỏe đoàn doanh nghiệp')">Liên hệ báo giá đoàn</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BẢNG SO SÁNH DANH MỤC LÂM SÀNG (Itemization Table) -->
+  <section class="comparison-section" id="comparison" style="background:#ffffff; border-top:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0; padding:50px 20px;">
+    <div style="max-width:1240px; margin:0 auto;">
+      <h2 class="section-headline-center">Bảng So Sánh Chi Tiết Danh Mục Xét Nghiệm</h2>
+      <div style="text-align:center; font-size:14px; color:#64748b; font-weight:500; margin-bottom:28px;">
+        Giúp bạn lựa chọn đúng gói khám phù hợp với độ tuổi và tình trạng sức khỏe thực tế
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="table-clinical">
+          <thead>
+            <tr>
+              <th style="width:38%;">Danh Mục Khám & Xét Nghiệm</th>
+              <th style="width:20%; text-align:center;">Gói Cơ Bản (540K)</th>
+              <th style="width:21%; text-align:center; background:#ccfbf1; color:#0f766e;">Gói Nâng Cao (1.25M)</th>
+              <th style="width:21%; text-align:center;">Gói Tầm Soát VIP (2.14M)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. Khám Lâm Sàng:</strong> Bác sĩ nội tổng quát, đo huyết áp, BMI, thị lực mắt, tai mũi họng</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800;">✓ Có</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800; background:#f0fdfa;">✓ Có</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800;">✓ Có (Chuyên gia)</td>
+            </tr>
+            <tr>
+              <td><strong>2. Huyết Học (18 chỉ số):</strong> Đánh giá thiếu máu, bạch cầu, tiểu cầu, nhiễm trùng máu</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800;">✓ Có</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800; background:#f0fdfa;">✓ Có</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800;">✓ Có</td>
+            </tr>
+            <tr>
+              <td><strong>3. Đường Huyết & Mỡ Máu:</strong> Glucose đói, Cholesterol toàn phần, Triglyceride, HDL/LDL</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800;">✓ Glucose cơ bản</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800; background:#f0fdfa;">✓ Đầy đủ 4 chỉ số</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800;">✓ Đầy đủ + HbA1c</td>
+            </tr>
+            <tr>
+              <td><strong>4. Chức Năng Gan & Thận:</strong> Men gan AST/ALT, Ure, Creatinin máu, Acid Uric phát hiện Gút</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800;">✓ Có</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800; background:#f0fdfa;">✓ Thêm GGT men gan</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800;">✓ Thêm Bilirubin toàn phần</td>
+            </tr>
+            <tr>
+              <td><strong>5. Chẩn Đoán Hình Ảnh:</strong> Chụp X-quang tim phổi thẳng, Siêu âm ổ bụng 5 tạng</td>
+              <td style="text-align:center; color:#94a3b8;">—</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800; background:#f0fdfa;">✓ Có + Siêu âm giáp</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800;">✓ Thêm Siêu âm vú / Tử cung / Tiền liệt tuyến</td>
+            </tr>
+            <tr>
+              <td><strong>6. Thăm Dò Tim Mạch:</strong> Đo điện tâm đồ ECG 12 cần phát hiện rối loạn nhịp tim</td>
+              <td style="text-align:center; color:#94a3b8;">—</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800; background:#f0fdfa;">✓ Có</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800;">✓ Có + Siêu âm tim Doppler</td>
+            </tr>
+            <tr>
+              <td><strong>7. Tầm Soát Dấu Ấn Ung Thư:</strong> Gan (AFP), Dạ dày - Đại tràng (CEA), Vú (CA 15-3), Buồng trứng (CA 125)</td>
+              <td style="text-align:center; color:#94a3b8;">—</td>
+              <td style="text-align:center; color:#94a3b8; background:#f0fdfa;">—</td>
+              <td style="text-align:center; color:#16a34a; font-weight:800;">✓ Đầy đủ bộ 6 dấu ấn ung thư</td>
+            </tr>
+            <tr>
+              <td><strong>Thao tác đăng ký:</strong></td>
+              <td style="text-align:center;"><button class="btn btn-outline btn-sm" onclick="openPackageBooking('Gói Khám Cơ Bản (540K)')">Chọn gói này</button></td>
+              <td style="text-align:center; background:#f0fdfa;"><button class="btn btn-primary btn-sm" onclick="openPackageBooking('Gói Khám Nâng Cao (1.25M)')">Đăng ký nhiều nhất</button></td>
+              <td style="text-align:center;"><button class="btn btn-outline btn-sm" onclick="openPackageBooking('Gói Tầm Soát Ung Thư VIP (2.14M)')">Chọn gói này</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLIC BOOKING POPUP MODAL VỚI BỘ ĐỀ XUẤT BỆNH VIỆN -->
+  <div class="public-booking-overlay" id="publicBookingModal">
+    <div class="public-booking-box">
+      <div class="booking-modal-header">
+        <div class="booking-modal-title">
+          <span>📅</span> Đặt Lịch Gói Khám Trực Tuyến Toàn Quốc
+        </div>
+        <button class="booking-modal-close" onclick="closePackageBooking()">✕</button>
+      </div>
+
+      <!-- Form -->
+      <div class="booking-modal-body" id="bookingFormContainer">
+        <form id="publicBookingForm">
+          <div class="form-group">
+            <label class="form-label">Gói khám sức khỏe đã chọn <span class="req">*</span></label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="bookServiceDisplay" 
+              value="Gói Khám Sức Khỏe Tổng Quát Cơ Bản" 
+              readonly 
+              style="background:#f1f5f9; font-weight:700; color:#0f766e;"
+            >
+          </div>
+
+          <!-- BỘ ĐỀ XUẤT CƠ SỞ Y TẾ -->
+          <div class="form-group">
+            <label class="form-label">Chọn cơ sở y tế tiếp đón <span class="req">*</span></label>
+            <select class="form-control" id="bookFacilitySelect" required>
+              <optgroup label="🏥 Bệnh Viện Công Lập Tuyến Cuối">
+                <option value="Bệnh viện Chợ Rẫy (TP.HCM)">Bệnh viện Chợ Rẫy — Quận 5, TP.HCM</option>
+                <option value="Bệnh viện Bạch Mai (Hà Nội)">Bệnh viện Bạch Mai — Đống Đa, Hà Nội</option>
+                <option value="Bệnh viện Đại học Y Dược TP.HCM">Bệnh viện Đại học Y Dược — Quận 5, TP.HCM</option>
+                <option value="Bệnh viện Trung ương Huế">Bệnh viện Trung ương Huế — Vĩnh Ninh, Huế</option>
+                <option value="Bệnh viện Đa khoa Đà Nẵng">Bệnh viện Đa khoa Đà Nẵng — Hải Châu, Đà Nẵng</option>
+              </optgroup>
+              <optgroup label="🏢 Bệnh Viện Tư Nhân Tiêu Biểu">
+                <option value="Bệnh viện Đa khoa Tư nhân Triều An (TP.HCM)" selected>Bệnh viện Đa khoa Triều An — Bình Tân, TP.HCM (4.9 ⭐)</option>
+                <option value="Bệnh viện Đa khoa Phương Đông (Hà Nội)">Bệnh viện Đa khoa Phương Đông — Bắc Từ Liêm, Hà Nội (5.0 ⭐)</option>
+                <option value="Bệnh viện Đa khoa Tâm Anh">Bệnh viện Đa khoa Tâm Anh — TP.HCM & Hà Nội</option>
+                <option value="Bệnh viện Quốc tế Hạnh Phúc">Bệnh viện Quốc tế Hạnh Phúc — TP.HCM & Bình Dương</option>
+              </optgroup>
+              <optgroup label="🔬 Phòng Khám & Trung Tâm Xét Nghiệm">
+                <option value="Trung tâm Xét nghiệm Laditec Bình Dương">Trung tâm Xét nghiệm Laditec — Thủ Dầu Một, Bình Dương</option>
+                <option value="Phòng khám Da Liễu BS Đoàn Văn Lợi Em">Phòng Khám BS.CKII Đoàn Văn Lợi Em — Tân Phú, TP.HCM</option>
+                <option value="Phòng khám Gia Đình Tokyo Clinic">Phòng Khám Gia Đình Tokyo Clinic — Quận 1, TP.HCM</option>
+                <option value="Trung tâm Xét nghiệm MedCare Lab">MedCare Lab Toàn Quốc (Lấy mẫu tại nhà 63 tỉnh)</option>
+              </optgroup>
+            </select>
+            <div style="font-size:11.5px; color:#64748b; margin-top:4px;">
+              💡 <em>Đề xuất cơ sở có chuyên khoa và trang thiết bị tốt nhất cho gói khám này.</em>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Họ và tên bệnh nhân <span class="req">*</span></label>
+              <input type="text" class="form-control" id="bookName" placeholder="Nguyễn Văn An" required minlength="2">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Số điện thoại liên hệ <span class="req">*</span></label>
+              <input type="tel" class="form-control" id="bookPhone" placeholder="09xxxxxxxx" required pattern="^0[0-9]{9}$">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Ngày khám dự kiến <span class="req">*</span></label>
+              <input type="date" class="form-control" id="bookDate" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Khung giờ tiếp đón <span class="req">*</span></label>
+              <select class="form-control" id="bookTimeSlot" required>
+                <option value="Sáng (07:30 - 09:30)">Buổi sáng (07:30 – 09:30 - Khuyên dùng)</option>
+                <option value="Sáng (09:30 - 11:30)">Buổi sáng (09:30 – 11:30)</option>
+                <option value="Chiều (13:30 - 15:30)">Buổi chiều (13:30 – 15:30)</option>
+                <option value="Ngoài giờ (17:30 - 20:00)">Khám ngoài giờ (17:30 – 20:00)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ghi chú tiền sử bệnh lý (nếu có)</label>
+            <textarea 
+              class="form-control" 
+              id="bookNotes" 
+              rows="2" 
+              placeholder="Ví dụ: Đang uống thuốc huyết áp, tiền sử dạ dày HP, dị ứng thuốc..."
+            ></textarea>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:12px 0; font-size:15px; font-weight:800;">
+              ✓ Xác Nhận Đăng Ký Khám Ưu Tiên
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Success View -->
+      <div class="booking-modal-body booking-success-view" id="bookingSuccessContainer">
+        <div class="booking-success-icon">✓</div>
+        <h3 style="font-size:20px; font-weight:800; color:#0f172a; margin-bottom:6px;">Đăng Ký Gói Khám Thành Công!</h3>
+        <p style="font-size:14px; color:#64748b; line-height:1.5;">
+          Hồ sơ đăng ký của bạn đã được tiếp nhận và đồng bộ trực tiếp vào hệ thống tiếp đón y tế.
+        </p>
+        
+        <div class="booking-code-badge" id="displayBookingCode">#MED2026-8891</div>
+        
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px 18px; text-align:left; font-size:13px; margin-bottom:20px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <span style="color:#64748b;">Bệnh nhân:</span>
+            <strong id="displayPatientName">Nguyễn Văn An</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <span style="color:#64748b;">Cơ sở khám:</span>
+            <span id="displayFacilityName" style="color:#0f766e; font-weight:700;">BV Triều An</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <span style="color:#64748b;">Thời gian hẹn:</span>
+            <span id="displayAppointmentTime">Ngày mai (07:30 – 09:30)</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; color:#16a34a; font-weight:700;">
+            <span>Trạng thái:</span>
+            <span>Đã ghi nhận vào hệ thống</span>
+          </div>
+        </div>
+
+        <p style="font-size:12.5px; color:#94a3b8; margin-bottom:20px;">
+          Lưu ý: Bạn nên nhịn ăn ít nhất 6 tiếng trước giờ khám để kết quả xét nghiệm máu và siêu âm đạt độ chính xác cao nhất.
+        </p>
+
+        <button class="btn btn-primary" onclick="closePackageBooking()" style="width:100%;">
+          Hoàn Tất & Đóng
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/chatbox.js"></script>
+  <script>
+    function openPackageBooking(packageName) {
+      document.getElementById('bookServiceDisplay').value = packageName || 'Gói Khám Sức Khỏe';
+      document.getElementById('bookingFormContainer').style.display = 'block';
+      document.getElementById('bookingSuccessContainer').style.display = 'none';
+      document.getElementById('publicBookingModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('bookName')?.focus(), 200);
+    }
+
+    function closePackageBooking() {
+      const modal = document.getElementById('publicBookingModal');
+      if (modal) modal.classList.remove('open');
+      document.body.style.removeProperty('overflow');
+      document.body.style.overflow = '';
+    }
+
+    window.openBookingModal = openPackageBooking;
+    window.openPackageBooking = openPackageBooking;
+    window.closeBookingModal = closePackageBooking;
+    window.closePackageBooking = closePackageBooking;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Date default
+      const dateInput = document.getElementById('bookDate');
+      if (dateInput) {
+        const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+        dateInput.value = tomorrow;
+        dateInput.min = tomorrow;
+      }
+
+      // Check URL filter param (?filter=...)
+      const urlParams = new URLSearchParams(window.location.search);
+      const filterParam = urlParams.get('filter');
+
+      const filterTabs = document.querySelectorAll('.pkg-tab-btn');
+      const cards = document.querySelectorAll('#packagesContainer .package-card');
+
+      function filterPackages(category) {
+        cards.forEach(card => {
+          const cat = card.getAttribute('data-category');
+          if (category === 'all' || cat === category) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+
+      if (filterParam) {
+        filterTabs.forEach(t => {
+          if (t.getAttribute('data-filter') === filterParam) {
+            t.classList.add('active');
+          } else {
+            t.classList.remove('active');
+          }
+        });
+        filterPackages(filterParam);
+      }
+
+      filterTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          filterTabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const cat = tab.getAttribute('data-filter') || 'all';
+          filterPackages(cat);
+        });
+      });
+
+      // Submit Form to LocalStorage CRM medcare_leads
+      const form = document.getElementById('publicBookingForm');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('bookName').value.trim();
+          const phone = document.getElementById('bookPhone').value.trim();
+          const date = document.getElementById('bookDate').value;
+          const time = document.getElementById('bookTimeSlot').value;
+          const service = document.getElementById('bookServiceDisplay').value;
+          const facility = document.getElementById('bookFacilitySelect').value;
+          const notes = document.getElementById('bookNotes').value.trim();
+
+          const codeNum = Math.floor(1000 + Math.random() * 9000);
+          const bookingCode = '#MED2026-' + codeNum;
+
+          try {
+            let leads = JSON.parse(localStorage.getItem('medcare_leads')) || [];
+            leads.unshift({
+              id: 'LD' + String(leads.length + 1).padStart(3, '0'),
+              name: name,
+              gender: 'Chưa rõ',
+              email: phone + '@khachhang.medcare.vn',
+              phone: phone,
+              service: service + ' - Tại: ' + facility,
+              source: 'Website Gói Khám Sức Khỏe',
+              priority: 'high',
+              status: 'new',
+              note: '[' + bookingCode + '] Hẹn: ' + date + ' (' + time + '). Cơ sở: ' + facility + '. ' + notes,
+              createdAt: new Date().toLocaleDateString('vi-VN'),
+              assignedTo: 'Tổng đài viên CSKH'
+            });
+            localStorage.setItem('medcare_leads', JSON.stringify(leads));
+          } catch(err) {}
+
+          document.getElementById('bookingFormContainer').style.display = 'none';
+          document.getElementById('bookingSuccessContainer').style.display = 'block';
+          document.getElementById('displayBookingCode').textContent = bookingCode;
+          document.getElementById('displayPatientName').textContent = name;
+          document.getElementById('displayFacilityName').textContent = facility;
+          document.getElementById('displayAppointmentTime').textContent = date + ' (' + time + ')';
+        });
+      }
+    });
+  </script>
+  <script src="../js/portal-modals.js"></script>
+  <script src="../js/articles-data.js"></script>
+</body>
+</html>

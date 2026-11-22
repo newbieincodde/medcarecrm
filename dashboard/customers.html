@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Bệnh Nhân — MedCare CRM</title>
+  
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+  <div id="appMount">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">Hồ Sơ & Danh Sách Bệnh Nhân</h1>
+        <p class="page-subtitle">Quản lý 50 hồ sơ bệnh nhân, phân hạng giá trị giao dịch (Đồng - Bạc - Vàng)</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-outline" id="btnExportCSV">📥 Xuất file CSV</button>
+        <button class="btn btn-primary" id="btnOpenAddModal">➕ Thêm Bệnh Nhân Mới</button>
+      </div>
+    </div>
+
+    <!-- Quick Rank Stats Bar -->
+    <div class="rank-stats-grid">
+      <div class="rank-stat-card" style="border-top:3px solid #d97706;">
+        <div class="rank-stat-icon">🥇</div>
+        <div class="rank-stat-count" id="statGoldCount">0</div>
+        <div class="rank-stat-label">Hạng Vàng (≥ 15.000.000 ₫)</div>
+      </div>
+      <div class="rank-stat-card" style="border-top:3px solid #64748b;">
+        <div class="rank-stat-icon">🥈</div>
+        <div class="rank-stat-count" id="statSilverCount">0</div>
+        <div class="rank-stat-label">Hạng Bạc (5M – 15M ₫)</div>
+      </div>
+      <div class="rank-stat-card" style="border-top:3px solid #b77945;">
+        <div class="rank-stat-icon">🥉</div>
+        <div class="rank-stat-count" id="statBronzeCount">0</div>
+        <div class="rank-stat-label">Hạng Đồng (< 5.000.000 ₫)</div>
+      </div>
+    </div>
+
+    <!-- Main Data Card -->
+    <div class="data-card">
+      <div class="data-card-header">
+        <div class="data-card-toolbar" style="width:100%; justify-content:space-between;">
+          <!-- Search box -->
+          <div class="search-input-wrap">
+            <span class="search-input-icon">🔍</span>
+            <input type="text" id="patientSearchInput" placeholder="Tìm theo tên, SĐT, mã BN...">
+          </div>
+
+          <!-- Filters -->
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <select class="filter-select" id="rankFilter">
+              <option value="all">Tất cả phân hạng</option>
+              <option value="gold">🥇 Hạng Vàng</option>
+              <option value="silver">🥈 Hạng Bạc</option>
+              <option value="bronze">🥉 Hạng Đồng</option>
+            </select>
+
+            <select class="filter-select" id="serviceFilter">
+              <option value="all">Tất cả chuyên khoa</option>
+            </select>
+
+            <select class="filter-select" id="statusFilter">
+              <option value="all">Tất cả trạng thái</option>
+              <option value="active">Đang điều trị</option>
+              <option value="inactive">Tạm ngưng</option>
+            </select>
+
+            <button class="btn btn-outline btn-sm" id="btnResetFilters" title="Đặt lại bộ lọc">
+              🔄 Reset
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã BN</th>
+              <th>Họ và Tên</th>
+              <th>Liên Hệ</th>
+              <th>Địa Chỉ</th>
+              <th>Chuyên Khoa Dịch Vụ</th>
+              <th>Doanh Số Tích Lũy</th>
+              <th>Phân Hạng VIP</th>
+              <th>Trạng Thái</th>
+              <th>Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody id="patientTableBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination-wrap">
+        <div id="paginationInfo">Hiển thị 1 – 10 trên tổng số 50 bệnh nhân</div>
+        <div class="pagination" id="paginationControls"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal: Thêm / Sửa Bệnh Nhân -->
+  <div class="modal-backdrop" id="patientModal">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Thêm Bệnh Nhân Mới</h3>
+        <button class="modal-close" id="btnCloseModal">✕</button>
+      </div>
+      <form id="patientForm">
+        <div class="modal-body">
+          <input type="hidden" id="editPatientId">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Họ và Tên <span class="req">*</span></label>
+              <input type="text" class="form-control" id="pName" placeholder="Ví dụ: Nguyễn Văn An" required minlength="2">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Số Điện Thoại <span class="req">*</span></label>
+              <input type="tel" class="form-control" id="pPhone" placeholder="09xxxxxxxx" required pattern="^0[0-9]{9}$">
+              <div class="form-hint">Định dạng 10 số, bắt đầu bằng số 0</div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" id="pEmail" placeholder="email@domain.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Giới Tính & Tuổi</label>
+              <div style="display:flex; gap:10px;">
+                <select class="form-control" id="pGender" style="flex:1;">
+                  <option value="Nam">Nam</option>
+                  <option value="Nữ">Nữ</option>
+                </select>
+                <input type="number" class="form-control" id="pAge" placeholder="Tuổi" style="width:90px;" min="1" max="120" value="30">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Chuyên Khoa Quan Tâm / Điều Trị <span class="req">*</span></label>
+              <select class="form-control" id="pService" required>
+                <!-- Filled from SERVICES -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Khu Vực / Quận Huyện</label>
+              <input type="text" class="form-control" id="pAddress" placeholder="Ví dụ: Quận 1, TP.HCM">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Doanh Số Chi Tiêu Tích Lũy (VNĐ) <span class="req">*</span></label>
+              <input type="number" class="form-control" id="pSpent" placeholder="5000000" min="0" step="100000" required>
+              <div class="form-hint" id="rankPreviewHint">Hạng tính toán tự động: 🥉 Hạng Đồng</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Trạng Thái Hồ Sơ</label>
+              <select class="form-control" id="pStatus">
+                <option value="active">Đang điều trị / Theo dõi</option>
+                <option value="inactive">Tạm ngưng</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ghi Chú Y Khoa / Nhu Cầu CSKH</label>
+            <textarea class="form-control" id="pNotes" rows="2" placeholder="Ghi chú bệnh sử, dặn dò hoặc lưu ý chăm sóc..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="btnCancelModal">Hủy bỏ</button>
+          <button type="submit" class="btn btn-primary" id="btnSavePatient">Lưu Hồ Sơ</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app-shell.js"></script>
+  <script src="../js/customers.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initAppShell('Quản Lý Bệnh Nhân');
+      initCustomersPage();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Báo Cáo & Phân Tích CLV — MedCare CRM</title>
+  
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div id="appMount">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">Báo Cáo Phân Tích & Giá Trị Vòng Đời Bệnh Nhân (CLV)</h1>
+        <p class="page-subtitle">Dữ liệu phân tích chuyên sâu về hiệu quả vận hành dịch vụ y tế và phân khúc khách hàng</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-outline" onclick="window.print()">🖨️ In Báo Cáo</button>
+      </div>
+    </div>
+
+    <!-- CLV Formula Card (Customer Lifetime Value) -->
+    <div class="data-card" style="border:1.5px solid #0f766e; background:linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%);">
+      <div class="data-card-header" style="border-bottom:1px solid rgba(15,118,110,0.15);">
+        <div>
+          <div class="data-card-title" style="color:#0f766e; font-size:16px;">
+            💎 Mô Hình Định Giá Trị Vòng Đời Bệnh Nhân (CLV — Customer Lifetime Value)
+          </div>
+          <div style="font-size:12.5px; color:#64748b; margin-top:2px;">
+            Công thức chuẩn: <code>CLV = AOV (Chi tiêu TB/lần) × F (Tần suất khám/năm) × L (Thời gian gắn bó)</code>
+          </div>
+        </div>
+        <span class="badge-status" style="background:#ccfbf1; color:#0f766e; font-weight:800; font-size:13px;">
+          CLV Trung Bình: <span id="clvAverageVal">32.500.000 ₫</span>
+        </span>
+      </div>
+
+      <div style="padding:20px 24px; display:grid; grid-template-columns: repeat(3, 1fr); gap:20px;">
+        <div style="background:#fff; border-radius:12px; padding:16px; border:1px solid #e2e8f0; text-align:center;">
+          <div style="font-size:12px; color:#64748b; font-weight:600;">1. Giá Trị Khám TB (AOV)</div>
+          <div style="font-size:22px; font-weight:800; color:#0f766e; margin:6px 0;" id="valAOV">2.600.000 ₫</div>
+          <div style="font-size:11.5px; color:#94a3b8;">Tổng doanh thu / Tổng số lượt khám</div>
+        </div>
+
+        <div style="background:#fff; border-radius:12px; padding:16px; border:1px solid #e2e8f0; text-align:center;">
+          <div style="font-size:12px; color:#64748b; font-weight:600;">2. Tần Suất Khám / Năm (F)</div>
+          <div style="font-size:22px; font-weight:800; color:#0f766e; margin:6px 0;" id="valF">4.2 lần / năm</div>
+          <div style="font-size:11.5px; color:#94a3b8;">Dựa trên dữ liệu tái khám định kỳ</div>
+        </div>
+
+        <div style="background:#fff; border-radius:12px; padding:16px; border:1px solid #e2e8f0; text-align:center;">
+          <div style="font-size:12px; color:#64748b; font-weight:600;">3. Vòng Đời Trung Bình (L)</div>
+          <div style="font-size:22px; font-weight:800; color:#0f766e; margin:6px 0;">3.0 năm</div>
+          <div style="font-size:11.5px; color:#94a3b8;">Mức độ trung thành của nhóm khách hàng</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-grid">
+      <!-- Chart 1: Doanh thu theo chuyên khoa -->
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div>
+            <div class="chart-card-title">Cơ Cấu Doanh Thu Theo Chuyên Khoa Y Tế</div>
+            <div class="chart-card-sub">Tổng hợp chi tiêu thực tế của các bệnh nhân theo từng dịch vụ</div>
+          </div>
+        </div>
+        <div class="chart-container" style="height:280px;">
+          <canvas id="specialtyChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 2: Nguồn tiếp cận khách hàng -->
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div>
+            <div class="chart-card-title">Phân Bổ Kênh Tiếp Cận Khách Hàng</div>
+            <div class="chart-card-sub">Nguồn tiếp nhận hồ sơ bệnh nhân & leads</div>
+          </div>
+        </div>
+        <div class="chart-container" style="height:280px; display:flex; align-items:center; justify-content:center;">
+          <canvas id="sourceChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top 5 VIP Patients Table -->
+    <div class="data-card">
+      <div class="data-card-header">
+        <div>
+          <div class="data-card-title">Top 5 Bệnh Nhân VIP Hạng Vàng Có Đóng Góp Doanh Số Cao Nhất</div>
+          <div style="font-size:12px; color:#64748b; margin-top:2px;">Chương trình đặc quyền chăm sóc sức khỏe gia đình</div>
+        </div>
+        <a href="customers.html?rank=gold" class="btn btn-outline btn-sm">Xem tất cả Hạng Vàng →</a>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Xếp Hạng</th>
+              <th>Mã BN</th>
+              <th>Họ và Tên</th>
+              <th>Số Điện Thoại</th>
+              <th>Chuyên Khoa Thường Dùng</th>
+              <th>Số Lượt Khám</th>
+              <th>Tổng Chi Tiêu</th>
+              <th>Phân Hạng</th>
+            </tr>
+          </thead>
+          <tbody id="topPatientsTableBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app-shell.js"></script>
+  <script src="../js/reports.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initAppShell('Báo Cáo & CLV');
+      initReportsPage();
+    });
+  </script>
+</body>
+</html>

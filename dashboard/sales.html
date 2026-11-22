@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hóa Đơn & Thu Ngân — MedCare CRM</title>
+  
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+  <div id="appMount">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">Hóa Đơn & Quầy Thu Ngân Khám Bệnh</h1>
+        <p class="page-subtitle">Quản lý giao dịch viện phí, thanh toán gói khám y tế & xuất hóa đơn điện tử</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-outline" id="btnExportInvoices">📥 Xuất Báo Cáo Thu Ngân</button>
+        <button class="btn btn-primary" id="btnOpenNewInvoiceModal">➕ Lập Hóa Đơn Thu Viện Phí Mới</button>
+      </div>
+    </div>
+
+    <!-- 4 KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card" style="--kpi-color: #0f766e; --kpi-bg: rgba(15,118,110,0.1);">
+        <div class="kpi-icon-wrap">💵</div>
+        <div class="kpi-info">
+          <div class="kpi-label">Tổng Doanh Số Đã Thu</div>
+          <div class="kpi-value" id="kpiSalesTotal">0 ₫</div>
+          <div class="kpi-delta up">Từ 20 hóa đơn khám bệnh</div>
+        </div>
+      </div>
+
+      <div class="kpi-card" style="--kpi-color: #14b8a6; --kpi-bg: rgba(20,184,166,0.1);">
+        <div class="kpi-icon-wrap">🧾</div>
+        <div class="kpi-info">
+          <div class="kpi-label">Tổng Số Hóa Đơn</div>
+          <div class="kpi-value" id="kpiInvoiceCount">20</div>
+          <div class="kpi-delta up">Phiếu thu hợp lệ</div>
+        </div>
+      </div>
+
+      <div class="kpi-card" style="--kpi-color: #3b82f6; --kpi-bg: rgba(59,130,246,0.1);">
+        <div class="kpi-icon-wrap">📲</div>
+        <div class="kpi-info">
+          <div class="kpi-label">Thanh Toán Chuyển Khoản / Thẻ</div>
+          <div class="kpi-value" id="kpiDigitalPercent">65%</div>
+          <div class="kpi-delta up">Không dùng tiền mặt</div>
+        </div>
+      </div>
+
+      <div class="kpi-card" style="--kpi-color: #f59e0b; --kpi-bg: rgba(245,158,11,0.1);">
+        <div class="kpi-icon-wrap">⏳</div>
+        <div class="kpi-info">
+          <div class="kpi-label">Chờ Quyết Toán</div>
+          <div class="kpi-value" id="kpiPendingCount">0</div>
+          <div class="kpi-delta down">Cần đối soát cuối ca</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Invoices Table Card -->
+    <div class="data-card">
+      <div class="data-card-header">
+        <div class="data-card-toolbar" style="width:100%; justify-content:space-between;">
+          <!-- Search box -->
+          <div class="search-input-wrap">
+            <span class="search-input-icon">🔍</span>
+            <input type="text" id="invoiceSearch" placeholder="Tìm theo mã HĐ, tên bệnh nhân, SĐT...">
+          </div>
+
+          <!-- Filters -->
+          <div style="display:flex; gap:8px; align-items:center;">
+            <select class="filter-select" id="payMethodFilter">
+              <option value="all">Tất cả hình thức thanh toán</option>
+              <option value="Tiền mặt">💵 Tiền mặt</option>
+              <option value="Chuyển khoản QR">📱 Chuyển khoản QR</option>
+              <option value="Thẻ Visa/Master">💳 Thẻ Visa/Master</option>
+              <option value="Bảo hiểm Y tế">🏥 Bảo hiểm Y tế</option>
+            </select>
+
+            <select class="filter-select" id="invoiceStatusFilter">
+              <option value="all">Tất cả trạng thái</option>
+              <option value="Đã thanh toán">Đã thanh toán</option>
+              <option value="Chờ thanh toán">Chờ thanh toán</option>
+            </select>
+
+            <button class="btn btn-outline btn-sm" id="btnResetInvoiceFilters">🔄 Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã Hóa Đơn</th>
+              <th>Bệnh Nhân</th>
+              <th>Số Điện Thoại</th>
+              <th>Dịch Vụ / Gói Khám</th>
+              <th>Tổng Tiền</th>
+              <th>Hình Thức</th>
+              <th>Trạng Thái</th>
+              <th>Thu Ngân</th>
+              <th>Ngày Lập</th>
+              <th>Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody id="invoicesTableBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal: Lập Hóa Đơn Mới -->
+  <div class="modal-backdrop" id="invoiceModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Lập Phiếu Thu Viện Phí Mới</h3>
+        <button class="modal-close" id="btnCloseInvoiceModal">✕</button>
+      </div>
+      <form id="invoiceForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Chọn Bệnh Nhân <span class="req">*</span></label>
+            <select class="form-control" id="invPatientSelect" required>
+              <!-- Filled by JS -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Dịch Vụ Y Tế / Gói Khám <span class="req">*</span></label>
+            <select class="form-control" id="invServiceSelect" required>
+              <!-- Filled by JS -->
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Số Tiền Thanh Toán (₫) <span class="req">*</span></label>
+              <input type="number" class="form-control" id="invAmount" min="50000" step="50000" value="1500000" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phương Thức Thanh Toán <span class="req">*</span></label>
+              <select class="form-control" id="invPaymentMethod" required>
+                <option value="Chuyển khoản QR">Chuyển khoản QR</option>
+                <option value="Tiền mặt">Tiền mặt</option>
+                <option value="Thẻ Visa/Master">Thẻ Visa/Master</option>
+                <option value="Bảo hiểm Y tế">Bảo hiểm Y tế</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Trạng Thái Thanh Toán</label>
+            <select class="form-control" id="invStatus">
+              <option value="Đã thanh toán">Đã thanh toán (Hoàn tất)</option>
+              <option value="Chờ thanh toán">Chờ thanh toán (Tạm giữ phiếu)</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="btnCancelInvoice">Hủy</button>
+          <button type="submit" class="btn btn-primary">In & Lưu Hóa Đơn</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app-shell.js"></script>
+  <script src="../js/sales.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initAppShell('Hóa Đơn & Thu Ngân');
+      initSalesPage();
+    });
+  </script>
+</body>
+</html>

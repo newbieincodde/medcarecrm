@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh Bạ 40+ Cơ Sở Y Tế Tuyến Đầu Toàn Quốc — MedCare</title>
+  
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/medpro-style.css">
+  <link rel="stylesheet" href="../css/chatbox.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+</head>
+<body style="background:#f8fafc;">
+
+  <!-- 1. Top Announcement Marquee Ticker -->
+  <div class="top-marquee-bar">
+    <div class="marquee-content-track">
+      <div class="marquee-item">
+        📢 Đặt Giúp Việc Cá Nhân hướng dẫn, hỗ trợ bạn đi khám từ lúc vào viện đến khi kết thúc. Hotline toàn quốc: <strong>xxxx-xxxx</strong>!
+      </div>
+      <div class="marquee-item">
+        🩺 Kết nối 40+ Bệnh viện công lập, Bệnh viện tư nhân, Phòng khám và Lab xét nghiệm uy tín tại Hà Nội, Đà Nẵng, TP.HCM, Đồng Nai!
+      </div>
+      <div class="marquee-item">
+        🌟 Lấy số thứ tự ưu tiên trực tuyến - Đến là khám ngay không cần bốc số xếp hàng!
+      </div>
+      <div class="marquee-item">
+        📢 Đặt Giúp Việc Cá Nhân hướng dẫn, hỗ trợ bạn đi khám từ lúc vào viện đến khi kết thúc. Hotline toàn quốc: <strong>xxxx-xxxx</strong>!
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Navbar -->
+  <nav class="medpro-navbar">
+    <div class="medpro-nav-container">
+      <div style="display:flex; align-items:center; gap:20px;">
+        <a href="../index.html" class="medpro-brand">
+          <span style="font-size:28px;">🩺</span>
+          <span class="medpro-logo-text">MedCare</span>
+        </a>
+
+        <a href="javascript:void(0)" onclick="openHotlineModal()" class="medpro-hotline-badge" title="Bấm để yêu cầu tư vấn hotline hoặc gọi trực tiếp">
+          <span class="hotline-icon">📞</span>
+          <div class="hotline-info">
+            <span class="hotline-label">Tư vấn/Đặt khám</span>
+            <span class="hotline-num">xxxx-xxxx</span>
+          </div>
+        </a>
+      </div>
+
+      <ul class="medpro-nav-links">
+        <li class="nav-dropdown-wrapper">
+          <a href="co-so-y-te.html" class="nav-main-link" style="color:#0f766e;">
+            Cơ sở y tế <span class="nav-arrow">▾</span>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="co-so-y-te.html?type=cong" class="dropdown-link-item"><span class="dropdown-icon">🏥</span> Bệnh viện Công lập</a>
+            <a href="co-so-y-te.html?type=tu" class="dropdown-link-item"><span class="dropdown-icon">🏢</span> Bệnh viện Tư nhân</a>
+            <a href="co-so-y-te.html?type=phongkham" class="dropdown-link-item"><span class="dropdown-icon">🩺</span> Phòng khám Đa khoa</a>
+            <a href="co-so-y-te.html?type=xetnghiem" class="dropdown-link-item"><span class="dropdown-icon">🧪</span> Trung tâm Xét nghiệm</a>
+          </div>
+        </li>
+
+        <li class="nav-dropdown-wrapper">
+          <a href="dich-vu.html" class="nav-main-link">
+            Dịch vụ y tế <span class="nav-arrow">▾</span>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="dich-vu.html?tab=bacsi" class="dropdown-link-item"><span class="dropdown-icon">👨‍⚕️</span> Đặt khám theo Bác sĩ</a>
+            <a href="dich-vu.html?tab=xetnghiem" class="dropdown-link-item"><span class="dropdown-icon">🩸</span> Xét nghiệm tại nhà toàn quốc</a>
+            <a href="dich-vu.html?tab=telehealth" class="dropdown-link-item"><span class="dropdown-icon">📱</span> Gọi video với Bác sĩ</a>
+            <a href="dich-vu.html?tab=giupviec" class="dropdown-link-item"><span class="dropdown-icon">🤝</span> Trợ lý đi khám cùng</a>
+          </div>
+        </li>
+
+        <li class="nav-dropdown-wrapper">
+          <a href="goi-kham.html" class="nav-main-link">
+            Gói khám sức khỏe <span class="nav-arrow">▾</span>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="goi-kham.html?filter=coban" class="dropdown-link-item"><span class="dropdown-icon">📋</span> Khám tổng quát cơ bản</a>
+            <a href="goi-kham.html?filter=ungthu" class="dropdown-link-item"><span class="dropdown-icon">🎗️</span> Tầm soát Ung thư chuyên sâu</a>
+            <a href="goi-kham.html?filter=timmach" class="dropdown-link-item"><span class="dropdown-icon">❤️</span> Tầm soát Tim mạch & Đột quỵ</a>
+            <a href="goi-kham.html#comparison" class="dropdown-link-item"><span class="dropdown-icon">📊</span> So sánh danh mục xét nghiệm</a>
+          </div>
+        </li>
+
+        <li class="nav-dropdown-wrapper">
+          <a href="chuyen-khoa.html" class="nav-main-link">
+            Chuyên khoa <span class="nav-arrow">▾</span>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="chuyen-khoa.html?group=noi" class="dropdown-link-item"><span class="dropdown-icon">🩺</span> Khối Nội Khoa</a>
+            <a href="chuyen-khoa.html?group=ngoai" class="dropdown-link-item"><span class="dropdown-icon">🔪</span> Khối Ngoại Khoa</a>
+            <a href="chuyen-khoa.html?group=le" class="dropdown-link-item"><span class="dropdown-icon">👁️</span> Chuyên Khoa Lẻ (Mắt, TMH, Da Liễu)</a>
+            <a href="chuyen-khoa.html?group=sannhi" class="dropdown-link-item"><span class="dropdown-icon">🌸</span> Sản - Phụ - Nhi Khoa</a>
+          </div>
+        </li>
+
+        <li class="nav-dropdown-wrapper">
+          <a href="tin-tuc.html" class="nav-main-link">
+            Cẩm nang y khoa <span class="nav-arrow">▾</span>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="tin-tuc.html?cat=benhly" class="dropdown-link-item"><span class="dropdown-icon">📖</span> Lời khuyên Bác sĩ</a>
+            <a href="tin-tuc.html?cat=dinhduong" class="dropdown-link-item"><span class="dropdown-icon">🥗</span> Dinh dưỡng & Lối sống</a>
+            <a href="tin-tuc.html?cat=huongdan" class="dropdown-link-item"><span class="dropdown-icon">🧭</span> Quy trình & Quyền lợi BHYT</a>
+          </div>
+        </li>
+      </ul>
+
+      <div class="medpro-nav-actions">
+        <a href="login.html" class="btn btn-outline btn-sm">🔑 Đăng Nhập</a>
+        <a href="../dashboard/index.html" class="btn btn-primary btn-sm">🚀 Vào CRM Portal</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header Title -->
+  <div style="background:#ffffff; border-bottom:1px solid #e2e8f0; padding:28px 20px;">
+    <div style="max-width:1240px; margin:0 auto;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div>
+          <h1 style="font-size:26px; font-weight:800; color:#0f172a; margin-bottom:6px;">Danh Bạ 40+ Cơ Sở & Mạng Lưới Y Tế Toàn Quốc</h1>
+          <p style="color:#64748b; font-size:14px; font-weight:500;">
+            Tra cứu Bệnh viện công lập, Bệnh viện tư nhân, Phòng khám đa khoa và Trung tâm xét nghiệm 3 miền Bắc – Trung – Nam
+          </p>
+        </div>
+        <div id="facilityCounterBadge" style="background:#f0fdfa; border:1px solid #99f6e4; color:#0f766e; font-weight:800; font-size:13.5px; padding:8px 16px; border-radius:30px;">
+          Đang hiển thị 40 / 40 cơ sở
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subcategory Filter Tabs (Tất cả, Công lập 10, Tư nhân 10, Phòng khám 10, Xét nghiệm 10) -->
+  <div style="max-width:1240px; margin:24px auto 0; padding:0 20px;">
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+      <button class="pkg-tab-btn active" data-sub="all">Tất Cả Cơ Sở (40)</button>
+      <button class="pkg-tab-btn" data-sub="cong">🏥 Bệnh Viện Công Lập (10)</button>
+      <button class="pkg-tab-btn" data-sub="tu">🏢 Bệnh Viện Tư Nhân (10)</button>
+      <button class="pkg-tab-btn" data-sub="phongkham">🩺 Phòng Khám Đa Khoa (10)</button>
+      <button class="pkg-tab-btn" data-sub="xetnghiem">🧪 Trung Tâm Xét Nghiệm (10)</button>
+    </div>
+
+    <!-- Search & City Filter Toolbar -->
+    <div style="background:#ffffff; padding:16px 20px; border-radius:14px; border:1px solid #e2e8f0; display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+      <div style="flex:1; min-width:260px; position:relative;">
+        <span style="position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:16px; color:#94a3b8;">🔍</span>
+        <input 
+          type="text" 
+          id="facilitySearch" 
+          placeholder="Tìm theo tên bệnh viện, bác sĩ, chuyên khoa, đường phố..." 
+          style="width:100%; height:40px; border:1px solid #cbd5e1; border-radius:8px; padding-left:38px; padding-right:12px; font-size:14px;"
+        >
+      </div>
+
+      <select id="cityFilter" class="filter-select" style="height:40px; font-size:13.5px; width:220px; border-radius:8px; border:1px solid #cbd5e1; padding:0 10px;">
+        <option value="all">Tất cả tỉnh thành (Toàn quốc)</option>
+        <option value="hcm">TP. Hồ Chí Minh (20 cơ sở)</option>
+        <option value="hn">Hà Nội (9 cơ sở)</option>
+        <option value="dongnai">Đồng Nai (4 cơ sở)</option>
+        <option value="dn">Đà Nẵng (3 cơ sở)</option>
+        <option value="bd">Bình Dương (2 cơ sở)</option>
+        <option value="mientrung">Huế / Miền Trung (1 cơ sở)</option>
+        <option value="cantho">Cần Thơ / Tây Nam Bộ (1 cơ sở)</option>
+      </select>
+
+      <button id="btnResetFilter" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:8px; height:40px; padding:0 14px; font-size:13px; font-weight:700; color:#475569; cursor:pointer;">
+        🔄 Đặt lại
+      </button>
+    </div>
+  </div>
+
+  <!-- Dynamic Facilities Grid (Rendered from window.NATIONWIDE_FACILITIES) -->
+  <div style="max-width:1240px; margin:24px auto 60px; padding:0 20px;">
+    <div class="hospitals-grid" id="facilitiesGrid">
+      <!-- Injected by JavaScript -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="facilitiesEmptyState" style="display:none; text-align:center; padding:60px 20px; background:#ffffff; border-radius:16px; border:1px solid #e2e8f0; margin-top:20px;">
+      <div style="font-size:48px; margin-bottom:12px;">🏥</div>
+      <h3 style="font-size:18px; font-weight:800; color:#0f172a; margin-bottom:6px;">Không tìm thấy cơ sở y tế phù hợp</h3>
+      <p style="color:#64748b; font-size:14px; margin-bottom:16px;">Vui lòng thử tìm kiếm bằng từ khóa khác hoặc chọn tất cả tỉnh thành.</p>
+      <button class="btn btn-outline btn-sm" onclick="resetAllFilters()">Xem lại tất cả 40 cơ sở</button>
+    </div>
+  </div>
+
+  <!-- PUBLIC BOOKING POPUP MODAL (Không chuyển hướng vào CRM, lưu LocalStorage) -->
+  <div class="public-booking-overlay" id="publicBookingModal">
+    <div class="public-booking-box">
+      <div class="booking-modal-header">
+        <div class="booking-modal-title">
+          <span>📅</span> Đặt Lịch Khám Trực Tuyến Toàn Quốc
+        </div>
+        <button class="booking-modal-close" onclick="closeBookingModal()">✕</button>
+      </div>
+
+      <!-- View 1: Form -->
+      <div class="booking-modal-body" id="bookingFormContainer">
+        <form id="publicBookingForm">
+          <div class="form-group">
+            <label class="form-label">Cơ sở y tế đăng ký <span class="req">*</span></label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="bookServiceDisplay" 
+              placeholder="Chọn hoặc nhập cơ sở y tế..." 
+              readonly 
+              style="background:#f1f5f9; font-weight:700; color:#0f766e;"
+            >
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Họ và tên bệnh nhân <span class="req">*</span></label>
+              <input type="text" class="form-control" id="bookName" placeholder="Nguyễn Văn An" required minlength="2">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Số điện thoại liên hệ <span class="req">*</span></label>
+              <input type="tel" class="form-control" id="bookPhone" placeholder="09xxxxxxxx" required pattern="^0[0-9]{9}$">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Ngày khám dự kiến <span class="req">*</span></label>
+              <input type="date" class="form-control" id="bookDate" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Khung giờ tiếp đón <span class="req">*</span></label>
+              <select class="form-control" id="bookTimeSlot" required>
+                <option value="Sáng (07:30 - 09:30)">Buổi sáng (07:30 – 09:30)</option>
+                <option value="Sáng (09:30 - 11:30)">Buổi sáng (09:30 – 11:30)</option>
+                <option value="Chiều (13:30 - 15:30)">Buổi chiều (13:30 – 15:30)</option>
+                <option value="Ngoài giờ (17:30 - 20:00)">Khám ngoài giờ (17:30 – 20:00)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Mô tả triệu chứng / Ghi chú cho bác sĩ</label>
+            <textarea 
+              class="form-control" 
+              id="bookNotes" 
+              rows="2" 
+              placeholder="Ghi chú nhu cầu khám, triệu chứng cần bác sĩ tư vấn..."
+            ></textarea>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:12px 0; font-size:15px; font-weight:800;">
+              ✓ Xác Nhận Đăng Ký Khám Ưu Tiên
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- View 2: Success -->
+      <div class="booking-modal-body booking-success-view" id="bookingSuccessContainer">
+        <div class="booking-success-icon">✓</div>
+        <h3 style="font-size:20px; font-weight:800; color:#0f172a; margin-bottom:6px;">Đặt Khám Trực Tuyến Thành Công!</h3>
+        <p style="font-size:14px; color:#64748b; line-height:1.5;">
+          Hồ sơ của bạn đã được ghi nhận và đồng bộ trực tiếp vào hệ thống tiếp đón y tế.
+        </p>
+        
+        <div class="booking-code-badge" id="displayBookingCode">#MED2026-8891</div>
+        
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px 18px; text-align:left; font-size:13px; margin-bottom:20px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <span style="color:#64748b;">Bệnh nhân:</span>
+            <strong id="displayPatientName">Nguyễn Văn An</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <span style="color:#64748b;">Thời gian hẹn:</span>
+            <span id="displayAppointmentTime">Ngày mai (07:30 – 09:30)</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; color:#16a34a; font-weight:700;">
+            <span>Trạng thái:</span>
+            <span>Đã ghi nhận vào hệ thống</span>
+          </div>
+        </div>
+
+        <p style="font-size:12.5px; color:#94a3b8; margin-bottom:20px;">
+          Tổng đài viên MedCare sẽ gọi điện thoại xác nhận lại số thứ tự trong vòng 15 phút.
+        </p>
+
+        <button class="btn btn-primary" onclick="closeBookingModal()" style="width:100%;">
+          Hoàn Tất & Đóng
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/medical-knowledge.js"></script>
+  <script src="../js/chatbox.js"></script>
+  <script>
+    let currentSubcategory = 'all';
+    let currentCity = 'all';
+    let currentSearchQuery = '';
+
+    function openPublicBooking(facilityName) {
+      document.getElementById('bookServiceDisplay').value = facilityName || 'Khám Bác Sĩ Chuyên Khoa';
+      document.getElementById('bookingFormContainer').style.display = 'block';
+      document.getElementById('bookingSuccessContainer').style.display = 'none';
+      document.getElementById('publicBookingModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('bookName')?.focus(), 200);
+    }
+
+    function closeBookingModal() {
+      const modal = document.getElementById('publicBookingModal');
+      if (modal) modal.classList.remove('open');
+      document.body.style.removeProperty('overflow');
+      document.body.style.overflow = '';
+    }
+
+    window.openBookingModal = openPublicBooking;
+    window.openPublicBooking = openPublicBooking;
+    window.closeBookingModal = closeBookingModal;
+
+    function resetAllFilters() {
+      document.getElementById('facilitySearch').value = '';
+      document.getElementById('cityFilter').value = 'all';
+      currentSubcategory = 'all';
+      currentCity = 'all';
+      currentSearchQuery = '';
+
+      document.querySelectorAll('.pkg-tab-btn').forEach(t => {
+        if (t.getAttribute('data-sub') === 'all') t.classList.add('active');
+        else t.classList.remove('active');
+      });
+
+      renderFacilities();
+    }
+
+    function renderFacilities() {
+      const container = document.getElementById('facilitiesGrid');
+      const emptyState = document.getElementById('facilitiesEmptyState');
+      const counter = document.getElementById('facilityCounterBadge');
+      if (!container) return;
+
+      const allFacilities = window.NATIONWIDE_FACILITIES || [];
+
+      const filtered = allFacilities.filter(f => {
+        const matchSub = currentSubcategory === 'all' || f.type === currentSubcategory;
+        const matchCity = currentCity === 'all' || f.city === currentCity;
+        
+        let matchSearch = true;
+        if (currentSearchQuery) {
+          const q = currentSearchQuery.toLowerCase();
+          matchSearch = f.name.toLowerCase().includes(q) ||
+                        f.address.toLowerCase().includes(q) ||
+                        f.cityLabel.toLowerCase().includes(q) ||
+                        (f.specialties && f.specialties.toLowerCase().includes(q));
+        }
+
+        return matchSub && matchCity && matchSearch;
+      });
+
+      if (counter) {
+        counter.textContent = `Đang hiển thị ${filtered.length} / ${allFacilities.length} cơ sở`;
+      }
+
+      if (filtered.length === 0) {
+        container.style.display = 'none';
+        if (emptyState) emptyState.style.display = 'block';
+        return;
+      }
+
+      container.style.display = 'grid';
+      if (emptyState) emptyState.style.display = 'none';
+
+      container.innerHTML = filtered.map(item => {
+        let iconBadge = '🏥';
+        let badgeBg = '#e0f2fe';
+        let badgeColor = '#0284c7';
+
+        if (item.type === 'tu') {
+          iconBadge = '🏢';
+          badgeBg = '#fef3c7';
+          badgeColor = '#b45309';
+        } else if (item.type === 'phongkham') {
+          iconBadge = '🩺';
+          badgeBg = '#f0fdfa';
+          badgeColor = '#0f766e';
+        } else if (item.type === 'xetnghiem') {
+          iconBadge = '🔬';
+          badgeBg = '#f3e8ff';
+          badgeColor = '#7e22ce';
+        }
+
+        return `
+          <div class="hospital-card" data-type="${item.type}" data-city="${item.city}">
+            <div class="hospital-banner-img">
+              <img src="${item.img}" alt="${item.name}" loading="lazy">
+              <div class="hospital-logo-floating">${iconBadge}</div>
+            </div>
+            <div class="hospital-card-body">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span style="font-size:11px; font-weight:800; background:${badgeBg}; color:${badgeColor}; padding:2px 8px; border-radius:12px;">
+                  ${item.typeLabel}
+                </span>
+                <span style="font-size:11px; font-weight:700; color:#64748b;">
+                  📍 ${item.cityLabel}
+                </span>
+              </div>
+              <div class="hospital-name" style="font-size:15px; min-height:42px;">${item.name}</div>
+              <div class="hospital-location" style="font-size:12.5px; margin-bottom:6px;">📍 ${item.address}</div>
+              <div style="font-size:12px; color:#0f766e; margin-bottom:8px; font-weight:600; line-height:1.4;">
+                🩺 ${item.specialties}
+              </div>
+              <div style="font-size:11.5px; color:#64748b; margin-bottom:8px;">
+                ⏰ ${item.hours}
+              </div>
+              <div class="hospital-rating" style="margin-bottom:12px;">
+                ⭐⭐⭐⭐⭐ (${item.rating} / 5.0 · ${item.reviews} đánh giá)
+              </div>
+              <button class="btn-book-now" onclick="openPublicBooking('${item.name.replace(/'/g, "\\'")}')">
+                Đặt khám ngay
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Date defaults
+      const dateInput = document.getElementById('bookDate');
+      if (dateInput) {
+        const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+        dateInput.value = tomorrow;
+        dateInput.min = tomorrow;
+      }
+
+      // 2. URL parameters (?type=... or ?city=... or ?q=...)
+      const urlParams = new URLSearchParams(window.location.search);
+      const typeParam = urlParams.get('type');
+      const cityParam = urlParams.get('city');
+      const qParam = urlParams.get('q');
+
+      if (typeParam) currentSubcategory = typeParam;
+      if (cityParam) {
+        currentCity = cityParam;
+        const citySelect = document.getElementById('cityFilter');
+        if (citySelect) citySelect.value = cityParam;
+      }
+      if (qParam) {
+        currentSearchQuery = qParam;
+        const searchInput = document.getElementById('facilitySearch');
+        if (searchInput) searchInput.value = qParam;
+      }
+
+      // Update active tab based on currentSubcategory
+      document.querySelectorAll('.pkg-tab-btn').forEach(tab => {
+        if (tab.getAttribute('data-sub') === currentSubcategory) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.pkg-tab-btn').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          currentSubcategory = tab.getAttribute('data-sub') || 'all';
+          renderFacilities();
+        });
+      });
+
+      // 3. Search and City filters
+      const searchInput = document.getElementById('facilitySearch');
+      const citySelect = document.getElementById('cityFilter');
+      const btnReset = document.getElementById('btnResetFilter');
+
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          currentSearchQuery = e.target.value.trim();
+          renderFacilities();
+        });
+      }
+
+      if (citySelect) {
+        citySelect.addEventListener('change', (e) => {
+          currentCity = e.target.value;
+          renderFacilities();
+        });
+      }
+
+      if (btnReset) {
+        btnReset.addEventListener('click', resetAllFilters);
+      }
+
+      // 4. Booking Form Submission -> Saves to LocalStorage medcare_leads
+      const form = document.getElementById('publicBookingForm');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('bookName').value.trim();
+          const phone = document.getElementById('bookPhone').value.trim();
+          const date = document.getElementById('bookDate').value;
+          const time = document.getElementById('bookTimeSlot').value;
+          const service = document.getElementById('bookServiceDisplay').value;
+          const notes = document.getElementById('bookNotes').value.trim();
+
+          const codeNum = Math.floor(1000 + Math.random() * 9000);
+          const bookingCode = `#MED2026-${codeNum}`;
+
+          try {
+            let leads = JSON.parse(localStorage.getItem('medcare_leads')) || [];
+            leads.unshift({
+              id: `LD${String(leads.length + 1).padStart(3, '0')}`,
+              name,
+              gender: 'Chưa rõ',
+              email: `${phone}@khachhang.medcare.vn`,
+              phone,
+              service,
+              source: 'Website Danh Bạ Cơ Sở Y Tế',
+              priority: 'high',
+              status: 'new',
+              note: `[${bookingCode}] Hẹn: ${date} (${time}). ${notes}`,
+              createdAt: new Date().toLocaleDateString('vi-VN'),
+              assignedTo: 'Tổng đài viên CSKH'
+            });
+            localStorage.setItem('medcare_leads', JSON.stringify(leads));
+          } catch(err) {}
+
+          document.getElementById('bookingFormContainer').style.display = 'none';
+          document.getElementById('bookingSuccessContainer').style.display = 'block';
+          document.getElementById('displayBookingCode').textContent = bookingCode;
+          document.getElementById('displayPatientName').textContent = name;
+          document.getElementById('displayAppointmentTime').textContent = `${date} (${time})`;
+        });
+      }
+
+      // Initial render
+      renderFacilities();
+    });
+  </script>
+  <script src="../js/portal-modals.js"></script>
+  <script src="../js/articles-data.js"></script>
+</body>
+</html>

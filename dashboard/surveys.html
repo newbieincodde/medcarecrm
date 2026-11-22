@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khảo Sát Hài Lòng (CSAT) — MedCare CRM</title>
+  
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <style>
+    /* Specific CSS Transitions for Course Requirement #2 */
+    .survey-row-item {
+      background: #ffffff;
+      border: 1px solid var(--clr-border, #e2e8f0);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      /* ★ HIỆU ỨNG 1: TRANSITION NỀN & BÓNG KHI HOVER */
+      transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+    }
+
+    .survey-row-item:hover {
+      background-color: #f0fdfa; /* Teal tint */
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(15, 118, 110, 0.08);
+      border-color: #99f6e4;
+    }
+
+    .survey-row-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* ★ HIỆU ỨNG 2: MỞ RỘNG GÓP Ý VỚI MAX-HEIGHT & OPACITY TRANSITION */
+    .survey-row-content {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, padding 0.35s ease;
+      background: #fafafa;
+      padding: 0 20px;
+    }
+
+    .survey-row-item.open .survey-row-content {
+      max-height: 350px;
+      opacity: 1;
+      padding: 16px 20px 20px;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    /* ★ HIỆU ỨNG 3: THANH TIẾN TRÌNH TỰ ĐỘNG CHẠY TỪ 0% TỚI TỶ LỆ THỰC */
+    .progress-track {
+      background: #e2e8f0;
+      height: 10px;
+      border-radius: 6px;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #14b8a6, #0f766e);
+      border-radius: 6px;
+      width: 0%;
+      /* CSS3 transition with cubic-bezier */
+      transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="appMount">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">Khảo Sát Mức Độ Hài Lòng Khách Hàng (Customer Survey & CSAT)</h1>
+        <p class="page-subtitle">Ứng dụng 3 hiệu ứng CSS3 Transition thuần: Hover đổi màu, Accordion mở rộng góp ý, Thanh đo tỷ lệ chạy mượt mà</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-primary" id="btnOpenSurveyModal">
+          ✍️ Ghi Nhận Đánh Giá Mới
+        </button>
+      </div>
+    </div>
+
+    <!-- Course Requirement Banner (giống hình user đã đưa) -->
+    <div style="background:#fffbeb; border:1.5px solid #f59e0b; border-radius:12px; padding:18px 20px; margin-bottom:24px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
+        <div style="font-weight:700; color:#b45309; font-size:15px; display:flex; align-items:center; gap:8px;">
+          <span>⭐</span> Bảng Khảo Sát Mức Độ Hài Lòng Khách Hàng (Customer Survey)
+        </div>
+        <div style="background:#fef3c7; color:#d97706; padding:6px 14px; border-radius:20px; font-weight:800; font-size:14px; border:1px solid #fde68a;">
+          Điểm đánh giá trung bình: <span id="csatAverageScore">4.6 / 5.0 ⭐</span>
+        </div>
+      </div>
+
+      <div style="background:#ffffff; border-radius:8px; padding:12px 16px; font-size:13px; color:#475569; line-height:1.6; border:1px solid #fef3c7;">
+        <div style="font-weight:700; color:#0f172a; margin-bottom:6px;">💡 Hướng dẫn kiểm tra CSS Transition của học phần:</div>
+        <ul style="margin:0; padding-left:20px;">
+          <li><strong>Hiệu ứng 1:</strong> Rê chuột lên hàng bất kỳ để quan sát hiệu ứng đổi màu nền <code>transition: background-color 0.25s ease</code> kết hợp nâng nhẹ thẻ.</li>
+          <li><strong>Hiệu ứng 2:</strong> Nhấn trực tiếp vào hàng để mở rộng góp ý chi tiết với <code>max-height</code> và <code>opacity</code> chuyển động mượt mà.</li>
+          <li><strong>Hiệu ứng 3:</strong> Thanh đo mức độ hài lòng bên dưới tự động chạy tăng dần từ 0% đến tỷ lệ thực tế với hàm <code>cubic-bezier(0.22, 1, 0.36, 1)</code>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CSAT Progress Bars (Hiệu ứng 3) -->
+    <div class="kpi-grid" style="margin-bottom:24px;">
+      <div class="kpi-card" style="flex-direction:column; align-items:flex-start;">
+        <div style="font-size:12px; color:#64748b; font-weight:600; margin-bottom:6px;">Chất Lượng Khám & Điều Trị</div>
+        <div style="font-size:22px; font-weight:800; color:#0f766e; margin-bottom:8px;" id="valServiceRating">4.8 / 5.0</div>
+        <div class="progress-track">
+          <div class="progress-fill" id="barService" data-percent="96%"></div>
+        </div>
+      </div>
+
+      <div class="kpi-card" style="flex-direction:column; align-items:flex-start;">
+        <div style="font-size:12px; color:#64748b; font-weight:600; margin-bottom:6px;">Thái Độ Nhân Viên & Y Bác Sĩ</div>
+        <div style="font-size:22px; font-weight:800; color:#0f766e; margin-bottom:8px;" id="valStaffRating">4.7 / 5.0</div>
+        <div class="progress-track">
+          <div class="progress-fill" id="barStaff" data-percent="94%"></div>
+        </div>
+      </div>
+
+      <div class="kpi-card" style="flex-direction:column; align-items:flex-start;">
+        <div style="font-size:12px; color:#64748b; font-weight:600; margin-bottom:6px;">Thời Gian Chờ Đợi</div>
+        <div style="font-size:22px; font-weight:800; color:#0f766e; margin-bottom:8px;" id="valWaitRating">4.2 / 5.0</div>
+        <div class="progress-track">
+          <div class="progress-fill" id="barWait" data-percent="84%"></div>
+        </div>
+      </div>
+
+      <div class="kpi-card" style="flex-direction:column; align-items:flex-start;">
+        <div style="font-size:12px; color:#64748b; font-weight:600; margin-bottom:6px;">Tỷ Lệ Giới Thiệu (NPS)</div>
+        <div style="font-size:22px; font-weight:800; color:#0f766e; margin-bottom:8px;" id="valNpsRating">92%</div>
+        <div class="progress-track">
+          <div class="progress-fill" id="barNps" data-percent="92%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Survey List (Interactive Accordion with CSS Transitions) -->
+    <div class="data-card">
+      <div class="data-card-header">
+        <div class="data-card-title">Danh Sách 15 Đánh Giá Của Khách Hàng (Nhấn vào hàng để mở rộng góp ý)</div>
+        <div style="font-size:12px; color:#64748b;">
+          Được sắp xếp theo thời gian gửi gần nhất
+        </div>
+      </div>
+
+      <div style="padding:16px 20px;" id="surveyListWrap">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal: Thêm Khảo Sát Mới -->
+  <div class="modal-backdrop" id="surveyModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Ghi Nhận Khảo Sát & Góp Ý Mới</h3>
+        <button class="modal-close" id="btnCloseSurveyModal">✕</button>
+      </div>
+      <form id="newSurveyForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Chọn Bệnh Nhân <span class="req">*</span></label>
+            <select class="form-control" id="surveyPatientSelect" required>
+              <!-- Filled by JS -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Dịch Vụ Đã Sử Dụng <span class="req">*</span></label>
+            <select class="form-control" id="surveyServiceSelect" required>
+              <!-- Filled by JS -->
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Điểm Dịch Vụ (1 - 5 ⭐)</label>
+              <select class="form-control" id="surveyRatingService">
+                <option value="5">⭐⭐⭐⭐⭐ 5/5 (Rất hài lòng)</option>
+                <option value="4" selected>⭐⭐⭐⭐ 4/5 (Hài lòng)</option>
+                <option value="3">⭐⭐⭐ 3/5 (Bình thường)</option>
+                <option value="2">⭐⭐ 2/5 (Chưa hài lòng)</option>
+                <option value="1">⭐ 1/5 (Rất thất vọng)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Thái Độ Phục Vụ (1 - 5 ⭐)</label>
+              <select class="form-control" id="surveyRatingStaff">
+                <option value="5" selected>⭐⭐⭐⭐⭐ 5/5</option>
+                <option value="4">⭐⭐⭐⭐ 4/5</option>
+                <option value="3">⭐⭐⭐ 3/5</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Nội Dung Góp Ý / Nhận Xét Của Khách Hàng <span class="req">*</span></label>
+            <textarea 
+              class="form-control" 
+              id="surveyComment" 
+              rows="3" 
+              placeholder="Nhập chi tiết ý kiến nhận xét của bệnh nhân..."
+              required
+            ></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="btnCancelSurvey">Hủy</button>
+          <button type="submit" class="btn btn-primary">Lưu Đánh Giá</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app-shell.js"></script>
+  <script src="../js/surveys.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initAppShell('Khảo Sát CSAT');
+      initSurveysPage();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chăm Sóc Khách Hàng (Customer Care) — MedCare CRM</title>
+  
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+  <div id="appMount">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">Chăm Sóc Khách Hàng & Nhật Ký Tương Tác</h1>
+        <p class="page-subtitle">Theo dõi lịch hẹn tái khám, ghi nhận cuộc gọi hỏi thăm & phản hồi y khoa sau khám</p>
+      </div>
+      <div class="page-header-actions">
+        <span class="badge-status active" style="font-size:13px; padding:6px 14px;">
+          🟢 Hệ thống kết nối Tổng đài VOIP sẵn sàng
+        </span>
+      </div>
+    </div>
+
+    <!-- Main 2-Column Grid -->
+    <div style="display:grid; grid-template-columns: 1fr 1.35fr; gap:24px; align-items:start;">
+      
+      <!-- LEFT: FORM GHI NHẬN TƯƠNG TÁC -->
+      <div class="data-card">
+        <div class="data-card-header" style="background:#f0fdfa;">
+          <div>
+            <div class="data-card-title" style="color:#0f766e;">📞 Ghi Nhận Hoạt Động Chăm Sóc</div>
+            <div style="font-size:12px; color:#64748b;">Lưu vết lịch sử tương tác vào hồ sơ bệnh nhân</div>
+          </div>
+        </div>
+
+        <form id="careForm" style="padding:20px 24px;">
+          <!-- Field: Chọn bệnh nhân -->
+          <div class="form-group">
+            <label class="form-label" for="carePatientSelect">
+              Chọn Bệnh Nhân <span class="req">*</span>
+            </label>
+            <select id="carePatientSelect" class="form-control" required>
+              <!-- Filled by JS -->
+            </select>
+          </div>
+
+          <!-- Patient Summary Card -->
+          <div id="selectedPatientCard" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; margin-bottom:16px; font-size:13px;">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Hình thức & Loại tương tác -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Kênh Tương Tác <span class="req">*</span></label>
+              <select id="careChannel" class="form-control" required>
+                <option value="Gọi điện">📞 Gọi điện thoại</option>
+                <option value="Nhắn tin Zalo">💬 Tin nhắn Zalo</option>
+                <option value="Gửi Email">✉️ Gửi Email</option>
+                <option value="Gặp trực tiếp">🏥 Gặp trực tiếp tại phòng khám</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Mục Đích Tương Tác <span class="req">*</span></label>
+              <select id="careType" class="form-control" required>
+                <option value="Hỏi thăm sức khỏe sau khám">Hỏi thăm sức khỏe sau khám</option>
+                <option value="Nhắc lịch tái khám định kỳ">Nhắc lịch tái khám định kỳ</option>
+                <option value="Thông báo kết quả xét nghiệm">Thông báo kết quả xét nghiệm</option>
+                <option value="Tư vấn hướng dẫn dùng thuốc">Tư vấn hướng dẫn dùng thuốc</option>
+                <option value="Giải quyết khiếu nại">Giải quyết khiếu nại</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Nội dung & Phản hồi -->
+          <div class="form-group">
+            <label class="form-label" for="careNotes">
+              Nội Dung Phản Hồi Của Khách Hàng <span class="req">*</span>
+            </label>
+            <textarea 
+              id="careNotes" 
+              class="form-control" 
+              rows="3" 
+              placeholder="Bệnh nhân báo tình trạng đã đỡ, còn hơi ho nhẹ, dặn dò uống thuốc theo toa..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Đánh Giá Kết Quả</label>
+              <select id="careResult" class="form-control">
+                <option value="Tích cực (Hài lòng)">🟢 Tích cực (Hài lòng)</option>
+                <option value="Bình thường (Đang theo dõi)">🟡 Bình thường (Đang theo dõi)</option>
+                <option value="Cần bác sĩ gọi lại">🔴 Cần bác sĩ gọi lại gấp</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Ngày Hẹn Liên Hệ Tiếp Theo</label>
+              <input type="date" id="careNextDate" class="form-control">
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+            <button type="reset" class="btn btn-outline">Nhập lại</button>
+            <button type="submit" class="btn btn-primary">💾 Lưu Vào Lịch Sử Tương Tác</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- RIGHT: DÒNG THỜI GIAN LỊCH SỬ TƯƠNG TÁC (TIMELINE) -->
+      <div class="data-card">
+        <div class="data-card-header">
+          <div>
+            <div class="data-card-title">Lịch Sử Tương Tác Chi Tiết</div>
+            <div style="font-size:12px; color:#64748b;" id="timelinePatientTitle">
+              Chọn bệnh nhân để xem toàn bộ lịch sử chăm sóc
+            </div>
+          </div>
+          <span style="font-size:12px; background:#e0f2fe; color:#0369a1; padding:3px 10px; border-radius:12px; font-weight:600;">
+            CRM Timeline
+          </span>
+        </div>
+
+        <div style="padding:24px 20px;">
+          <div class="timeline" id="patientTimeline">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app-shell.js"></script>
+  <script src="../js/customer-care.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initAppShell('Chăm Sóc KH');
+      initCustomerCarePage();
+    });
+  </script>
+</body>
+</html>

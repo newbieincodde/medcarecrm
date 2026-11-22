@@ -1,0 +1,178 @@
+/* ==============================================================================
+   MEDCARE CRM — RESPONSIVE STYLES
+   Mobile-first breakpoints
+   ============================================================================== */
+
+/* ── BREAKPOINTS:
+   sm:  640px
+   md:  768px
+   lg:  1024px
+   xl:  1280px
+   ── */
+
+/* ── TABLET (≤ 1024px) ── */
+@media (max-width: 1024px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero-visual {
+    display: none;
+  }
+
+  .hero-desc {
+    max-width: 100%;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .hero-trust {
+    justify-content: center;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-10);
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin-inline: auto;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+  }
+
+  .navbar-nav {
+    display: none;
+  }
+
+  .navbar-toggle {
+    display: flex;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── MOBILE (≤ 768px) ── */
+@media (max-width: 768px) {
+  :root {
+    --content-padding: var(--space-4);
+  }
+
+  .hero {
+    padding-top: calc(68px + var(--space-10));
+    padding-bottom: var(--space-12);
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: var(--space-3);
+    text-align: center;
+  }
+
+  /* Dashboard responsive */
+  .app-sidebar {
+    transform: translateX(-100%);
+    position: fixed;
+    z-index: 200;
+    height: 100vh;
+  }
+
+  .app-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    padding: var(--space-4) !important;
+  }
+
+  .app-header {
+    padding-inline: var(--space-4);
+  }
+
+  .page-header {
+    flex-direction: column;
+  }
+
+  .kpi-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .table-wrapper {
+    border-radius: var(--radius-lg);
+  }
+
+  .modal {
+    margin: var(--space-4);
+    max-height: calc(100vh - 2rem);
+  }
+
+  .pricing-grid {
+    max-width: 100%;
+  }
+
+  .mockup-kpi-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ── SMALL MOBILE (≤ 480px) ── */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .kpi-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .btn-xl {
+    padding: var(--space-4) var(--space-6);
+    font-size: var(--text-base);
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

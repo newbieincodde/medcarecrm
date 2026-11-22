@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tổng Quan Dashboard — MedCare CRM</title>
+  
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div id="appMount">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">Tổng Quan Hoạt Động CRM</h1>
+        <p class="page-subtitle">Hệ thống quản lý quan hệ bệnh nhân & vận hành dịch vụ y tế trung tâm</p>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-outline" onclick="window.location.href='customer-care.html'">
+          📞 Ghi nhận CSKH
+        </button>
+        <button class="btn btn-primary" onclick="window.location.href='customers.html?action=new'">
+          ➕ Thêm Bệnh nhân
+        </button>
+      </div>
+    </div>
+
+    <!-- 4 KPI Cards -->
+    <div class="kpi-grid">
+      <!-- KPI 1 -->
+      <div class="kpi-card" style="--kpi-color: #14b8a6; --kpi-bg: rgba(20,184,166,0.12);">
+        <div class="kpi-icon-wrap">👥</div>
+        <div class="kpi-info">
+          <div class="kpi-label">Tổng Bệnh Nhân Quản Lý</div>
+          <div class="kpi-value" id="kpiTotalPatients">50</div>
+          <div class="kpi-delta up" id="kpiPatientSub">🥇 <span id="kpiGoldCount">12</span> VIP Vàng</div>
+        </div>
+      </div>
+
+      <!-- KPI 2 -->
+      <div class="kpi-card" style="--kpi-color: #0d9488; --kpi-bg: rgba(13,148,136,0.12);">
+        <div class="kpi-icon-wrap">💳</div>
+        <div class="kpi-info">
+          <div class="kpi-label">Doanh Thu Tích Lũy</div>
+          <div class="kpi-value" id="kpiTotalRevenue">0 ₫</div>
+          <div class="kpi-delta up">↑ 18.5% so với tháng trước</div>
+        </div>
+      </div>
+
+      <!-- KPI 3 -->
+      <div class="kpi-card" style="--kpi-color: #f59e0b; --kpi-bg: rgba(245,158,11,0.12);">
+        <div class="kpi-icon-wrap">🎯</div>
+        <div class="kpi-info">
+          <div class="kpi-label">Leads Tiềm Năng</div>
+          <div class="kpi-value" id="kpiTotalLeads">20</div>
+          <div class="kpi-delta up" id="kpiLeadSub">7 leads mới chưa liên hệ</div>
+        </div>
+      </div>
+
+      <!-- KPI 4 -->
+      <div class="kpi-card" style="--kpi-color: #ef4444; --kpi-bg: rgba(239,68,68,0.12);">
+        <div class="kpi-icon-wrap">⏰</div>
+        <div class="kpi-info">
+          <div class="kpi-label">Cần Chăm Sóc / Tái Khám</div>
+          <div class="kpi-value" id="kpiFollowUps">0</div>
+          <div class="kpi-delta down" id="kpiOverdueText">Ưu tiên phục vụ hạng Vàng</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-grid">
+      <!-- Chart 1: Doanh thu theo tháng -->
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div>
+            <div class="chart-card-title">Doanh Thu Điều Trị & Khám Bệnh 6 Tháng Gần Nhất</div>
+            <div class="chart-card-sub">Đơn vị: Triệu VNĐ (Dữ liệu tổng hợp từ các chuyên khoa)</div>
+          </div>
+          <span style="font-size:12px; background:#f1f5f9; padding:4px 10px; border-radius:6px; font-weight:600; color:#475569;">Năm 2026</span>
+        </div>
+        <div class="chart-container" style="height:260px;">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 2: Cơ cấu phân hạng bệnh nhân (Course Requirement: Đồng - Bạc - Vàng) -->
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <div>
+            <div class="chart-card-title">Cơ Cấu Phân Hạng Bệnh Nhân</div>
+            <div class="chart-card-sub">Theo tiêu chí chi tiêu tích lũy</div>
+          </div>
+        </div>
+        <div class="chart-container" style="height:200px; display:flex; align-items:center; justify-content:center;">
+          <canvas id="rankChart"></canvas>
+        </div>
+        <!-- Rank Legend Note -->
+        <div style="margin-top:14px; padding-top:12px; border-top:1px solid #f1f5f9; display:flex; justify-content:space-between; font-size:11.5px; color:#64748b;">
+          <span>🥇 Vàng (≥ 15M)</span>
+          <span>🥈 Bạc (5M - 15M)</span>
+          <span>🥉 Đồng (< 5M)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Priority Follow-ups Table -->
+    <div class="data-card">
+      <div class="data-card-header">
+        <div>
+          <div class="data-card-title">Danh Sách Bệnh Nhân Cần Chăm Sóc & Tái Khám Hôm Nay</div>
+          <div style="font-size:12px; color:#64748b; margin-top:2px;">Tự động ưu tiên bệnh nhân hạng Vàng & Bạc theo thuật toán CRM</div>
+        </div>
+        <a href="customer-care.html" class="btn btn-outline btn-sm">Xem tất cả lịch chăm sóc →</a>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã BN</th>
+              <th>Họ và Tên</th>
+              <th>Số Điện Thoại</th>
+              <th>Dịch Vụ Khám</th>
+              <th>Phân Hạng</th>
+              <th>Trạng Thái Lịch</th>
+              <th>Hành Động</th>
+            </tr>
+          </thead>
+          <tbody id="followUpTableBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app-shell.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initAppShell('Tổng Quan');
+      initDashboard();
+    });
+  </script>
+</body>
+</html>
