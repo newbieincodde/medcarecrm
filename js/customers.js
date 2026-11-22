@@ -81,6 +81,7 @@ function setupFilterListeners() {
   const rankFilter   = document.getElementById('rankFilter');
   const serviceFilter= document.getElementById('serviceFilter');
   const statusFilter = document.getElementById('statusFilter');
+  const sortFilter   = document.getElementById('sortFilter');
   const btnReset     = document.getElementById('btnResetFilters');
 
   if (searchInput) {
@@ -90,7 +91,7 @@ function setupFilterListeners() {
     });
   }
 
-  [rankFilter, serviceFilter, statusFilter].forEach(el => {
+  [rankFilter, serviceFilter, statusFilter, sortFilter].forEach(el => {
     if (el) {
       el.addEventListener('change', () => {
         currentPage = 1;
@@ -105,6 +106,7 @@ function setupFilterListeners() {
       if (rankFilter) rankFilter.value = 'all';
       if (serviceFilter) serviceFilter.value = 'all';
       if (statusFilter) statusFilter.value = 'all';
+      if (sortFilter) sortFilter.value = 'default';
       currentPage = 1;
       applyFilters();
     });
@@ -116,6 +118,7 @@ function applyFilters() {
   const rankVal    = document.getElementById('rankFilter')?.value || 'all';
   const serviceVal = document.getElementById('serviceFilter')?.value || 'all';
   const statusVal  = document.getElementById('statusFilter')?.value || 'all';
+  const sortVal    = document.getElementById('sortFilter')?.value || 'default';
 
   filteredPatients = allPatients.filter(p => {
     // Search match
@@ -136,6 +139,17 @@ function applyFilters() {
 
     return matchSearch && matchRank && matchService && matchStatus;
   });
+
+  // Sorting
+  if (sortVal === 'spent-desc') {
+    filteredPatients.sort((a, b) => (b.totalSpent || 0) - (a.totalSpent || 0));
+  } else if (sortVal === 'spent-asc') {
+    filteredPatients.sort((a, b) => (a.totalSpent || 0) - (b.totalSpent || 0));
+  } else if (sortVal === 'name-asc') {
+    filteredPatients.sort((a, b) => a.name.localeCompare(b.name, 'vi'));
+  } else if (sortVal === 'visits-desc') {
+    filteredPatients.sort((a, b) => (b.visits || 0) - (a.visits || 0));
+  }
 
   renderTable();
   renderPagination();
@@ -178,7 +192,9 @@ function renderTable() {
       <tr>
         <td><strong>${p.id}</strong></td>
         <td>
-          <div class="td-name">${p.name}</div>
+          <div class="td-name" onclick="openEHRModal('${p.id}')" style="cursor:pointer; color:#0f766e; font-weight:700;" title="Nhấp để xem Bệnh Án Điện Tử 360°">
+            ${p.name} 📋
+          </div>
           <div style="font-size:11.5px; color:#64748b;">${p.gender}, ${p.age || 30} tuổi</div>
         </td>
         <td>
@@ -200,7 +216,13 @@ function renderTable() {
         <td>${statusBadge}</td>
         <td>
           <div style="display:flex; gap:4px;">
-            <a href="customer-care.html?patientId=${p.id}" class="action-btn view" title="Xem lịch sử CSKH & tương tác">
+            <button class="action-btn view" onclick="openEHRModal('${p.id}')" title="Mở Bệnh Án Điện Tử 360°" style="background:#e6fffa; color:#0f766e; border:1px solid #99f6e4;">
+              📋
+            </button>
+            <button class="action-btn" onclick="startVoipCall('${p.name}', '${p.phone}', '${p.id}')" title="Gọi tổng đài VOIP" style="background:#f1f5f9; color:#0f172a;">
+              📞
+            </button>
+            <a href="customer-care.html?patientId=${p.id}" class="action-btn" title="Chăm sóc & Nhật ký">
               💬
             </a>
             <button class="action-btn edit" onclick="openModalForEdit('${p.id}')" title="Chỉnh sửa thông tin">
@@ -454,7 +476,319 @@ function setupExportCSV() {
   });
 }
 
+// ── ELECTRONIC HEALTH RECORD (EHR 360°) MODAL LOGIC ──
+let activeEHRTab = 'clinical';
+let currentEHRPatient = null;
+
+function openEHRModal(patientId) {
+  const p = allPatients.find(x => x.id === patientId);
+  if (!p) return;
+
+  currentEHRPatient = p;
+  activeEHRTab = 'clinical';
+
+  const modal = document.getElementById('ehrModal');
+  const container = document.getElementById('ehrModalContent');
+  if (!modal || !container) return;
+
+  renderEHRModalContent();
+  modal.classList.add('open');
+}
+
+function closeEHRModal() {
+  const modal = document.getElementById('ehrModal');
+  if (modal) modal.classList.remove('open');
+}
+
+function switchEHRTab(tabName) {
+  activeEHRTab = tabName;
+  renderEHRModalContent();
+}
+
+function renderEHRModalContent() {
+  const container = document.getElementById('ehrModalContent');
+  if (!container || !currentEHRPatient) return;
+
+  const p = currentEHRPatient;
+  const isMale = p.gender === 'Nam';
+  const weight = p.weight || (isMale ? 68 : 52);
+  const height = p.height || (isMale ? 172 : 158);
+  const bmi = (weight / ((height/100) * (height/100))).toFixed(1);
+  const bmiLabel = bmi < 18.5 ? 'Gầy' : bmi <= 24.9 ? 'Cân đối' : 'Tiền béo phì';
+  const bhytCode = p.bhyt || `DN 4 79 ${(p.id.replace(/\D/g,'') || '101').padEnd(10, '0')}`;
+  const bloodType = p.bloodType || (['O+', 'A+', 'B+', 'AB+'][p.id.charCodeAt(p.id.length-1) % 4]);
+  const bp = (p.totalSpent || 0) >= 15000000 ? '135/85 mmHg' : '120/80 mmHg';
+  const hr = 72 + (p.age % 8);
+
+  const rankInfo = typeof classifyPatient === 'function'
+    ? classifyPatient(p.totalSpent || 0)
+    : { rank: p.rank, label: p.rank, icon: '⭐' };
+
+  // Sample clinical encounters
+  const encounters = [
+    {
+      date: p.lastContact || '15/11/2026',
+      service: p.service || 'Khám Chuyên Khoa Tim Mạch',
+      doctor: 'BS. CKII Nguyễn Minh Nhân',
+      icd: 'I10 — Bệnh tăng huyết áp vô căn (nguyên phát)',
+      note: 'Huyết áp kiểm soát ổn định, tim đều, không phù chi. Đề nghị duy trì phác đồ hiện tại và ăn giảm muối.',
+      fee: 1450000
+    },
+    {
+      date: '10/08/2026',
+      service: 'Tầm Soát Tim Mạch & Điện Tâm Đồ (ECG)',
+      doctor: 'BS. CKII Trần Thị Mai',
+      icd: 'Z01.8 — Khám chuyên khoa đặc biệt khác',
+      note: 'ECG nhịp xoang đều, siêu âm tim chức năng tâm thu thất trái EF 65% trong giới hạn bình thường.',
+      fee: 2800000
+    }
+  ];
+
+  // Sample prescriptions
+  const prescriptions = [
+    { name: 'Amlodipine 5mg', dose: '1 viên / ngày (Sáng sau ăn)', qty: '30 viên', note: 'Hạ áp mạch vành' },
+    { name: 'Losartan Potassium 50mg', dose: '1 viên / ngày (Sáng)', qty: '30 viên', note: 'Ổn định huyết áp' },
+    { name: 'Panadol Extra 500mg', dose: '1 viên khi đau đầu (cách 6h)', qty: '10 viên', note: 'Giảm đau nhẹ' },
+    { name: 'Omega-3 Fish Oil 1000mg', dose: '1 viên / ngày (Tối)', qty: '60 viên', note: 'Bổ trợ tim mạch' }
+  ];
+
+  // Interactions history
+  let interactions = [];
+  try {
+    const raw = localStorage.getItem('medcare_interactions');
+    if (raw) {
+      const allInt = JSON.parse(raw);
+      interactions = allInt.filter(i => i.patientId === p.id);
+    }
+  } catch(e) {}
+  if (interactions.length === 0) {
+    interactions = [
+      { date: p.lastContact || '15/11/2026', type: 'Gọi điện hỏi thăm', staff: 'Trần Thị Mai', note: 'Hỏi thăm phản ứng sau khi dùng thuốc hạ áp, bệnh nhân tuân thủ tốt, huyết áp ổn định.' },
+      { date: '12/08/2026', type: 'Nhắc lịch tái khám', staff: 'Lê Văn Hùng', note: 'Nhắc lịch tái khám định kỳ theo chỉ định bác sĩ.' }
+    ];
+  }
+
+  container.innerHTML = `
+    <!-- Top EHR Banner -->
+    <div class="ehr-banner">
+      <div class="ehr-header-top">
+        <div>
+          <div class="ehr-seal">BỘ Y TẾ VIỆT NAM · BỆNH ÁN ĐIỆN TỬ (EHR 360°)</div>
+          <div class="ehr-title">HỒ SƠ THEO DÕI SỨC KHỎE BỆNH NHÂN TOÀN DIỆN</div>
+        </div>
+        <button type="button" class="portal-modal-close" style="color:white; font-size:24px;" onclick="closeEHRModal()">✕</button>
+      </div>
+
+      <div class="ehr-patient-profile">
+        <div class="ehr-avatar">${p.name.charAt(0).toUpperCase()}</div>
+        <div style="flex:1;">
+          <div class="ehr-bio-name">
+            ${p.name.toUpperCase()}
+            <span class="badge-rank ${rankInfo.rank}" style="font-size:12px; padding:3px 10px;">
+              ${rankInfo.icon} Hạng ${rankInfo.label}
+            </span>
+            <span style="font-size:12px; background:rgba(255,255,255,0.2); padding:3px 8px; border-radius:6px; font-weight:600;">
+              Mã: ${p.id}
+            </span>
+          </div>
+
+          <div class="ehr-bio-meta-row">
+            <span>Giới tính: <strong>${p.gender}</strong></span>
+            <span>Tuổi: <strong>${p.age || 32}</strong></span>
+            <span>Nhóm máu: <strong>${bloodType}</strong></span>
+            <span>Mã BHYT: <strong>${bhytCode}</strong></span>
+            <span>SĐT: <strong>${p.phone}</strong></span>
+            <span>Địa chỉ: <strong>${p.address || 'TP. Hồ Chí Minh'}</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clinical Vitals Grid -->
+    <div class="ehr-vitals-grid">
+      <div class="ehr-vital-box">
+        <div class="ehr-vital-icon bp">🩺</div>
+        <div class="ehr-vital-info">
+          <span class="ehr-vital-label">Huyết Áp (BP)</span>
+          <span class="ehr-vital-val">${bp}</span>
+          <span class="ehr-vital-tag">✓ Huyết áp mục tiêu</span>
+        </div>
+      </div>
+
+      <div class="ehr-vital-box">
+        <div class="ehr-vital-icon hr">💓</div>
+        <div class="ehr-vital-info">
+          <span class="ehr-vital-label">Nhịp Tim (Pulse)</span>
+          <span class="ehr-vital-val">${hr} bpm</span>
+          <span class="ehr-vital-tag">✓ Nhịp xoang đều</span>
+        </div>
+      </div>
+
+      <div class="ehr-vital-box">
+        <div class="ehr-vital-icon bmi">⚖️</div>
+        <div class="ehr-vital-info">
+          <span class="ehr-vital-label">Chiều cao / Cân nặng</span>
+          <span class="ehr-vital-val">${height}cm · ${weight}kg</span>
+          <span class="ehr-vital-tag" style="color:#2563eb;">BMI: ${bmi} (${bmiLabel})</span>
+        </div>
+      </div>
+
+      <div class="ehr-vital-box">
+        <div class="ehr-vital-icon spo2">🫁</div>
+        <div class="ehr-vital-info">
+          <span class="ehr-vital-label">Nồng Độ Oxy SpO2</span>
+          <span class="ehr-vital-val">98%</span>
+          <span class="ehr-vital-tag">✓ Bão hòa oxy tốt</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Medical History Alert -->
+    <div style="padding: 0 28px;">
+      <div class="ehr-alert-box">
+        <span style="font-size:20px;">⚠️</span>
+        <div style="flex:1;">
+          <strong>Tiền sử bệnh lý:</strong> ${p.medicalHistory || 'Tăng huyết áp nguyên phát độ 1, có tiền sử đau dạ dày nhẹ.'}<br>
+          <strong style="color:#dc2626;">Dị ứng thuốc & thức ăn:</strong> ${p.allergies || 'Dị ứng kháng sinh nhóm Penicillin (nổi ban, ngứa). Chống chỉ định dùng Amoxicillin.'}
+        </div>
+      </div>
+    </div>
+
+    <!-- EHR Tabs Header -->
+    <div class="ehr-tabs">
+      <button type="button" class="ehr-tab-btn ${activeEHRTab === 'clinical' ? 'active' : ''}" onclick="switchEHRTab('clinical')">
+        📋 Lịch Sử Khám & ICD-10
+      </button>
+      <button type="button" class="ehr-tab-btn ${activeEHRTab === 'prescriptions' ? 'active' : ''}" onclick="switchEHRTab('prescriptions')">
+        💊 Đơn Thuốc & Toa Thuốc Điện Tử
+      </button>
+      <button type="button" class="ehr-tab-btn ${activeEHRTab === 'care' ? 'active' : ''}" onclick="switchEHRTab('care')">
+        💬 Nhật Ký Chăm Sóc & Tái Khám (${interactions.length})
+      </button>
+    </div>
+
+    <!-- Tab 1: Clinical encounters -->
+    ${activeEHRTab === 'clinical' ? `
+      <div class="ehr-tab-content">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Ngày Khám</th>
+                <th>Chuyên Khoa</th>
+                <th>Bác Sĩ Phụ Trách</th>
+                <th>Chẩn Đoán ICD-10</th>
+                <th>Kết Luận & Diễn Tiến</th>
+                <th>Chi Phí</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${encounters.map(e => `
+                <tr>
+                  <td><strong>${e.date}</strong></td>
+                  <td><span style="color:#0f766e; font-weight:600;">${e.service}</span></td>
+                  <td>${e.doctor}</td>
+                  <td><span style="background:#f1f5f9; padding:2px 8px; border-radius:4px; font-weight:600; font-size:12px;">${e.icd}</span></td>
+                  <td style="font-size:12.5px; color:#475569; max-width:280px;">${e.note}</td>
+                  <td style="font-weight:700; color:#0f172a;">${e.fee.toLocaleString('vi-VN')} ₫</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- Tab 2: Prescriptions -->
+    ${activeEHRTab === 'prescriptions' ? `
+      <div class="ehr-tab-content">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tên Thuốc / Hàm Lượng</th>
+                <th>Liều Dùng & Hướng Dẫn</th>
+                <th>Số Lượng</th>
+                <th>Chỉ Định / Mục Đích</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${prescriptions.map(rx => `
+                <tr>
+                  <td><strong style="color:#0f766e;">${rx.name}</strong></td>
+                  <td>${rx.dose}</td>
+                  <td><strong>${rx.qty}</strong></td>
+                  <td><span style="font-size:12px; color:#64748b;">${rx.note}</span></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- Tab 3: Care and follow-up -->
+    ${activeEHRTab === 'care' ? `
+      <div class="ehr-tab-content">
+        <div style="margin-bottom:14px; font-size:13px; color:#64748b;">
+          Lịch hẹn tái khám tiếp theo: <strong style="color:#0f766e;">${p.nextFollowUp || 'Chưa đặt hẹn'}</strong>
+          ${p.overdueDays > 0 ? `<span class="badge-status" style="background:#fee2e2; color:#dc2626; margin-left:8px;">Quá hạn ${p.overdueDays} ngày</span>` : ''}
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Thời Gian</th>
+                <th>Kênh Tương Tác</th>
+                <th>Nhân Viên Phụ Trách</th>
+                <th>Ghi Chú Trao Đổi</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${interactions.map(it => `
+                <tr>
+                  <td><strong>${it.date}</strong></td>
+                  <td><span style="background:#f1f5f9; padding:2px 8px; border-radius:4px; font-weight:600;">${it.type}</span></td>
+                  <td>${it.staff || 'Trần Thị Mai'}</td>
+                  <td style="font-size:12.5px; color:#475569;">${it.note}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- EHR Actions Footer Toolbar -->
+    <div class="ehr-actions-bar">
+      <div style="display:flex; gap:10px;">
+        <button type="button" class="btn btn-primary btn-sm" onclick="startVoipCall('${p.name}', '${p.phone}', '${p.id}')">
+          <span>📞</span> Gọi VOIP Bệnh Nhân
+        </button>
+        <a href="customer-care.html?patientId=${p.id}" class="btn btn-outline btn-sm">
+          <span>💬</span> Ghi Nhật Ký Chăm Sóc
+        </a>
+        <a href="sales.html?patientId=${p.id}" class="btn btn-outline btn-sm">
+          <span>🧾</span> Lập Hóa Đơn Thu Viện Phí
+        </a>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button type="button" class="btn btn-outline btn-sm" onclick="window.print()">
+          <span>🖨️</span> In Hồ Sơ Bệnh Án
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="closeEHRModal()">
+          Đóng
+        </button>
+      </div>
+    </div>
+  `;
+}
+
 // Global exposes
 window.openModalForEdit = openModalForEdit;
 window.confirmDelete = confirmDelete;
 window.goToPage = goToPage;
+window.openEHRModal = openEHRModal;
+window.closeEHRModal = closeEHRModal;
+window.switchEHRTab = switchEHRTab;

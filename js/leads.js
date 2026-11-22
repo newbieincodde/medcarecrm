@@ -48,8 +48,16 @@ function setDefaultContactDate() {
 
 function setupLeadFilters() {
   const statusFilter = document.getElementById('leadStatusFilter');
+  const searchInput  = document.getElementById('leadSearchInput');
+
   if (statusFilter) {
     statusFilter.addEventListener('change', () => {
+      applyLeadFilters();
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
       applyLeadFilters();
     });
   }
@@ -57,12 +65,19 @@ function setupLeadFilters() {
 
 function applyLeadFilters() {
   const statusVal = document.getElementById('leadStatusFilter')?.value || 'all';
+  const searchVal = (document.getElementById('leadSearchInput')?.value || '').trim().toLowerCase();
 
-  if (statusVal === 'all') {
-    filteredLeads = [...allLeads];
-  } else {
-    filteredLeads = allLeads.filter(l => l.status === statusVal);
-  }
+  filteredLeads = allLeads.filter(l => {
+    const matchStatus = statusVal === 'all' || l.status === statusVal;
+    const matchSearch = !searchVal ||
+      (l.name && l.name.toLowerCase().includes(searchVal)) ||
+      (l.phone && l.phone.includes(searchVal)) ||
+      (l.id && l.id.toLowerCase().includes(searchVal)) ||
+      (l.service && l.service.toLowerCase().includes(searchVal)) ||
+      (l.note && l.note.toLowerCase().includes(searchVal));
+
+    return matchStatus && matchSearch;
+  });
 
   renderLeadsTable();
 }
@@ -75,7 +90,7 @@ function renderLeadsTable() {
     tbody.innerHTML = `
       <tr>
         <td colspan="6" style="text-align:center; padding:32px; color:#64748b;">
-          Không có khách hàng tiềm năng nào phù hợp với bộ lọc.
+          Không có khách hàng tiềm năng nào phù hợp với bộ lọc hoặc từ khóa tìm kiếm.
         </td>
       </tr>
     `;
@@ -88,47 +103,81 @@ function renderLeadsTable() {
     low: '<span class="badge-priority low">Thấp</span>'
   };
 
-  const statusLabels = {
-    new: 'Mới nhận',
-    contacted: 'Đã liên hệ',
-    qualified: 'Tiềm năng',
-    converted: 'Đã thành BN',
-    lost: 'Không đạt'
-  };
-
   tbody.innerHTML = filteredLeads.map(l => {
     const isConverted = l.status === 'converted';
 
+    // Extract appointment code if exists
+    const codeMatch = (l.note || '').match(/#MED2026-\d{4}/);
+    const bookingCode = codeMatch ? codeMatch[0] : null;
+
+    // Check if kiosk queue number already dispatched
+    const kioskMatch = (l.note || '').match(/Số thứ tự(?:\s*ưu tiên)?:\s*(#[0-9A-Z]+)/i);
+    const kioskNumber = kioskMatch ? kioskMatch[1] : null;
+
     return `
       <tr>
-        <td><strong>${l.id}</strong></td>
         <td>
-          <div style="font-weight:600; color:#0f172a;">${l.name}</div>
+          <strong>${l.id}</strong>
+          ${bookingCode ? `<div style="font-size:11px; font-weight:800; color:#0f766e; background:#e6fffa; border:1px solid #99f6e4; padding:1px 6px; border-radius:4px; margin-top:2px; display:inline-block; font-family:monospace;">${bookingCode}</div>` : ''}
+        </td>
+        <td>
+          <div style="font-weight:700; color:#0f172a;">${l.name}</div>
           <div style="font-size:11.5px; color:#64748b;">📞 ${l.phone}</div>
           <div style="font-size:11.5px; color:#64748b;">✉️ ${l.email || '—'}</div>
         </td>
         <td>
-          <div style="font-size:12.5px; color:#0f766e; font-weight:600;">${l.service}</div>
-          <div style="font-size:11.5px; color:#64748b;">Nguồn: ${l.source}</div>
+          <div style="font-size:12.5px; color:#0f766e; font-weight:700;">${l.service}</div>
+          <div style="font-size:11px; color:#64748b;">Nguồn: <span style="font-weight:600;">${l.source}</span></div>
+          ${kioskNumber ? `
+            <div style="margin-top:4px;">
+              <span style="font-size:11px; font-weight:800; background:#dcfce7; color:#166534; padding:2px 8px; border-radius:999px; border:1px solid #bbf7d0;">
+                🎟️ Kiosk ${kioskNumber}
+              </span>
+            </div>
+          ` : ''}
         </td>
         <td>${priorityLabels[l.priority] || l.priority}</td>
         <td>
           <select 
             class="filter-select" 
-            style="height:30px; font-size:12px; padding:2px 24px 2px 8px; width:120px;"
+            style="height:30px; font-size:12px; padding:2px 24px 2px 8px; width:125px;"
             onchange="updateLeadStatus('${l.id}', this.value)"
             ${isConverted ? 'disabled' : ''}
           >
-            <option value="new" ${l.status === 'new' ? 'selected' : ''}>Mới nhận</option>
-            <option value="contacted" ${l.status === 'contacted' ? 'selected' : ''}>Đã liên hệ</option>
+            <option value="new" ${l.status === 'new' ? 'selected' : ''}>🟡 Mới nhận</option>
+            <option value="contacted" ${l.status === 'contacted' ? 'selected' : ''}>🔵 Đã xếp số / Đã gọi</option>
             <option value="qualified" ${l.status === 'qualified' ? 'selected' : ''}>Tiềm năng</option>
-            <option value="converted" ${l.status === 'converted' ? 'selected' : ''}>Đã thành BN</option>
-            <option value="lost" ${l.status === 'lost' ? 'selected' : ''}>Không đạt</option>
+            <option value="converted" ${l.status === 'converted' ? 'selected' : ''}>🟢 Đã thành BN</option>
+            <option value="lost" ${l.status === 'lost' ? 'selected' : ''}>⚪ Không đạt</option>
           </select>
         </td>
         <td>
-          <div style="display:flex; gap:6px;">
+          <div style="display:flex; gap:4px; align-items:center; flex-wrap:wrap;">
             ${!isConverted ? `
+              <button 
+                class="btn btn-sm" 
+                style="padding:4px 8px; font-size:11px; background:#f0fdf4; color:#166534; border:1px solid #bbf7d0; font-weight:700;" 
+                onclick="openKioskModal('${l.id}')"
+                title="Phân buồng khám & Cấp số thứ tự Kiosk"
+              >
+                🎟️ Xếp Số
+              </button>
+              <button 
+                class="btn btn-sm" 
+                style="padding:4px 6px; font-size:11px; background:#f1f5f9; color:#0f172a;" 
+                onclick="startVoipCall('${l.name}', '${l.phone}', '')"
+                title="Gọi điện tổng đài VOIP"
+              >
+                📞
+              </button>
+              <button 
+                class="btn btn-sm" 
+                style="padding:4px 6px; font-size:11px; background:#eff6ff; color:#1e40af; border:1px solid #bfdbfe;" 
+                onclick="sendZaloConfirmation('${l.id}')"
+                title="Gửi xác nhận Zalo hẹn khám"
+              >
+                💬
+              </button>
               <button 
                 class="btn btn-sm btn-primary" 
                 style="padding:4px 8px; font-size:11px;" 
@@ -138,7 +187,7 @@ function renderLeadsTable() {
                 ➔ Thành BN
               </button>
             ` : `
-              <span style="font-size:11.5px; color:#16a34a; font-weight:600;">✓ Đã tạo BN</span>
+              <span style="font-size:11.5px; color:#16a34a; font-weight:700;">✓ Hồ sơ BN</span>
             `}
             <button 
               class="action-btn delete" 
@@ -285,7 +334,84 @@ function setupLeadForm() {
   });
 }
 
+// ── KIOSK DISPATCHER LOGIC ──
+let currentDispatchLead = null;
+
+function openKioskModal(leadId) {
+  const lead = allLeads.find(l => l.id === leadId);
+  if (!lead) return;
+
+  currentDispatchLead = lead;
+  const modal = document.getElementById('kioskModal');
+  const nameEl = document.getElementById('kioskPatientName');
+  const serviceEl = document.getElementById('kioskServiceText');
+  const numInput = document.getElementById('kioskNumberInput');
+
+  if (nameEl) nameEl.textContent = lead.name;
+  if (serviceEl) serviceEl.textContent = `${lead.service} · SĐT: ${lead.phone}`;
+
+  generateNewKioskNumber();
+
+  if (modal) modal.classList.add('open');
+}
+
+function closeKioskModal() {
+  const modal = document.getElementById('kioskModal');
+  if (modal) modal.classList.remove('open');
+}
+
+function generateNewKioskNumber() {
+  const numInput = document.getElementById('kioskNumberInput');
+  if (numInput) {
+    const randNum = Math.floor(10 + Math.random() * 89);
+    numInput.value = `#${randNum}`;
+  }
+}
+
+function handleKioskDispatchSubmit(e) {
+  e.preventDefault();
+  if (!currentDispatchLead) return;
+
+  const room = document.getElementById('kioskRoomSelect')?.value || 'Buồng 01 — Tim Mạch';
+  const priority = document.getElementById('kioskPrioritySelect')?.value || 'Tiêu chuẩn Kiosk';
+  const kioskNum = document.getElementById('kioskNumberInput')?.value || '#15';
+
+  currentDispatchLead.status = 'contacted';
+  currentDispatchLead.assignedTo = room.split('—')[0].trim();
+  currentDispatchLead.note = (currentDispatchLead.note || '') + ` [Số thứ tự ưu tiên: ${kioskNum} — ${room}]`;
+
+  if (typeof saveLeads === 'function') saveLeads(allLeads);
+
+  closeKioskModal();
+
+  if (typeof showToast === 'function') {
+    showToast('Đã cấp số Kiosk!', `Bệnh nhân ${currentDispatchLead.name} đã được cấp Số ${kioskNum} tại ${room}`, 'success');
+  }
+
+  applyLeadFilters();
+}
+
+function sendZaloConfirmation(leadId) {
+  const lead = allLeads.find(l => l.id === leadId);
+  if (!lead) return;
+
+  const msg = `[MedCare CRM] Kính gửi Quý khách ${lead.name}, Bệnh viện đã tiếp nhận đăng ký ${lead.service}. Quý khách vui lòng xuất trình mã hoặc đọc SĐT ${lead.phone} tại quầy tiếp đón Kiosk để nhận số thứ tự ưu tiên. Hotline hỗ trợ: xxxx-xxxx.`;
+
+  navigator.clipboard?.writeText(msg).catch(() => {});
+
+  if (typeof showToast === 'function') {
+    showToast('Tin nhắn xác nhận Zalo', `Đã sao chép tin nhắn gửi tới ${lead.name} (${lead.phone})!`, 'info');
+  } else {
+    alert(msg);
+  }
+}
+
 // Global exposes
 window.updateLeadStatus = updateLeadStatus;
 window.convertLeadToPatient = convertLeadToPatient;
 window.deleteLead = deleteLead;
+window.openKioskModal = openKioskModal;
+window.closeKioskModal = closeKioskModal;
+window.generateNewKioskNumber = generateNewKioskNumber;
+window.handleKioskDispatchSubmit = handleKioskDispatchSubmit;
+window.sendZaloConfirmation = sendZaloConfirmation;

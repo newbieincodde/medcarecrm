@@ -95,6 +95,14 @@ function loadPatientData(patientId) {
         <span>Dịch vụ: <strong>${patient.service}</strong></span>
         <span>Chi tiêu: <strong style="color:#0f766e;">${formattedSpent}</strong></span>
       </div>
+      <div style="margin-top:10px; display:flex; gap:8px;">
+        <button type="button" class="btn btn-sm btn-primary" onclick="startVoipCall('${patient.name}', '${patient.phone}', '${patient.id}')">
+          <span>📞</span> Kết Nối VOIP Ngay
+        </button>
+        <button type="button" class="btn btn-sm btn-outline" onclick="copyZaloFollowUp('${patient.name}')">
+          <span>💬</span> Mẫu Zalo Nhắc Hẹn
+        </button>
+      </div>
     `;
   }
 
@@ -212,3 +220,16 @@ function setupCareForm() {
     renderTimeline(currentPatientId);
   });
 }
+
+function copyZaloFollowUp(patientName) {
+  const msg = `[MedCare CRM] Kính gửi ${patientName}, Trung tâm Y tế MedCare xin gửi lời thăm hỏi sức khỏe đến Quý khách sau đợt khám vừa qua. Lịch hẹn tái khám tiếp theo của Quý khách đã được bác sĩ lên lịch. Nếu cần tư vấn thêm, Quý khách vui lòng gọi tổng đài xxxx-xxxx. Chúc Quý khách nhiều sức khỏe!`;
+  navigator.clipboard?.writeText(msg).catch(() => {});
+  if (typeof showToast === 'function') {
+    showToast('Tin nhắn Zalo chăm sóc', `Đã sao chép nội dung tin nhắn gửi tới ${patientName}!`, 'info');
+  } else {
+    alert(msg);
+  }
+}
+
+// Global exposes
+window.copyZaloFollowUp = copyZaloFollowUp;

@@ -15,6 +15,14 @@ function initInventoryPage() {
   setupInventoryModal();
   setupExportInventory();
 
+  // Check URL query parameters (e.g. from Spotlight search)
+  const params = new URLSearchParams(window.location.search);
+  const searchParam = params.get('search');
+  if (searchParam) {
+    const sInput = document.getElementById('inventorySearch');
+    if (sInput) sInput.value = searchParam;
+  }
+
   applyInventoryFilters();
   updateInventoryKPIs();
 }

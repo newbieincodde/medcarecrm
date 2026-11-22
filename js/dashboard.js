@@ -77,8 +77,8 @@ function renderFollowUpTable(list) {
       <tr>
         <td><strong>${p.id}</strong></td>
         <td class="td-name">
-          <a href="customers.html?search=${p.id}" style="color:var(--clr-primary-700,#0f766e); font-weight:600; text-decoration:none;">
-            ${p.name}
+          <a href="customers.html?search=${p.id}" style="color:var(--clr-primary-700,#0f766e); font-weight:700; text-decoration:none;" title="Xem hồ sơ bệnh nhân">
+            ${p.name} 📋
           </a>
         </td>
         <td>${p.phone}</td>
@@ -94,7 +94,7 @@ function renderFollowUpTable(list) {
             <a href="customer-care.html?patientId=${p.id}" class="btn btn-outline btn-sm" title="Ghi nhận nhật ký chăm sóc">
               💬 Chăm sóc
             </a>
-            <button class="btn btn-sm" style="background:#f1f5f9; color:#0f172a;" onclick="quickCall('${p.name}', '${p.phone}')" title="Gọi điện">
+            <button class="btn btn-sm" style="background:#f1f5f9; color:#0f172a;" onclick="quickCall('${p.name}', '${p.phone}', '${p.id}')" title="Gọi tổng đài VOIP">
               📞
             </button>
           </div>
@@ -104,8 +104,10 @@ function renderFollowUpTable(list) {
   }).join('');
 }
 
-function quickCall(name, phone) {
-  if (typeof showToast === 'function') {
+function quickCall(name, phone, patientId = '') {
+  if (typeof startVoipCall === 'function') {
+    startVoipCall(name, phone, patientId);
+  } else if (typeof showToast === 'function') {
     showToast('Cuộc gọi mô phỏng', `Đang kết nối tổng đài tới bệnh nhân: ${name} (${phone})...`, 'info');
   } else {
     alert(`Đang kết nối tổng đài tới bệnh nhân: ${name} (${phone})`);

@@ -16,6 +16,14 @@ function initSalesPage() {
   setupInvoiceModal();
   setupExportInvoices();
 
+  // Check URL query parameters (e.g. from Patient EHR)
+  const params = new URLSearchParams(window.location.search);
+  const patientParam = params.get('patientId');
+  if (patientParam) {
+    const sInput = document.getElementById('invoiceSearch');
+    if (sInput) sInput.value = patientParam;
+  }
+
   applySalesFilters();
   updateSalesKPIs();
 }
@@ -125,6 +133,9 @@ function renderInvoicesTable() {
           <div style="display:flex; gap:6px;">
             <button class="btn btn-sm btn-outline" onclick="printReceipt('${inv.id}')" title="In phiếu thu">
               🖨️ In
+            </button>
+            <button class="btn btn-sm" style="background:#eff6ff; color:#1e40af; border:1px solid #bfdbfe; font-weight:700;" onclick="openVietqrModal('${inv.id}')" title="Mở mã VietQR chuyển khoản">
+              📲 QR Pay
             </button>
             ${!isPaid ? `
               <button class="btn btn-sm btn-primary" onclick="markAsPaid('${inv.id}')" title="Thu tiền">
@@ -332,6 +343,46 @@ function setupExportInvoices() {
   });
 }
 
+// ── VIETQR CASHLESS PAYMENT LOGIC ──
+let activeQrInvoice = null;
+
+function openVietqrModal(invoiceId) {
+  const inv = allInvoices.find(i => i.id === invoiceId);
+  if (!inv) return;
+
+  activeQrInvoice = inv;
+  const modal = document.getElementById('vietqrModal');
+  const elAmount = document.getElementById('qrAmountDisplay');
+  const elPatient = document.getElementById('qrPatientName');
+  const elInvId = document.getElementById('qrInvoiceId');
+  const elNote = document.getElementById('qrTransferNote');
+  const btnConfirm = document.getElementById('btnConfirmQrPaid');
+
+  if (elAmount) elAmount.textContent = (inv.amount || 0).toLocaleString('vi-VN') + ' ₫';
+  if (elPatient) elPatient.textContent = inv.patientName;
+  if (elInvId) elInvId.textContent = inv.id;
+  if (elNote) elNote.textContent = `MEDCARE ${inv.id}`;
+
+  if (btnConfirm) {
+    btnConfirm.onclick = () => {
+      markAsPaid(inv.id);
+      closeVietqrModal();
+      if (typeof showToast === 'function') {
+        showToast('Thanh toán thành công! 🎉', `Hóa đơn ${inv.id} đã được quyết toán qua VietQR.`, 'success');
+      }
+    };
+  }
+
+  if (modal) modal.classList.add('open');
+}
+
+function closeVietqrModal() {
+  const modal = document.getElementById('vietqrModal');
+  if (modal) modal.classList.remove('open');
+}
+
 // Global exposes
 window.printReceipt = printReceipt;
 window.markAsPaid = markAsPaid;
+window.openVietqrModal = openVietqrModal;
+window.closeVietqrModal = closeVietqrModal;

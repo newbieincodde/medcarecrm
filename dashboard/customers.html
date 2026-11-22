@@ -73,6 +73,14 @@
               <option value="inactive">Tạm ngưng</option>
             </select>
 
+            <select class="filter-select" id="sortFilter">
+              <option value="default">Sắp xếp: Mặc định</option>
+              <option value="spent-desc">💰 Doanh số cao nhất</option>
+              <option value="spent-asc">Doanh số thấp nhất</option>
+              <option value="name-asc">Tên bệnh nhân A → Z</option>
+              <option value="visits-desc">Lượt khám nhiều nhất</option>
+            </select>
+
             <button class="btn btn-outline btn-sm" id="btnResetFilters" title="Đặt lại bộ lọc">
               🔄 Reset
             </button>
@@ -189,6 +197,15 @@
           <button type="submit" class="btn btn-primary" id="btnSavePatient">Lưu Hồ Sơ</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Bệnh Án Điện Tử MedCare 360° (Electronic Health Record Modal) -->
+  <div class="spotlight-backdrop" id="ehrModal" style="align-items:center; padding-top:0;">
+    <div class="ehr-modal-box">
+      <div id="ehrModalContent">
+        <!-- Rendered dynamically by renderEHRModal() in customers.js -->
+      </div>
     </div>
   </div>
 

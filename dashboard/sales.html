@@ -175,6 +175,61 @@
     </div>
   </div>
 
+  <!-- VietQR Payment Modal -->
+  <div class="spotlight-backdrop" id="vietqrModal" style="align-items:center; padding-top:0;">
+    <div class="portal-modal-box" style="max-width:480px; text-align:center;">
+      <div class="portal-modal-header">
+        <h3 class="portal-modal-title">📲 Thanh Toán Viện Phí — VietQR</h3>
+        <button type="button" class="portal-modal-close" onclick="closeVietqrModal()">✕</button>
+      </div>
+      <div class="portal-modal-body" style="padding:24px;">
+        <div style="font-size:12px; color:#64748b; margin-bottom:4px;" id="qrHospitalName">TRUNG TÂM Y TẾ MEDCARE</div>
+        <div style="font-size:22px; font-weight:800; color:#0f766e; margin-bottom:8px;" id="qrAmountDisplay">1.500.000 ₫</div>
+        <div style="font-size:12.5px; color:#475569; margin-bottom:16px;">
+          Bệnh nhân: <strong id="qrPatientName">Nguyễn Văn An</strong> · HĐ: <strong id="qrInvoiceId">HD2026001</strong>
+        </div>
+
+        <!-- QR Box Mockup -->
+        <div style="background:#f8fafc; border:2px dashed #cbd5e1; border-radius:16px; padding:16px; display:inline-block; margin-bottom:16px;">
+          <svg width="180" height="180" viewBox="0 0 100 100" fill="#0f766e">
+            <rect x="5" y="5" width="28" height="28" fill="#0f766e" rx="4"/>
+            <rect x="9" y="9" width="20" height="20" fill="#ffffff" rx="2"/>
+            <rect x="13" y="13" width="12" height="12" fill="#0f766e"/>
+
+            <rect x="67" y="5" width="28" height="28" fill="#0f766e" rx="4"/>
+            <rect x="71" y="9" width="20" height="20" fill="#ffffff" rx="2"/>
+            <rect x="75" y="13" width="12" height="12" fill="#0f766e"/>
+
+            <rect x="5" y="67" width="28" height="28" fill="#0f766e" rx="4"/>
+            <rect x="9" y="71" width="20" height="20" fill="#ffffff" rx="2"/>
+            <rect x="13" y="75" width="12" height="12" fill="#0f766e"/>
+
+            <rect x="42" y="14" width="8" height="8"/>
+            <rect x="42" y="44" width="12" height="12"/>
+            <rect x="70" y="44" width="8" height="8"/>
+            <rect x="54" y="66" width="14" height="8"/>
+            <rect x="80" y="80" width="10" height="10"/>
+          </svg>
+          <div style="font-size:11px; font-weight:700; color:#0f766e; margin-top:6px;">QUÉT MÃ VIETQR QUA ỨNG DỤNG NGÂN HÀNG</div>
+        </div>
+
+        <div style="background:#f1f5f9; border-radius:10px; padding:12px; font-size:12px; color:#475569; text-align:left; margin-bottom:18px;">
+          <div>Ngân hàng: <strong>Vietcombank (Chi nhánh Đồng Nai)</strong></div>
+          <div>Số tài khoản: <strong style="font-family:monospace; color:#0f766e;">88992026888</strong></div>
+          <div>Chủ tài khoản: <strong>TRUNG TAM Y TE MEDCARE</strong></div>
+          <div>Nội dung CK: <strong style="font-family:monospace; color:#d97706;" id="qrTransferNote">MEDCARE HD2026001</strong></div>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+          <button type="button" class="btn btn-outline" style="flex:1;" onclick="closeVietqrModal()">Đóng</button>
+          <button type="button" class="btn btn-primary" style="flex:2;" id="btnConfirmQrPaid">
+            ✓ Đã Nhận Tiền & Hoàn Tất
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="../js/data.js"></script>
   <script src="../js/auth.js"></script>

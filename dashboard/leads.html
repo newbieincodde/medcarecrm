@@ -49,17 +49,21 @@
       <div class="data-card" style="margin-bottom:0;">
         <div class="data-card-header">
           <div>
-            <div class="data-card-title">Danh Sách Leads Đang Xử Lý</div>
-            <div style="font-size:12px; color:#64748b; margin-top:2px;">Quản lý quy trình phễu chuyển đổi</div>
+            <div class="data-card-title">Danh Sách Tiếp Nhận & Phân Buồng Kiosk</div>
+            <div style="font-size:12px; color:#64748b; margin-top:2px;">Quản lý quy trình phễu chuyển đổi & cấp số Kiosk tự động</div>
           </div>
-          <div style="display:flex; gap:8px;">
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <div class="search-input-wrap" style="width:200px;">
+              <span class="search-input-icon">🔍</span>
+              <input type="text" id="leadSearchInput" placeholder="Tìm tên, SĐT, mã hẹn..." style="height:32px; font-size:12px; padding-left:32px;">
+            </div>
             <select class="filter-select" id="leadStatusFilter" style="height:34px; font-size:12px;">
               <option value="all">Tất cả trạng thái</option>
-              <option value="new">Mới nhận</option>
-              <option value="contacted">Đã liên hệ</option>
+              <option value="new">🟡 Mới nhận / Chờ duyệt</option>
+              <option value="contacted">🔵 Đã xếp số / Đã gọi</option>
               <option value="qualified">Tiềm năng cao</option>
-              <option value="converted">Đã chuyển đổi</option>
-              <option value="lost">Không liên lạc được</option>
+              <option value="converted">🟢 Đã thành BN</option>
+              <option value="lost">⚪ Không đạt / Đã hủy</option>
             </select>
           </div>
         </div>
@@ -249,6 +253,61 @@
 
     </div>
 
+  </div>
+
+  <!-- Kiosk Dispatcher Modal -->
+  <div class="spotlight-backdrop" id="kioskModal" style="align-items:center; padding-top:0;">
+    <div class="portal-modal-box" style="max-width:500px;">
+      <div class="portal-modal-header">
+        <h3 class="portal-modal-title">🎟️ Phân Buồng Khám & Cấp Số Kiosk</h3>
+        <button type="button" class="portal-modal-close" onclick="closeKioskModal()">✕</button>
+      </div>
+      <div class="portal-modal-body">
+        <div style="background:#f0fdfa; border:1px solid #a7f3d0; border-radius:12px; padding:12px 16px; margin-bottom:16px;">
+          <div style="font-size:11px; font-weight:800; color:#065f46; letter-spacing:0.05em; text-transform:uppercase;">Tiếp nhận bệnh nhân</div>
+          <div style="font-size:16px; font-weight:800; color:#0f766e; margin:2px 0;" id="kioskPatientName">Nguyễn Văn An</div>
+          <div style="font-size:12px; color:#475569;" id="kioskServiceText">Khoa Tim Mạch · BV Chợ Rẫy</div>
+        </div>
+
+        <form id="kioskDispatchForm" onsubmit="handleKioskDispatchSubmit(event)">
+          <div class="form-group" style="margin-bottom:14px;">
+            <label class="form-label">Chọn Buồng Khám Tiếp Nhận *</label>
+            <select id="kioskRoomSelect" class="form-control" required>
+              <option value="Buồng 01 — Tim Mạch & Huyết Áp (Tầng 1)">Buồng 01 — Tim Mạch & Huyết Áp (Tầng 1)</option>
+              <option value="Buồng 02 — Nội Tiết & Đái Tháo Đường (Tầng 1)">Buồng 02 — Nội Tiết & Đái Tháo Đường (Tầng 1)</option>
+              <option value="Buồng 03 — Tiêu Hóa & Gan Mật (Tầng 2)">Buồng 03 — Tiêu Hóa & Gan Mật (Tầng 2)</option>
+              <option value="Buồng 04 — Cơ Xương Khớp & Chấn Thương (Tầng 2)">Buồng 04 — Cơ Xương Khớp & Chấn Thương (Tầng 2)</option>
+              <option value="Buồng 05 — Khám Tổng Quát Theo Yêu Cầu (Tầng 1)">Buồng 05 — Khám Tổng Quát Theo Yêu Cầu (Tầng 1)</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom:14px;">
+            <label class="form-label">Phân Loại Ưu Tiên Tiếp Đón *</label>
+            <select id="kioskPrioritySelect" class="form-control" required>
+              <option value="Ưu tiên Kiosk thường">Tiêu chuẩn Kiosk thường</option>
+              <option value="Ưu tiên người cao tuổi / trẻ em">Ưu tiên người cao tuổi / trẻ em / phụ nữ có thai</option>
+              <option value="Ưu tiên khách VIP Vàng">Ưu tiên khách hàng VIP Vàng</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom:20px;">
+            <label class="form-label">Số Thứ Tự Kiosk Đề Xuất</label>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <input type="text" id="kioskNumberInput" class="form-control" style="font-size:18px; font-weight:800; color:#0f766e; text-align:center;" required>
+              <button type="button" class="btn btn-outline btn-sm" onclick="generateNewKioskNumber()">Tạo mới 🎲</button>
+            </div>
+            <div class="form-hint">Số này sẽ hiển thị trực tiếp trên màn hình Kiosk và điện thoại của Bệnh nhân.</div>
+          </div>
+
+          <div style="display:flex; gap:10px;">
+            <button type="button" class="btn btn-outline" style="flex:1;" onclick="closeKioskModal()">Hủy</button>
+            <button type="submit" class="btn btn-primary" style="flex:2;">
+              ✓ Xác Nhận & Cấp Số Tiếp Đón
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 
   <!-- Scripts -->

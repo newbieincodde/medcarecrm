@@ -1,6 +1,7 @@
 /**
  * ==============================================================================
  * MEDCARE CRM — App Shell (Sidebar & Header shared across dashboard pages)
+ * Enterprise v3.0: Notification Center · Spotlight Search · VOIP Simulator
  * ==============================================================================
  */
 
@@ -98,6 +99,12 @@
 
           <div class="sidebar-section-label" style="margin-top:16px;">Tiện ích nhanh</div>
           <div class="sidebar-nav-item">
+            <a href="../pages/patient-portal.html" class="sidebar-nav-link" target="_blank" title="Xem Cổng Bệnh Nhân Trực Tuyến">
+              <span class="nav-icon">👤</span>
+              <span class="nav-label">Cổng Bệnh Nhân</span>
+            </a>
+          </div>
+          <div class="sidebar-nav-item">
             <a href="../index.html" class="sidebar-nav-link" target="_blank" title="Xem Landing Page quảng bá">
               <span class="nav-icon">🌐</span>
               <span class="nav-label">Landing Page</span>
@@ -127,17 +134,33 @@
           ☰
         </button>
 
-        <div class="header-search">
+        <div class="header-search" id="headerSearchTrigger" title="Nhấn để tìm kiếm hoặc gõ Ctrl + K">
           <span class="header-search-icon">🔍</span>
-          <input type="text" id="globalSearchInput" placeholder="Tìm kiếm nhanh bệnh nhân, SĐT, mã hồ sơ... (Enter để tìm)">
+          <input type="text" id="globalSearchInput" placeholder="Tìm kiếm nhanh bệnh nhân, leads, kho dược... (Ctrl + K)" readonly style="cursor:pointer;">
         </div>
 
         <div class="header-actions">
-          <button class="header-action-btn" id="btnNotif" title="Thông báo nhắc việc">
-            🔔
-            <span class="header-notif-badge" id="notifBadge">3</span>
-          </button>
+          <!-- Notification Dropdown Wrap -->
+          <div class="header-notif-wrap" id="notifWrap">
+            <button class="header-action-btn" id="btnNotif" title="Trung tâm Thông báo & Cảnh báo Y tế">
+              🔔
+              <span class="header-notif-badge" id="notifBadge">0</span>
+            </button>
+            <div class="notif-dropdown" id="notifDropdown">
+              <div class="notif-header">
+                <span class="notif-header-title">🔔 Thông Báo & Cảnh Báo Y Tế</span>
+                <span class="notif-badge-pill" id="notifPillCount">0 mới</span>
+              </div>
+              <div class="notif-body" id="notifBody">
+                <!-- Filled dynamically by JS -->
+              </div>
+              <div class="notif-footer">
+                <a href="leads.html">Xem tất cả lịch hẹn tiếp đón →</a>
+              </div>
+            </div>
+          </div>
 
+          <!-- User dropdown -->
           <div class="header-user-dropdown" id="userDropdownWrap">
             <button class="header-user-btn" id="btnUserDropdown">
               <div class="header-user-avatar">${user.avatar || user.name.charAt(0)}</div>
@@ -193,10 +216,50 @@
           </main>
         </div>
       </div>
+
+      <!-- Spotlight Universal Search Modal (Ctrl + K) -->
+      <div class="spotlight-backdrop" id="spotlightModal">
+        <div class="spotlight-box">
+          <div class="spotlight-header">
+            <span style="font-size:20px; color:#0f766e;">🔍</span>
+            <input type="text" class="spotlight-input" id="spotlightInput" placeholder="Tìm kiếm bệnh nhân, số điện thoại, mã hẹn #MED2026, thuốc, hóa đơn...">
+            <span class="spotlight-kbd">ESC để đóng</span>
+          </div>
+          <div class="spotlight-results" id="spotlightResults">
+            <div style="text-align:center; padding:32px 16px; color:#94a3b8; font-size:13px;">
+              Gõ từ khóa để tìm kiếm tức thì trên toàn bộ hệ thống CRM...
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VOIP Call Simulation Modal -->
+      <div class="spotlight-backdrop" id="voipModal" style="align-items:center; padding-top:0;">
+        <div class="voip-modal-box">
+          <div class="voip-avatar-pulse" id="voipAvatar">📞</div>
+          <div class="voip-caller-name" id="voipName">Nguyễn Văn An</div>
+          <div class="voip-caller-phone" id="voipPhone">0912345678</div>
+          <div style="font-size:12px; color:#a7f3d0; margin-top:4px;">Tổng đài VOIP MedCare Hotline xxxx-xxxx</div>
+          <div class="voip-timer" id="voipTimer">00:00</div>
+          
+          <div class="voip-quick-note">
+            <label style="font-size:11px; color:#94a3b8; font-weight:600; display:block; margin-bottom:4px;">Ghi chú nhanh cuộc gọi:</label>
+            <textarea id="voipNoteInput" placeholder="Nội dung trao đổi: Bệnh nhân đã nhận được lịch hẹn khám, sức khỏe ổn định..."></textarea>
+          </div>
+
+          <div class="voip-controls">
+            <button type="button" class="voip-btn-hangup" onclick="endVoipCall()" title="Kết thúc cuộc gọi">
+              📵
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="toast-container" id="toastContainer"></div>
     `;
 
     setupShellEvents();
+    initNotificationCenter();
   }
 
   function setupShellEvents() {
@@ -214,7 +277,7 @@
       });
     }
 
-    // User dropdown toggle (Safe click toggle — prevents hover flickering!)
+    // User dropdown toggle
     const btnUser = document.getElementById('btnUserDropdown');
     const userMenu = document.getElementById('userMenu');
 
@@ -222,6 +285,7 @@
       btnUser.addEventListener('click', (e) => {
         e.stopPropagation();
         userMenu.classList.toggle('open');
+        document.getElementById('notifDropdown')?.classList.remove('open');
       });
 
       document.addEventListener('click', (e) => {
@@ -246,26 +310,320 @@
       });
     }
 
-    // Global search input
-    const searchInput = document.getElementById('globalSearchInput');
-    if (searchInput) {
-      searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          const q = searchInput.value.trim();
-          if (q) {
-            window.location.href = `customers.html?search=${encodeURIComponent(q)}`;
-          }
+    // Spotlight Search Triggers
+    const searchTrigger = document.getElementById('headerSearchTrigger');
+    const spotlightModal = document.getElementById('spotlightModal');
+    const spotlightInput = document.getElementById('spotlightInput');
+
+    if (searchTrigger && spotlightModal && spotlightInput) {
+      searchTrigger.addEventListener('click', () => {
+        openSpotlight();
+      });
+
+      // Keyboard shortcut Ctrl + K or Cmd + K
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          openSpotlight();
+        } else if (e.key === 'Escape') {
+          closeSpotlight();
+          document.getElementById('notifDropdown')?.classList.remove('open');
         }
       });
-    }
 
-    // Notification button
-    const btnNotif = document.getElementById('btnNotif');
-    if (btnNotif) {
-      btnNotif.addEventListener('click', () => {
-        showToast('Thông báo', 'Bạn có 3 lịch hẹn tái khám cần xử lý trong ngày hôm nay!', 'warning');
+      spotlightModal.addEventListener('click', (e) => {
+        if (e.target === spotlightModal) closeSpotlight();
+      });
+
+      spotlightInput.addEventListener('input', (e) => {
+        handleSpotlightSearch(e.target.value.trim());
       });
     }
+  }
+
+  // ── NOTIFICATION CENTER LOGIC ──
+  function initNotificationCenter() {
+    const btnNotif = document.getElementById('btnNotif');
+    const notifDropdown = document.getElementById('notifDropdown');
+    const notifBadge = document.getElementById('notifBadge');
+    const notifPill = document.getElementById('notifPillCount');
+    const notifBody = document.getElementById('notifBody');
+
+    if (!btnNotif || !notifDropdown || !notifBody) return;
+
+    btnNotif.addEventListener('click', (e) => {
+      e.stopPropagation();
+      notifDropdown.classList.toggle('open');
+      document.getElementById('userMenu')?.classList.remove('open');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!notifDropdown.contains(e.target) && !btnNotif.contains(e.target)) {
+        notifDropdown.classList.remove('open');
+      }
+    });
+
+    // Compute notifications
+    const items = [];
+
+    // 1. Leads
+    try {
+      const leads = typeof getLeads === 'function' ? getLeads() : [];
+      const newLeads = leads.filter(l => l.status === 'new');
+      newLeads.slice(0, 3).forEach(l => {
+        items.push({
+          type: 'lead',
+          icon: '🎯',
+          title: `Lịch hẹn mới: ${l.name}`,
+          desc: `${l.service || 'Khám chuyên khoa'} · SĐT: ${l.phone}`,
+          time: l.createdAt || 'Hôm nay',
+          url: 'leads.html'
+        });
+      });
+    } catch(e) {}
+
+    // 2. Overdue patients
+    try {
+      const patients = typeof getPatients === 'function' ? getPatients() : [];
+      const followUps = typeof getTodayFollowUps === 'function' ? getTodayFollowUps(patients) : [];
+      followUps.slice(0, 2).forEach(p => {
+        const isOverdue = p.overdueDays > 0;
+        items.push({
+          type: 'care',
+          icon: '⏰',
+          title: isOverdue ? `Quá hạn tái khám: ${p.name}` : `Hẹn tái khám hôm nay: ${p.name}`,
+          desc: `Khoa: ${p.service} · Hạng ${p.rank?.toUpperCase()}`,
+          time: isOverdue ? `Trễ ${p.overdueDays} ngày` : 'Hôm nay',
+          url: `customer-care.html?patientId=${p.id}`
+        });
+      });
+    } catch(e) {}
+
+    // 3. Low stock inventory
+    try {
+      const inv = typeof getInventory === 'function' ? getInventory() : [];
+      const lowItems = inv.filter(i => i.stock <= i.minStock);
+      lowItems.slice(0, 2).forEach(i => {
+        items.push({
+          type: 'inventory',
+          icon: '⚠️',
+          title: `Sắp hết hàng: ${i.name}`,
+          desc: `Tồn kho: ${i.stock} ${i.unit} (Mức tối thiểu: ${i.minStock})`,
+          time: 'Cần bổ sung kho',
+          url: 'inventory.html'
+        });
+      });
+    } catch(e) {}
+
+    const totalCount = items.length;
+    if (notifBadge) {
+      notifBadge.textContent = totalCount;
+      notifBadge.style.display = totalCount > 0 ? 'inline-flex' : 'none';
+    }
+    if (notifPill) {
+      notifPill.textContent = `${totalCount} cảnh báo`;
+    }
+
+    if (items.length === 0) {
+      notifBody.innerHTML = `
+        <div style="text-align:center; padding:32px 16px; color:#94a3b8; font-size:12.5px;">
+          🎉 Hiện không có thông báo y tế cần xử lý gấp.
+        </div>
+      `;
+    } else {
+      notifBody.innerHTML = items.map(item => `
+        <a href="${item.url}" class="notif-item">
+          <div class="notif-icon-box ${item.type}">${item.icon}</div>
+          <div class="notif-info">
+            <div class="notif-item-title">${item.title}</div>
+            <div class="notif-item-desc">${item.desc}</div>
+            <div class="notif-item-time">${item.time}</div>
+          </div>
+        </a>
+      `).join('');
+    }
+  }
+
+  // ── SPOTLIGHT SEARCH LOGIC ──
+  function openSpotlight() {
+    const modal = document.getElementById('spotlightModal');
+    const input = document.getElementById('spotlightInput');
+    if (!modal || !input) return;
+
+    modal.classList.add('open');
+    input.value = '';
+    input.focus();
+    handleSpotlightSearch('');
+  }
+
+  function closeSpotlight() {
+    const modal = document.getElementById('spotlightModal');
+    if (modal) modal.classList.remove('open');
+  }
+
+  function handleSpotlightSearch(query) {
+    const resultsContainer = document.getElementById('spotlightResults');
+    if (!resultsContainer) return;
+
+    if (!query) {
+      resultsContainer.innerHTML = `
+        <div style="text-align:center; padding:32px 16px; color:#94a3b8; font-size:13px;">
+          Gõ tên bệnh nhân, số điện thoại, mã hồ sơ (#MED2026, KH001) hoặc tên thuốc...
+        </div>
+      `;
+      return;
+    }
+
+    const q = query.toLowerCase();
+    let html = '';
+
+    // Search Patients
+    try {
+      const patients = typeof getPatients === 'function' ? getPatients() : [];
+      const matchPatients = patients.filter(p => 
+        (p.name && p.name.toLowerCase().includes(q)) ||
+        (p.phone && p.phone.includes(q)) ||
+        (p.id && p.id.toLowerCase().includes(q))
+      ).slice(0, 4);
+
+      if (matchPatients.length > 0) {
+        html += `<div class="spotlight-group-title">👥 Bệnh Nhân (${matchPatients.length})</div>`;
+        html += matchPatients.map(p => `
+          <a href="customers.html?search=${encodeURIComponent(p.id)}" class="spotlight-result-item" onclick="closeSpotlight()">
+            <div class="spotlight-item-left">
+              <div class="spotlight-item-icon" style="background:#ccfbf1; color:#0f766e;">👤</div>
+              <div>
+                <div class="spotlight-item-name">${p.name} <span style="font-size:12px; font-weight:normal; color:#64748b;">(${p.id})</span></div>
+                <div class="spotlight-item-meta">📞 ${p.phone} · Khoa: ${p.service}</div>
+              </div>
+            </div>
+            <span class="spotlight-badge" style="background:#fef3c7; color:#92400e;">Hạng ${p.rank?.toUpperCase()}</span>
+          </a>
+        `).join('');
+      }
+    } catch(e) {}
+
+    // Search Leads
+    try {
+      const leads = typeof getLeads === 'function' ? getLeads() : [];
+      const matchLeads = leads.filter(l => 
+        (l.name && l.name.toLowerCase().includes(q)) ||
+        (l.phone && l.phone.includes(q)) ||
+        (l.id && l.id.toLowerCase().includes(q)) ||
+        (l.note && l.note.toLowerCase().includes(q))
+      ).slice(0, 3);
+
+      if (matchLeads.length > 0) {
+        html += `<div class="spotlight-group-title">🎯 Leads & Đặt Lịch (${matchLeads.length})</div>`;
+        html += matchLeads.map(l => `
+          <a href="leads.html" class="spotlight-result-item" onclick="closeSpotlight()">
+            <div class="spotlight-item-left">
+              <div class="spotlight-item-icon" style="background:#dbeafe; color:#1e40af;">🎯</div>
+              <div>
+                <div class="spotlight-item-name">${l.name} <span style="font-size:12px; font-weight:normal; color:#64748b;">(${l.id})</span></div>
+                <div class="spotlight-item-meta">📞 ${l.phone} · ${l.service}</div>
+              </div>
+            </div>
+            <span class="spotlight-badge" style="background:#d1fae5; color:#065f46;">${l.status}</span>
+          </a>
+        `).join('');
+      }
+    } catch(e) {}
+
+    // Search Medicines
+    try {
+      const inv = typeof getInventory === 'function' ? getInventory() : [];
+      const matchInv = inv.filter(i => 
+        (i.name && i.name.toLowerCase().includes(q)) ||
+        (i.id && i.id.toLowerCase().includes(q)) ||
+        (i.category && i.category.toLowerCase().includes(q))
+      ).slice(0, 3);
+
+      if (matchInv.length > 0) {
+        html += `<div class="spotlight-group-title">💊 Dược Phẩm & Vật Tư (${matchInv.length})</div>`;
+        html += matchInv.map(i => `
+          <a href="inventory.html?search=${encodeURIComponent(i.name)}" class="spotlight-result-item" onclick="closeSpotlight()">
+            <div class="spotlight-item-left">
+              <div class="spotlight-item-icon" style="background:#ffedd5; color:#ea580c;">💊</div>
+              <div>
+                <div class="spotlight-item-name">${i.name}</div>
+                <div class="spotlight-item-meta">Tồn kho: ${i.stock} ${i.unit} · Đơn giá: ${i.price.toLocaleString('vi-VN')} ₫</div>
+              </div>
+            </div>
+            <span class="spotlight-badge">${i.category}</span>
+          </a>
+        `).join('');
+      }
+    } catch(e) {}
+
+    if (!html) {
+      resultsContainer.innerHTML = `
+        <div style="text-align:center; padding:32px 16px; color:#64748b; font-size:13px;">
+          Không tìm thấy kết quả nào khớp với "<strong>${query}</strong>"
+        </div>
+      `;
+    } else {
+      resultsContainer.innerHTML = html;
+    }
+  }
+
+  // ── VOIP CALL SIMULATOR LOGIC ──
+  let voipInterval = null;
+  let voipSeconds = 0;
+  let activeCallPatient = null;
+
+  function startVoipCall(name, phone, patientId = '') {
+    activeCallPatient = { name, phone, patientId };
+    const modal = document.getElementById('voipModal');
+    const elName = document.getElementById('voipName');
+    const elPhone = document.getElementById('voipPhone');
+    const elTimer = document.getElementById('voipTimer');
+    const elNote = document.getElementById('voipNoteInput');
+
+    if (!modal) return;
+
+    if (elName) elName.textContent = name;
+    if (elPhone) elPhone.textContent = phone;
+    if (elNote) elNote.value = '';
+
+    modal.classList.add('open');
+    voipSeconds = 0;
+    if (elTimer) elTimer.textContent = '00:00';
+
+    if (voipInterval) clearInterval(voipInterval);
+    voipInterval = setInterval(() => {
+      voipSeconds++;
+      const m = String(Math.floor(voipSeconds / 60)).padStart(2, '0');
+      const s = String(voipSeconds % 60).padStart(2, '0');
+      if (elTimer) elTimer.textContent = `${m}:${s}`;
+    }, 1000);
+
+    showToast('Tổng đài VOIP', `Đang kết nối cuộc gọi tới ${name} (${phone})...`, 'info');
+  }
+
+  function endVoipCall() {
+    if (voipInterval) clearInterval(voipInterval);
+    const modal = document.getElementById('voipModal');
+    if (modal) modal.classList.remove('open');
+
+    const note = document.getElementById('voipNoteInput')?.value.trim();
+    const duration = voipSeconds > 0 ? `${voipSeconds} giây` : 'Vừa gọi';
+
+    if (activeCallPatient && activeCallPatient.patientId) {
+      try {
+        const patients = typeof getPatients === 'function' ? getPatients() : [];
+        const p = patients.find(item => item.id === activeCallPatient.patientId);
+        if (p) {
+          p.lastContact = new Date().toLocaleDateString('vi-VN');
+          if (note) {
+            p.notes = (p.notes || '') + ` [Gọi VOIP ${duration}]: ${note}`;
+          }
+          if (typeof savePatients === 'function') savePatients(patients);
+        }
+      } catch(e) {}
+    }
+
+    showToast('Cuộc gọi kết thúc', `Thời lượng: ${duration}. Nhật ký đã được lưu vào hệ thống!`, 'success');
   }
 
   // Toast notification helper
@@ -299,6 +657,11 @@
     }, 3500);
   }
 
-  window.initAppShell = initAppShell;
-  window.showToast = showToast;
+  // Global Exports
+  window.initAppShell   = initAppShell;
+  window.showToast       = showToast;
+  window.startVoipCall   = startVoipCall;
+  window.endVoipCall     = endVoipCall;
+  window.openSpotlight   = openSpotlight;
+  window.closeSpotlight  = closeSpotlight;
 })();
