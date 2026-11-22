@@ -3,8 +3,8 @@
    Dùng chung cho tất cả các trang
    ============================================================================== */
 
-/* ── GOOGLE FONTS IMPORT ── */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+/* ── GOOGLE FONTS IMPORT (Be Vietnam Pro — Chuẩn ngữ hệ tiếng Việt) ── */
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap');
 
 /* ── CONTAINER ── */
 .container {
@@ -213,7 +213,7 @@
 .form-label {
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
-  color: var(--clr-gray-700);
+  color: var(--clr-gray-800);
 }
 
 .form-label .required {
@@ -224,17 +224,20 @@
 .form-control {
   width: 100%;
   padding: var(--space-3) var(--space-4);
-  border: 1.5px solid var(--color-border);
+  border: 1.5px solid var(--clr-gray-300);
   border-radius: var(--radius-lg);
+  font-family: var(--font-sans);
   font-size: var(--text-sm);
-  color: var(--color-text);
-  background: var(--color-surface);
+  font-weight: 500;
+  color: var(--clr-gray-900);
+  background: #FFFFFF;
   transition: var(--transition-fast);
   outline: none;
 }
 
 .form-control::placeholder {
   color: var(--clr-gray-400);
+  font-weight: 400;
 }
 
 .form-control:focus {

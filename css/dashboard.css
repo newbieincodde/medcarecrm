@@ -4,10 +4,26 @@
    Enhanced Vietnamese Healthcare Typography (Be Vietnam Pro)
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap');
+
+:root {
+  --font-primary: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --clr-bg-page: #F8FAFC;
+  --clr-bg-hover: #F1F5F9;
+  --clr-border: #E2E8F0;
+  --clr-card-bg: #FFFFFF;
+  --clr-text-primary: #0F172A;
+  --clr-text-sub: #334155;
+  --clr-text-muted: #64748B;
+  --clr-text-light: #64748B;
+}
 
 body {
-  font-family: 'Be Vietnam Pro', var(--font-primary, sans-serif);
+  font-family: var(--font-primary);
+  color: var(--clr-text-primary);
+  background: var(--clr-bg-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ── App Shell ─────────────────────────────── */
@@ -15,7 +31,7 @@ body {
   display: flex;
   min-height: 100vh;
   background: var(--clr-bg-page);
-  font-family: 'Be Vietnam Pro', var(--font-primary, sans-serif);
+  font-family: var(--font-primary);
 }
 
 /* ── Sidebar ────────────────────────────────── */
